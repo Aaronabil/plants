@@ -1,7 +1,7 @@
 
 import { PageProps } from '@/types';
 import { Head } from '@inertiajs/react';
-import Header from '@/Pages/Layouts/header';
+import Header from '@/Pages/Layouts/Header';
 
 
 

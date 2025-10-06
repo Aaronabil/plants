@@ -68,13 +68,15 @@ export default function Header({ auth }: HeaderProps) {
                         <li className="h-full">
                           <NavigationMenuLink asChild>
                             <a
+                              style={{ backgroundImage: "url('/images/halo.jpg')" }}
+
                               className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-blue-500 to-blue-600 p-6 no-underline outline-none focus:shadow-md"
                               href="/shop"
-                            >
+                            >                     
                               <div className="mb-2 mt-4 text-lg font-medium text-white">
                                 All Products
                               </div>
-                              <p className="text-sm leading-tight text-blue-100">
+                              <p className="text-sm leading-tight text-white">
                                 Jelajahi semua koleksi tanaman indoor dan outdoor kami.
                               </p>
                             </a>
