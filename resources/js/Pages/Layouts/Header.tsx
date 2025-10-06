@@ -19,20 +19,21 @@ interface HeaderProps {
   };
 }
 
+
 const indoorPlants = [
-  'Sukulen',
-  'Monstera',
-  'Cactus',
-  'Calathea',
-  'Spathithyllum',
+  { name: 'Succulent', path: '/Category/Indoor/Succulent' },
+  { name: 'Monstera', path: '/Category/Indoor/Monstera' },
+  { name: 'Cactus', path: '/Category/Indoor/Cactus' },
+  { name: 'Calathea', path: '/Category/Indoor/Calathea' },
+  { name: 'Spathithyllum', path: '/Category/Indoor/Spathithyllum' },
 ];
 
 const outdoorPlants = [
-  'Palm',
-  'Aglaonema',
-  'Anthurium',
-  'Alocasia',
-  'Calanium',
+  { name: 'Palm', path: '/Category/Outdoor/Palm' },
+  { name: 'Aglaonema', path: '/Category/Outdoor/Aglaonema' },
+  { name: 'Anthurium', path: '/Category/Outdoor/Anthurium'},
+  { name: 'Alocasia', path: '/Category/Outdoor/Aocasia' },
+  { name: 'Caladium', path: '/Category/Outdoor/Cladium' },
 ];
 
 export default function Header({ auth }: HeaderProps) {
@@ -94,10 +95,10 @@ export default function Header({ auth }: HeaderProps) {
                           </p>
                         </li>
                         {indoorPlants.map((plant) => (
-                          <ListItem
-                            key={plant}
-                            href={`/shop/indoor/${plant.toLowerCase().replace(/ /g, '-')}`}
-                            title={plant}
+                         <ListItem
+                            key={plant.name}
+                            href={plant.path}
+                            title={plant.name}
                           />
                         ))}
                       </ul>
@@ -111,13 +112,13 @@ export default function Header({ auth }: HeaderProps) {
                             Tanaman untuk taman Anda.
                           </p>
                         </li>
-                        {outdoorPlants.map((plant) => (
-                          <ListItem
-                            key={plant}
-                            href={`/shop/outdoor/${plant.toLowerCase().replace(/ /g, '-')}`}
-                            title={plant}
-                          />
-                        ))}
+                          {outdoorPlants.map((plant) => (
+                            <ListItem
+                              key={plant.name}
+                              href={plant.path}
+                              title={plant.name}
+                            />
+                          ))}
                       </ul>
                     </div>
                   </NavigationMenuContent>
