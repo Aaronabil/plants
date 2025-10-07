@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
+    return Inertia::render('Home', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
@@ -30,3 +30,17 @@ Route::middleware('auth')->group(function () {
 
 
 require __DIR__.'/auth.php';
+
+Route::get('/category', function () {
+    return Inertia::render('Category/Index');
+});
+
+// Indoor Plants
+Route::get('/Category/Indoor/{plant}', function ($plant) {
+    return Inertia::render("Category/Indoor/" . ucfirst($plant));
+})->where('plant', 'Succulent|Monstera|Cactus|Calathea|Spathithyllum');
+
+// Outdoor Plants
+Route::get('/Category/Outdoor/{plant}', function ($plant) {
+    return Inertia::render("Category/Outdoor/" . ucfirst($plant));
+})->where('plant', 'Palm|Aglaonema|Anthurium|Alocasia|Caladium');
