@@ -25,7 +25,7 @@ export default function Home({
         <>
             {/* Title */}
             <Head title="Home" />
-            <Header auth={auth} />
+            <Header />
             <main className="mt-6">
                 <div className="grid gap-6 lg:grid-cols-2 lg:gap-8">
                     <a
