@@ -1,3 +1,10 @@
+export interface Category {
+    id: number;
+    category_name: string;
+    slug: string;
+    children: Category[];
+}
+
 export interface User {
     id: number;
     name: string;
@@ -11,4 +18,5 @@ export type PageProps<
     auth: {
         user: User;
     };
+    navigationCategories: Category[];
 };

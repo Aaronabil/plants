@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -44,3 +45,6 @@ Route::get('/Category/Indoor/{plant}', function ($plant) {
 Route::get('/Category/Outdoor/{plant}', function ($plant) {
     return Inertia::render("Category/Outdoor/" . ucfirst($plant));
 })->where('plant', 'Palm|Aglaonema|Anthurium|Alocasia|Caladium');
+
+Route::get('/category/{parent_slug}/{child_slug}', [CategoryController::class, 'show'])
+    ->name('category.show');
