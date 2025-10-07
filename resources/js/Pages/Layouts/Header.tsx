@@ -78,7 +78,7 @@ export default function Header({ auth }: HeaderProps) {
                                 All Products
                               </div>
                               <p className="text-sm leading-tight text-white">
-                                Jelajahi semua koleksi tanaman indoor dan outdoor kami.
+                                Explore our entire collection of indoor and outdoor plants.
                               </p>
                             </a>
                           </NavigationMenuLink>
@@ -91,7 +91,7 @@ export default function Header({ auth }: HeaderProps) {
                             Indoor Plants
                           </h3>
                           <p className="text-sm text-gray-500 px-3">
-                            Tanaman untuk interior Anda.
+                            Plants for your interior.
                           </p>
                         </li>
                         {indoorPlants.map((plant) => (
@@ -109,7 +109,7 @@ export default function Header({ auth }: HeaderProps) {
                             Outdoor Plants
                           </h3>
                           <p className="text-sm text-gray-500 px-3">
-                            Tanaman untuk taman Anda.
+                            Plants for your garden.
                           </p>
                         </li>
                           {outdoorPlants.map((plant) => (
