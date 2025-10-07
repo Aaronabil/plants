@@ -13,6 +13,8 @@ class Category extends Model
         'parent_id',
         'category_name',
         'slug',
+        'description',
+        'image_url',
     ];
 
     public function children(){
