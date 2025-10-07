@@ -1,7 +1,8 @@
 import { Head, Link } from '@inertiajs/react';
-import { PageProps } from '@/types';
+import { PageProps, Category, Product } from '@/types';
 import Header from '@/Pages/Layouts/Header';
 import { SlashIcon } from "lucide-react"
+import ProductCard from '@/Components/ProductCard';
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -11,54 +12,27 @@ import {
     BreadcrumbSeparator,
 } from "@/Components/ui/breadcrumb"
 
-// Mendefinisikan tipe data untuk props yang dikirim dari Controller
-interface Category {
-    id: number;
-    category_name: string;
-    description?: string;
-    image_url?: string;
-}
+// interface Category {
+//     id: number;
+//     category_name: string;
+//     description?: string;
+//     image_url?: string;
+// }
 
-interface Product {
-    id: number;
-    product_name: string;
-    description: string;
-    price: string;
-    stock: number;
-    weight_in_kilograms: number;
-}
+// interface Product {
+//     id: number;
+//     product_name: string;
+//     description: string;
+//     price: string;
+//     stock: number;
+//     weight_in_kilograms: number;
+// }
 
 export default function Show({ category, products }: PageProps<{ category: Category, products: Product[] }>) {
     return (
         <>
             <Header />
             <Head title={category.category_name} />
-            {/* <div className="container mx-auto py-12 px-4">
-                <h1 className="text-4xl font-bold mb-6">{category.category_name}</h1>
-                <div className="">
-                    {products.length > 0 ? (
-                        products.map((product) => (
-                            <div key={product.id} className="border rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300">
-                                <div className="p-4">
-                                    <h2 className="text-lg font-semibold truncate">{product.product_name}</h2>
-                                    <p className="text-gray-700 dark:text-gray-300 mt-2">
-                                        Rp {Number(product.price).toLocaleString('id-ID')}
-                                    </p>
-                                    <p className="text-lg truncate">{product.description}</p>
-                                    <p className="text-sm text-gray-500 mt-1">Stok: {product.stock}</p>
-                                    <p className="text-sm text-gray-500">Berat: {product.weight_in_kilograms} kg</p>
-                                </div>
-                            </div>
-                        ))
-                    ) : (
-                        <p className="col-span-full text-gray-500">
-                            Tidak ada produk yang ditemukan di kategori ini.
-                        </p>
-                    )}
-                </div>
-            </div> */}
-            <Head title={category.category_name} />
-
             <div className="container mx-auto py-12 px-4 sm:px-6 lg:px-8">
                 <div className="grid md:grid-cols-2 gap-12 items-center mb-12">
                     <div>
@@ -82,12 +56,12 @@ export default function Show({ category, products }: PageProps<{ category: Categ
                                         <SlashIcon />
                                     </BreadcrumbSeparator>
                                     <BreadcrumbItem>
-                                        <BreadcrumbPage>Indoor - {category.category_name}</BreadcrumbPage>
+                                        <BreadcrumbPage className="text-green-600">{category.category_name}</BreadcrumbPage>
                                     </BreadcrumbItem>
                                 </BreadcrumbList>
                             </Breadcrumb>
                         </div>
-                        <h1 className="text-5xl font-bold mb-4">{category.category_name}</h1>
+                        <h1 className="text-5xl font-bold mb-4 text-green-700">{category.category_name}</h1>
                         <p className="text-lg text-gray-600">
                             {category.description || 'Deskripsi untuk kategori ini belum tersedia.'}
                         </p>
@@ -108,17 +82,16 @@ export default function Show({ category, products }: PageProps<{ category: Categ
                 </div>
                 <hr className="my-12" />
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                <h2 className="text-3xl font-bold mb-1 text-center">Bring Life to Every Corner of the Room</h2>
+                <p className="text-sm text-gray-600 text-center mb-5">Discover a curated collection of plants that will transform your space into something more vibrant, fresh, and full of positive energy.</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                     {products.length > 0 ? (
                         products.map((product) => (
-                            <div key={product.id} className="border rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300">
-                                <div className="p-4">
-                                    <h2 className="text-lg font-semibold truncate">{product.product_name}</h2>
-                                    <p className="text-gray-700 dark:text-gray-300 mt-2">
-                                        Rp {Number(product.price).toLocaleString('id-ID')}
-                                    </p>
-                                </div>
-                            </div>
+                            <ProductCard
+                                key={product.id}
+                                product={product}
+                                categoryName={category.parent ? category.parent.category_name : category.category_name}
+                            />
                         ))
                     ) : (
                         <p className="col-span-full text-gray-500">
