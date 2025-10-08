@@ -1,4 +1,5 @@
-import { Head, Link } from '@inertiajs/react';
+import { useState, useEffect } from 'react';
+import { Head, Link, router } from '@inertiajs/react';
 import { PageProps, Category, Product } from '@/types';
 import Header from '@/Pages/Layouts/Header';
 import { SlashIcon } from "lucide-react"
@@ -11,9 +12,45 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator,
 } from "@/Components/ui/breadcrumb"
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/Components/ui/select"
 import CategoryCarousel from '@/Components/CategoryCarousel';
 
-export default function Index({ products, categories }: PageProps<{ products: Product[], categories: Category[] }>) {
+type ShopIndexProps = {
+    products: {
+        data: Product[];
+        total: number;
+        // ...properti paginasi lainnya
+    };
+    categories: Category[];
+    filters: {
+        sort?: string;
+    };
+};
+
+export default function Index({ products, categories, filters }: PageProps<ShopIndexProps>) {
+    const [sortBy, setSortBy] = useState(filters?.sort || 'latest');
+    const sortOptions = [
+        { value: 'latest', label: 'Latest' },
+        { value: 'price-asc', label: 'Price: Low to High' },
+        { value: 'price-desc', label: 'Price: High to Low' },
+        { value: 'name-asc', label: 'Name: A-Z' },
+        { value: 'name-desc', label: 'Name: Z-A' },
+    ];
+    useEffect(() => {
+        if (sortBy !== (filters?.sort || 'latest')) {
+            router.get(route('shop'), { sort: sortBy }, {
+                preserveState: true,
+                replace: true,
+                preserveScroll: true,
+            });
+        }
+    }, [sortBy]);
     return (
         <>
             <Header />
@@ -57,15 +94,33 @@ export default function Index({ products, categories }: PageProps<{ products: Pr
                 </div>
                 <hr className="my-12" />
 
-                <h2 className="text-3xl font-bold mb-1 text-center">Beauty, Your Way</h2>
+                <h2 className="text-3xl font-bold mb-1 text-center">Beauty, <span className="text-green-700">Your</span> <span className="text-green-600">Way</span></h2>
                 <p className="text-sm text-gray-600 text-center mb-12">Whether you're keeping it natural or going full glam, find your perfect match in every category.</p>
                 <div className="max-w-xs sm:max-w-xl md:max-w-3xl lg:max-w-5xl mx-auto mb-12">
                     <CategoryCarousel categories={categories} />
                 </div>
 
+                <div className="flex justify-between items-center mb-8">
+                    <div className="text-sm text-gray-600">
+                        <span className="font-bold">{products.total}</span> products found
+                    </div>
+                    <Select value={sortBy} onValueChange={(value) => setSortBy(value)}>
+                        <SelectTrigger className="w-[180px]">
+                            <SelectValue placeholder="Sort by" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {sortOptions.map(option => (
+                                <SelectItem key={option.value} value={option.value}>
+                                    {option.label}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                </div>
+
                 <h2 className="text-2xl font-bold mb-8 text-center">Our Collection</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {products.map((product) => (
+                <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-8">
+                    {products.data.map((product) => (
                         <ProductCard
                             key={product.id}
                             product={product}
