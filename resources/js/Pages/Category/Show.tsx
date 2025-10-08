@@ -12,22 +12,6 @@ import {
     BreadcrumbSeparator,
 } from "@/Components/ui/breadcrumb"
 
-// interface Category {
-//     id: number;
-//     category_name: string;
-//     description?: string;
-//     image_url?: string;
-// }
-
-// interface Product {
-//     id: number;
-//     product_name: string;
-//     description: string;
-//     price: string;
-//     stock: number;
-//     weight_in_kilograms: number;
-// }
-
 export default function Show({ category, products }: PageProps<{ category: Category, products: Product[] }>) {
     return (
         <>

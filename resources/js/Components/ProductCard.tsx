@@ -8,11 +8,11 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product, categoryName }: ProductCardProps) {
-    const imageUrl = product.primary_image?.image_url || 'https://via.placeholder.com/300x300.png?text=No+Image';
+    const imageUrl = product.primary_image?.image_url || '/images/hero/halo.jpg';
 
     return (
         <div className="group">
-            <Link href="#"> 
+            <Link href="#">
                 <div className="overflow-hidden rounded-lg bg-card shadow-sm transition-shadow hover:shadow-md">
                     <div className="aspect-square">
                         <img

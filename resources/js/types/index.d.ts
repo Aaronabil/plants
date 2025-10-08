@@ -21,6 +21,7 @@ export interface Product {
     stock: number;
     weight_in_kilograms: number;
     primary_image: ProductImage | null;
+    category?: Category;
 }
 
 export interface User {
