@@ -6,6 +6,7 @@ import HeroSection from "@/Components/HeroSection";
 import FooterSection from './Layouts/Footer';
 import WhyShopSection from '@/Components/WhyShop';
 import FeaturedPlants from '@/Components/FeaturedPlant';
+import OurFavoritePlants from '@/Components/OurFavoritePlants';
 
 export default function Home({
     auth,
@@ -31,6 +32,7 @@ export default function Home({
             <HeroSection />
             <WhyShopSection/>
             <FeaturedPlants />
+            <OurFavoritePlants />
             <FooterSection />
         </>
     );
