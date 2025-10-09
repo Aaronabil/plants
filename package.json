@@ -33,11 +33,8 @@
         "@radix-ui/react-slot": "^1.2.3",
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
-<<<<<<< HEAD
-        "framer-motion": "^12.23.22",
-=======
         "embla-carousel-react": "^8.6.0",
->>>>>>> feature/detail-category
+        "framer-motion": "^12.23.22",
         "lucide-react": "^0.544.0",
         "react-bits": "^1.0.5",
         "tailwind-merge": "^3.3.1",
