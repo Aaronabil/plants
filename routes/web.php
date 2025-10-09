@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ShopController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -24,23 +26,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Route::get('/login-2', function () {
-//     return Inertia::render('Auth/Login-2');
-// })->name('login-2');
-
-
 require __DIR__.'/auth.php';
 
 Route::get('/category', function () {
     return Inertia::render('Category/Index');
 });
 
-// Indoor Plants
-Route::get('/Category/Indoor/{plant}', function ($plant) {
-    return Inertia::render("Category/Indoor/" . ucfirst($plant));
-})->where('plant', 'Succulent|Monstera|Cactus|Calathea|Spathithyllum');
+Route::get('/category/{parent_slug}/{child_slug}', [CategoryController::class, 'show'])
+    ->name('category.show');
 
-// Outdoor Plants
-Route::get('/Category/Outdoor/{plant}', function ($plant) {
-    return Inertia::render("Category/Outdoor/" . ucfirst($plant));
-})->where('plant', 'Palm|Aglaonema|Anthurium|Alocasia|Caladium');
+Route::get('/shop', [ShopController::class, 'index'])->name('shop');

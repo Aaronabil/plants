@@ -18,4 +18,12 @@ class Product extends Model
         'stock',
         'weight_in_kilograms',
     ];
+
+    public function primaryImage(){
+        return $this->hasOne(ProductImage::class)->where('is_primary', true);
+    }
+
+    public function category(){
+        return $this->belongsTo(Category::class);
+    }
 }
