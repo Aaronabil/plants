@@ -5,7 +5,7 @@ const FeaturedPlants: React.FC = () => {
     <section
       className="relative min-h-[60vh] flex items-center justify-center bg-cover bg-center"
       style={{
-        backgroundImage: "url('/images/bg-featured.jpeg')", // ganti dengan background-mu
+        backgroundImage: "url('/images/hero/bg-featured.jpeg')", // ganti dengan background-mu
       }}
     >
       {/* Overlay transparan putih */}

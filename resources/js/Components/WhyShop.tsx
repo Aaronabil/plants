@@ -43,7 +43,7 @@ const WhyShopSection: React.FC = () => {
                 {/* Middle image */}
                 <div className="flex-shrink-0">
                     <img
-                        src="/images/hero-plnts.png"
+                        src="/images/hero/hero-plnts.png"
                         alt="Plant"
                         className="w-64 lg:w-80 mx-auto drop-shadow-lg"
                     />

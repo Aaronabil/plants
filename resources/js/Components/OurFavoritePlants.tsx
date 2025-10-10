@@ -6,10 +6,10 @@ const OurFavoritePlants: React.FC = () => {
     { name: "Peace Lily", price: "$22.00", image: "/images/plant2.png" },
     { name: "Caladium", price: "$30.00", image: "/images/plant3.png" },
     { name: "ZZ Plant", price: "$20.00", image: "/images/plant4.png" },
-    { name: "Ficus Lyrata", price: "$35.00", image: "/images/plant5.png" },
-    { name: "Anthurium", price: "$28.00", image: "/images/plant6.png" },
-    { name: "Pothos", price: "$18.00", image: "/images/plant7.png" },
-    { name: "Rubber Plant", price: "$26.00", image: "/images/plant8.png" },
+    // { name: "Ficus Lyrata", price: "$35.00", image: "/images/plant5.png" },
+    // { name: "Anthurium", price: "$28.00", image: "/images/plant6.png" },
+    // { name: "Pothos", price: "$18.00", image: "/images/plant7.png" },
+    // { name: "Rubber Plant", price: "$26.00", image: "/images/plant8.png" },
   ];
 
   return (
@@ -21,7 +21,7 @@ const OurFavoritePlants: React.FC = () => {
         Make your home feel fresh and beautiful with our best-loved plants
       </p>
 
-      {/* Filter / Category Bar */}
+      {/* Filter / Category Bar
       <div className="flex justify-center gap-4 mb-12 text-sm font-medium">
         <button className="text-green-800 border-b-2 border-green-800 pb-1">
           All Plants
@@ -35,19 +35,19 @@ const OurFavoritePlants: React.FC = () => {
         <button className="text-gray-500 hover:text-green-800 transition">
           Best Seller
         </button>
-      </div>
+      </div> */}
 
       {/* Grid tanaman */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-8 px-8 lg:px-24">
         {plants.map((plant, index) => (
           <div
             key={index}
-            className="bg-white rounded-2xl shadow-md hover:shadow-xl transition p-4 flex flex-col items-center"
+            // className="bg-white rounded-2xl shadow-md hover:shadow-xl transition p-4 flex flex-col items-center"
           >
             <img
-              src={plant.image}
+              src= "/images/product/aloe.jpeg"
               alt={plant.name}
-              className="w-40 h-40 object-contain mb-4"
+              className="w-full h-48 md:h-56 object-cover rounded-xl mb-4"
             />
             <h3 className="text-green-900 font-semibold">{plant.name}</h3>
             <p className="text-gray-600">{plant.price}</p>

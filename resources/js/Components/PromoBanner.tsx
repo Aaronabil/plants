@@ -5,11 +5,11 @@ const PromoBanner: React.FC = () => {
     <section
       className="relative min-h-[70vh] flex items-center justify-center bg-cover bg-center"
       style={{
-        backgroundImage: "url('/images/bg-promo.jpeg')", // ganti dengan background kamu
+        backgroundImage: "url('/images/hero/bg-promoo.jpg')", 
       }}
     >
       {/* Overlay warna lembut biar teks tetap jelas */}
-      <div className="absolute inset-0 bg-white/30"></div>
+      <div className="absolute inset-0"></div>
 
       {/* Konten utama */}
       <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between w-full px-8 lg:px-24 py-16">
@@ -33,14 +33,6 @@ const PromoBanner: React.FC = () => {
           </button>
         </div>
 
-        {/* Gambar tanaman di sisi kanan */}
-        <div className="lg:w-1/2 mt-10 lg:mt-0 flex justify-center">
-          <img
-            src="/images/promo-plants.png"
-            alt="Indoor Plants"
-            className="rounded-2xl shadow-xl w-80 lg:w-[420px]"
-          />
-        </div>
       </div>
     </section>
   );

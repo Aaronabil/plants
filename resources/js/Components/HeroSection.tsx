@@ -6,7 +6,7 @@ const HeroSection: React.FC = () => {
     return (
         <section
             className="relative flex flex-col lg:flex-row items-center justify-between px-8 lg:px-24 py-16 min-h-screen bg-cover bg-center bg-no-repeat overflow-hidden"
-            style={{ backgroundImage: "url('/images/bg-plants.png')" }}
+            style={{ backgroundImage: "url('/images/hero/bg-plants.png')" }}
         >
             {/* Overlay supaya teks tetap jelas */}
             <div className="absolute inset-0 bg-white/20 lg:bg-white/20"></div>
