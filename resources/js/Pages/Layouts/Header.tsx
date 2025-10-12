@@ -46,7 +46,7 @@ export default function Header({ auth }: HeaderProps) {
           <div className="flex items-center">
             <a href="/" className="flex items-center space-x-2">
               <LogoPlants className="h-12 w-12 text-[#50AE4E]" />
-              <span className="text-xl font-bold text-gray-900">Plants</span>
+              <span className="text-xl font-bold text-gray-900">Yestera</span>
             </a>
           </div>
 

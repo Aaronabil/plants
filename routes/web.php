@@ -44,3 +44,7 @@ Route::get('/Category/Indoor/{plant}', function ($plant) {
 Route::get('/Category/Outdoor/{plant}', function ($plant) {
     return Inertia::render("Category/Outdoor/" . ucfirst($plant));
 })->where('plant', 'Palm|Aglaonema|Anthurium|Alocasia|Caladium');
+
+Route::get('/about', function () {
+    return Inertia::render('AboutUs');
+})->name('about');
