@@ -6,19 +6,15 @@ const links = [
         group: 'Product',
         items: [
             {
-                title: 'Features',
+                title: 'Shop',
                 href: '#',
             },
             {
-                title: 'Solution',
+                title: 'Testimonials',
                 href: '#',
             },
             {
-                title: 'Customers',
-                href: '#',
-            },
-            {
-                title: 'Pricing',
+                title: 'Catalog',
                 href: '#',
             },
             {
@@ -31,39 +27,39 @@ const links = [
             },
         ],
     },
-    {
-        group: 'Solution',
-        items: [
-            {
-                title: 'Startup',
-                href: '#',
-            },
-            {
-                title: 'Freelancers',
-                href: '#',
-            },
-            {
-                title: 'Organizations',
-                href: '#',
-            },
-            {
-                title: 'Students',
-                href: '#',
-            },
-            {
-                title: 'Collaboration',
-                href: '#',
-            },
-            {
-                title: 'Design',
-                href: '#',
-            },
-            {
-                title: 'Management',
-                href: '#',
-            },
-        ],
-    },
+    // {
+    //     group: 'Solution',
+    //     items: [
+    //         {
+    //             title: 'Startup',
+    //             href: '#',
+    //         },
+    //         {
+    //             title: 'Freelancers',
+    //             href: '#',
+    //         },
+    //         {
+    //             title: 'Organizations',
+    //             href: '#',
+    //         },
+    //         {
+    //             title: 'Students',
+    //             href: '#',
+    //         },
+    //         {
+    //             title: 'Collaboration',
+    //             href: '#',
+    //         },
+    //         {
+    //             title: 'Design',
+    //             href: '#',
+    //         },
+    //         {
+    //             title: 'Management',
+    //             href: '#',
+    //         },
+    //     ],
+    // },
     {
         group: 'Company',
         items: [
@@ -76,19 +72,7 @@ const links = [
                 href: '#',
             },
             {
-                title: 'Blog',
-                href: '#',
-            },
-            {
-                title: 'Press',
-                href: '#',
-            },
-            {
                 title: 'Contact',
-                href: '#',
-            },
-            {
-                title: 'Help',
                 href: '#',
             },
         ],
@@ -102,10 +86,6 @@ const links = [
             },
             {
                 title: 'Privacy',
-                href: '#',
-            },
-            {
-                title: 'Cookies',
                 href: '#',
             },
             {

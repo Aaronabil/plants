@@ -32,7 +32,7 @@ const FeaturedPlants: React.FC = () => {
             </button>
           </div>
           <img
-            src="/images/kaktus.jpg"
+            src="/images/hero/kaktuss.jpg"
             alt="Plant"
             className="w-32 lg:w-44 ml-0 lg:ml-6 mt-5 lg:mt-0 rounded-xl shadow-lg"
           />
@@ -57,7 +57,7 @@ const FeaturedPlants: React.FC = () => {
             </button>
           </div>
           <img
-            src="/images/plant2.png"
+            src="/images/hero/ftrd-monstera.png"
             alt="Plant"
             className="w-32 lg:w-44 ml-0 lg:ml-6 mt-5 lg:mt-0 rounded-xl shadow-lg"
           />
