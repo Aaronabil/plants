@@ -30,7 +30,7 @@ class ShopController extends Controller
         ->get();
 
         return Inertia::render('Shop/Index', [
-            'products' => $query->paginate(12)->withQueryString(),
+            'products' => $query->paginate(10)->withQueryString(),
             'categories' => $categories,
             'filters' => $request->all(['sort']),
         ]);
