@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "@inertiajs/react";
 
 const FeaturedPlants: React.FC = () => {
   return (
@@ -27,9 +28,14 @@ const FeaturedPlants: React.FC = () => {
               purify the air, add a calming vibe, and grow happily even in
               low-to-medium light — perfect for busy lifestyles.
             </p>
-            <button className="bg-white text-green-800 font-semibold px-4 py-2 rounded-full shadow hover:bg-green-50 transition">
-              Explore Now
-            </button>
+            <Link href={route('category.show', {
+              parent_slug: 'indoor',
+              child_slug: 'cactus'
+            })}>
+              <button className="bg-white text-green-800 font-semibold px-4 py-2 rounded-full shadow hover:bg-green-50 transition">
+                Explore Now
+              </button>
+            </Link>
           </div>
           <img
             src="/images/hero/kaktuss.jpg"
@@ -52,9 +58,14 @@ const FeaturedPlants: React.FC = () => {
               Perfect for patios, balconies, and home gardens — built to thrive
               in natural light and fresh air.
             </p>
-            <button className="bg-white text-green-800 font-semibold px-4 py-2 rounded-full shadow hover:bg-green-50 transition">
-              Explore Now
-            </button>
+            <Link href={route('category.show', {
+              parent_slug: 'indoor',
+              child_slug: 'monstera'
+            })}>
+              <button className="bg-white text-green-800 font-semibold px-4 py-2 rounded-full shadow hover:bg-green-50 transition">
+                Explore Now
+              </button>
+            </Link>
           </div>
           <img
             src="/images/hero/ftrd-monstera.png"
