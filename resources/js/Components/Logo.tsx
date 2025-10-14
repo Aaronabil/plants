@@ -12,9 +12,9 @@ const LogoPlants: React.FC<LogoPlantsProps> = ({
   ...props
 }) => (
  <svg
-    width={67}
-    height={72}
-    viewBox="0 0 210 320"
+    width="10mm"
+    height="17mm"
+    viewBox="0 0 210 297"
     id="svg1"
     xmlSpace="preserve"
     xmlns="http://www.w3.org/2000/svg"
@@ -35,13 +35,13 @@ const LogoPlants: React.FC<LogoPlantsProps> = ({
         </g>
         <g
           id="g8"
-          transform="matrix(2.8870263,0,0,2.9602165,-82.577425,-96.394963)"
+          transform="matrix(5.1363851,0,0,4.4567205,-234.18511,-249.15388)"
         >
           <path
             style={{
               fill: "none",
               stroke: "#50ae4e",
-              strokeWidth: 1.1,
+              strokeWidth: 1.49713,
               strokeLinecap: "round",
               strokeDasharray: "none",
               strokeOpacity: 1,
@@ -54,7 +54,7 @@ const LogoPlants: React.FC<LogoPlantsProps> = ({
             style={{
               fill: "none",
               stroke: "#50ae4e",
-              strokeWidth: 1.1,
+              strokeWidth: 1.49713,
               strokeLinecap: "round",
               strokeLinejoin: "round",
               strokeDasharray: "none",
@@ -68,7 +68,7 @@ const LogoPlants: React.FC<LogoPlantsProps> = ({
             style={{
               fill: "none",
               stroke: "#357b49",
-              strokeWidth: 1.1,
+              strokeWidth: 1.49713,
               strokeLinecap: "round",
               strokeLinejoin: "round",
               strokeDasharray: "none",
@@ -82,7 +82,7 @@ const LogoPlants: React.FC<LogoPlantsProps> = ({
             style={{
               fill: "none",
               stroke: "#357b49",
-              strokeWidth: 1.1,
+              strokeWidth: 1.49713,
               strokeLinecap: "round",
               strokeDasharray: "none",
               strokeOpacity: 1,

@@ -38,10 +38,10 @@ export default function Header() {
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center">
           <div className="flex items-center">
-            <a href="/" className="flex items-center space-x-2">
+            <Link href="/" className="flex items-center space-x-2">
               <LogoPlants className="h-12 w-12 text-[#50AE4E]" />
               <span className="text-xl font-bold text-gray-900">Plants</span>
-            </a>
+            </Link>
           </div>
 
           <div className="flex-1 flex justify-center">
@@ -54,8 +54,8 @@ export default function Header() {
                       <ul className="row-span-3">
                         <li className="h-full">
                           <NavigationMenuLink asChild>
-                            <a
-                              style={{ backgroundImage: "url('/images/halo.jpg')" }}
+                            <Link
+                              style={{ backgroundImage: "url('/images/hero/halo.jpg')" }}
 
                               className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-blue-500 to-blue-600 p-6 no-underline outline-none focus:shadow-md"
                               href="/shop"
@@ -66,7 +66,7 @@ export default function Header() {
                               <p className="text-sm leading-tight text-white">
                                 Explore our entire collection of indoor and outdoor plants.
                               </p>
-                            </a>
+                            </Link>
                           </NavigationMenuLink>
                         </li>
                       </ul>
