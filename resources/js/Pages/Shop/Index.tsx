@@ -20,12 +20,13 @@ import {
     SelectValue,
 } from "@/Components/ui/select"
 import CategoryCarousel from '@/Components/CategoryCarousel';
+import ShadcnPagination from '@/Components/Pagination';
 
 type ShopIndexProps = {
     products: {
         data: Product[];
         total: number;
-        // ...properti paginasi lainnya
+        links: any[];
     };
     categories: Category[];
     filters: {
@@ -127,6 +128,7 @@ export default function Index({ products, categories, filters }: PageProps<ShopI
                             categoryName={product.category?.category_name || 'Uncategorized'}
                         />
                     ))}
+                    <ShadcnPagination links={products.links} />
                 </div>
             </div>
         </>
