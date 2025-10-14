@@ -27,39 +27,7 @@ const links = [
             },
         ],
     },
-    // {
-    //     group: 'Solution',
-    //     items: [
-    //         {
-    //             title: 'Startup',
-    //             href: '#',
-    //         },
-    //         {
-    //             title: 'Freelancers',
-    //             href: '#',
-    //         },
-    //         {
-    //             title: 'Organizations',
-    //             href: '#',
-    //         },
-    //         {
-    //             title: 'Students',
-    //             href: '#',
-    //         },
-    //         {
-    //             title: 'Collaboration',
-    //             href: '#',
-    //         },
-    //         {
-    //             title: 'Design',
-    //             href: '#',
-    //         },
-    //         {
-    //             title: 'Management',
-    //             href: '#',
-    //         },
-    //     ],
-    // },
+
     {
         group: 'Company',
         items: [
@@ -68,11 +36,11 @@ const links = [
                 href: '#',
             },
             {
-                title: 'Careers',
+                title: 'Contact',
                 href: '#',
             },
             {
-                title: 'Contact',
+                title: 'Careers',
                 href: '#',
             },
         ],
@@ -81,15 +49,11 @@ const links = [
         group: 'Legal',
         items: [
             {
-                title: 'Licence',
+                title: 'Privacy Policy',
                 href: '#',
             },
             {
-                title: 'Privacy',
-                href: '#',
-            },
-            {
-                title: 'Security',
+                title: 'Terms & Conditions',
                 href: '#',
             },
         ],
