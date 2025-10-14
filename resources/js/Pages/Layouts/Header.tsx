@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ShoppingCart, User, Menu, X } from 'lucide-react';
+import { ShoppingCart, User, Menu, X, Angry } from 'lucide-react';
 import LogoPlants from "@/Components/Logo";
 import { Link, usePage } from '@inertiajs/react';
 import { PageProps } from '@/types';
@@ -24,9 +24,23 @@ export default function Header() {
   const { auth, navigationCategories } = usePage<PageProps>().props;
   const user = auth.user;
 
-  // ✅ Tambahin state buat buka/tutup cart
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const toggleCart = () => setIsCartOpen(!isCartOpen);
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  const openCart = () => {
+    setIsAnimating(true);
+    setTimeout(() => setIsCartOpen(true), 10);
+  };
+
+  const closeCart = () => {
+    setIsCartOpen(false);
+    setTimeout(() => setIsAnimating(false), 500);
+  };
+
+  const toggleCart = () => {
+    if (isCartOpen) closeCart();
+    else openCart();
+  };
 
   return (
     <>
@@ -123,7 +137,7 @@ export default function Header() {
                 </Link>
               )}
               <button
-                onClick={toggleCart} // ✅ klik buat buka/tutup cart
+                onClick={toggleCart}
                 className="hidden md:inline-flex items-center justify-center rounded-md text-sm font-medium h-10 w-10 relative hover:bg-gray-100"
                 aria-label="Shopping Cart"
               >
@@ -143,14 +157,17 @@ export default function Header() {
         </div>
       </header>
 
-      {/* ✅ Drawer Cart */}
-      {isCartOpen && (
+      {isAnimating && (
         <div
-          className="fixed inset-0 z-50 bg-black/50"
+          className={`fixed inset-0 z-50 bg-black/40 backdrop-blur transition-opacity duration-500 ${
+            isCartOpen ? "opacity-100 visible" : "opacity-0"
+          }`}
           onClick={toggleCart}
         >
           <div
-            className="absolute right-0 top-0 h-full w-80 bg-white shadow-lg p-4"
+            className={`absolute right-0 top-0 h-full w-80 bg-white shadow-xl p-4 transform transition-transform duration-500 ease-[cubic-bezier(0.2,0,0.2,0)] ${
+              isCartOpen ? "translate-x-0" : "translate-x-full"
+            }`}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex justify-between items-center border-b pb-2 mb-4">
@@ -159,7 +176,17 @@ export default function Header() {
                 <X className="h-5 w-5" />
               </button>
             </div>
-            <p className="text-gray-500">Your cart is empty.</p>
+
+          {/* <div className="flex flex-col items-center justify-center h-[70%] mt-10 text-center text-gray-500">
+            <ShoppingCart className="h-10 w-10 text-gray-300 mb-2" />
+            <p>Your cart is empty.</p>
+          </div> */}
+
+            <div className="absolute bottom-0 left-0 w-full border-t p-4">
+              <button className="w-full bg-green-600 text-white py-2 rounded-md font-medium hover:bg-green-700 transition">
+                Checkout
+              </button>
+            </div>
           </div>
         </div>
       )}
