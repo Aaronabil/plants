@@ -44,7 +44,7 @@ const AboutUs: React.FC = () => {
             transition={{ duration: 0.8 }}
           >
             <img
-              src="/images/about-1.jpg"
+              src="/images/about-1.jpeg"
               alt="Indoor plants"
               className="rounded-2xl shadow-md"
             />
@@ -74,25 +74,27 @@ const AboutUs: React.FC = () => {
         {/* Section 2 */}
         <section className="max-w-6xl mx-auto px-6 py-16 grid md:grid-cols-2 gap-10 items-center">
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            className="order-2 md:order-1"
-          >
-            <h2 className="text-2xl font-semibold text-green-800 mb-3">
-              Koleksi Langsung Dari Petani
-            </h2>
-            <p className="text-gray-600 mb-4 leading-relaxed">
-              Semua tanaman kami didapat langsung dari petani lokal pilihan.
-              Dengan begitu, setiap tanaman yang Anda beli datang dengan kualitas terbaik.
-            </p>
-            <a
-              href="/shop"
-              className="inline-block px-6 py-2 bg-green-700 text-white rounded-md hover:bg-green-800 transition-colors"
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              className="order-2 md:order-1"
             >
-              Belanja Sekarang
-            </a>
-          </motion.div>
+              <h2 className="text-2xl font-semibold text-green-800 mb-3 text-right">
+                Koleksi Langsung Dari Petani
+              </h2>
+              <p className="text-gray-600 mb-4 leading-relaxed text-right">
+                Semua tanaman kami didapat langsung dari petani lokal pilihan.
+                Dengan begitu, setiap tanaman yang Anda beli datang dengan kualitas terbaik.
+              </p>
+              <div className="flex justify-end">
+                <a
+                  href="/shop"
+                  className="inline-block px-6 py-2 bg-green-700 text-white rounded-md hover:bg-green-800 transition-colors"
+                >
+                  Belanja Sekarang
+                </a>
+              </div>
+            </motion.div>
 
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -101,7 +103,7 @@ const AboutUs: React.FC = () => {
             className="order-1 md:order-2"
           >
             <img
-              src="/images/about-2.jpg"
+              src="/images/about-2.jpeg"
               alt="Outdoor plants"
               className="rounded-2xl shadow-md"
             />
@@ -116,7 +118,7 @@ const AboutUs: React.FC = () => {
             transition={{ duration: 0.8 }}
           >
             <img
-              src="/images/about-3.jpg"
+              src="/images/about-3.jpeg"
               alt="Our store"
               className="rounded-2xl shadow-md"
             />
