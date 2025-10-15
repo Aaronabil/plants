@@ -6,7 +6,7 @@ const HeroSection: React.FC = () => {
     return (
         <section
             className="relative flex flex-col lg:flex-row items-center justify-between px-8 lg:px-24 py-16 min-h-screen bg-cover bg-center bg-no-repeat overflow-hidden"
-            style={{ backgroundImage: "url('/images/hero/bg-plants.png')" }}
+            style={{ backgroundImage: "url('/images/hero/bg-hero.jpg')" }}
         >
             {/* Overlay supaya teks tetap jelas */}
             <div className="absolute inset-0 bg-white/20 lg:bg-white/20"></div>
@@ -18,12 +18,12 @@ const HeroSection: React.FC = () => {
             transition={{ duration: 0.8 }}
             className="max-w-xl z-10"
         >
-            <p className="text-green-700 font-semibold mb-2">Bring nature closer to your home</p>
-            <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 leading-tight">
+            <p className="text-neutral-100 font-semibold mb-2">Bring nature closer to your home</p>
+            <h1 className="text-4xl lg:text-6xl font-bold text-neutral-100 leading-tight">
                 Style Your Space <br />
-                With <span className="text-green-700">Lush, Living Greens</span>
+                With <span className="text-neutral-100">Lush, Living Greens</span>
             </h1>
-            <p className="text-gray-600 mt-6">
+            <p className="text-neutral-100 mt-6">
                 Discover curated indoor and outdoor plants that refresh your home and bring calm to your everyday life.
             </p>
 

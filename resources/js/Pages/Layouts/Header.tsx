@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ShoppingCart, User, Menu, X, Angry } from 'lucide-react';
+import { ShoppingCart, User, Menu } from 'lucide-react';
 import LogoPlants from "@/Components/Logo";
 import { Link, usePage } from '@inertiajs/react';
 import { PageProps } from '@/types';
@@ -12,6 +12,7 @@ import {
   NavigationMenuTrigger,
 } from '@/Components/ui/navigation-menu';
 import { cn } from '@/lib/utils';
+import CartDrawer from "@/Components/CartDrawer"; // ✅ import drawer baru
 
 interface Category {
   id: number;
@@ -25,28 +26,13 @@ export default function Header() {
   const user = auth.user;
 
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [isAnimating, setIsAnimating] = useState(false);
-
-  const openCart = () => {
-    setIsAnimating(true);
-    setTimeout(() => setIsCartOpen(true), 10);
-  };
-
-  const closeCart = () => {
-    setIsCartOpen(false);
-    setTimeout(() => setIsAnimating(false), 500);
-  };
-
-  const toggleCart = () => {
-    if (isCartOpen) closeCart();
-    else openCart();
-  };
 
   return (
     <>
       <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
         <div className="container mx-auto px-4">
           <div className="flex h-16 items-center">
+            {/* ✅ Logo */}
             <div className="flex items-center">
               <Link href="/" className="flex items-center space-x-2">
                 <LogoPlants className="h-12 w-12 text-[#50AE4E]" />
@@ -54,19 +40,20 @@ export default function Header() {
               </Link>
             </div>
 
+            {/* ✅ Menu Tengah */}
             <div className="flex-1 flex justify-center">
               <NavigationMenu className="hidden md:flex">
                 <NavigationMenuList>
                   <NavigationMenuItem>
                     <NavigationMenuTrigger>Shop</NavigationMenuTrigger>
                     <NavigationMenuContent>
-                      <div className="grid w-[800px] p-4 md:w-[800px] md:grid-cols-3 lg:w-[900px]">
+                      <div className="grid w-[800px] p-4 md:grid-cols-3 lg:w-[900px]">
                         <ul className="row-span-3">
                           <li className="h-full">
                             <NavigationMenuLink asChild>
                               <Link
                                 style={{ backgroundImage: "url('/images/hero/halo.jpg')" }}
-                                className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-blue-500 to-blue-600 p-6 no-underline outline-none focus:shadow-md"
+                                className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-green-600 to-green-700 p-6 no-underline outline-none focus:shadow-md"
                                 href="/shop"
                               >
                                 <div className="mb-2 mt-4 text-lg font-medium text-white">
@@ -118,6 +105,7 @@ export default function Header() {
               </NavigationMenu>
             </div>
 
+            {/* ✅ Icon kanan */}
             <div className="flex items-center space-x-4">
               {user ? (
                 <Link
@@ -136,8 +124,10 @@ export default function Header() {
                   <User className="h-5 w-5" />
                 </Link>
               )}
+
+              {/* 🛒 Cart Button */}
               <button
-                onClick={toggleCart}
+                onClick={() => setIsCartOpen(true)}
                 className="hidden md:inline-flex items-center justify-center rounded-md text-sm font-medium h-10 w-10 relative hover:bg-gray-100"
                 aria-label="Shopping Cart"
               >
@@ -146,6 +136,7 @@ export default function Header() {
                   3
                 </span>
               </button>
+
               <button
                 className="inline-flex md:hidden items-center justify-center rounded-md text-sm font-medium h-10 w-10 hover:bg-gray-100"
                 aria-label="Menu"
@@ -157,39 +148,8 @@ export default function Header() {
         </div>
       </header>
 
-      {isAnimating && (
-        <div
-          className={`fixed inset-0 z-50 bg-black/40 backdrop-blur transition-opacity duration-500 ${
-            isCartOpen ? "opacity-100 visible" : "opacity-0"
-          }`}
-          onClick={toggleCart}
-        >
-          <div
-            className={`absolute right-0 top-0 h-full w-80 bg-white shadow-xl p-4 transform transition-transform duration-500 ease-[cubic-bezier(0.2,0,0.2,0)] ${
-              isCartOpen ? "translate-x-0" : "translate-x-full"
-            }`}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex justify-between items-center border-b pb-2 mb-4">
-              <h2 className="text-lg font-semibold">Your Cart</h2>
-              <button onClick={toggleCart}>
-                <X className="h-5 w-5" />
-              </button>
-            </div>
-
-          {/* <div className="flex flex-col items-center justify-center h-[70%] mt-10 text-center text-gray-500">
-            <ShoppingCart className="h-10 w-10 text-gray-300 mb-2" />
-            <p>Your cart is empty.</p>
-          </div> */}
-
-            <div className="absolute bottom-0 left-0 w-full border-t p-4">
-              <button className="w-full bg-green-600 text-white py-2 rounded-md font-medium hover:bg-green-700 transition">
-                Checkout
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* ✅ Drawer Cart muncul di luar header */}
+      <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </>
   );
 }
