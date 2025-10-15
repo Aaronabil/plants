@@ -20,7 +20,7 @@ const PromoBanner: React.FC = () => {
           </h2>
           <h3 className="text-2xl font-bold text-green-800 mb-4">
             <span className="bg-white text-green-800 px-3 py-1 rounded-lg shadow-md mr-2">
-              25% OFF
+              5% OFF
             </span>
             All Indoor Plants!
           </h3>

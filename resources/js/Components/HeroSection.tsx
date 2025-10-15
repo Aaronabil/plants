@@ -9,7 +9,7 @@ const HeroSection: React.FC = () => {
             style={{ backgroundImage: "url('/images/hero/bg-hero.jpg')" }}
         >
             {/* Overlay supaya teks tetap jelas */}
-            <div className="absolute inset-0 bg-white/20 lg:bg-white/20"></div>
+            <div className="absolute inset-0 bg-white/20 lg:bg-black/20"></div>
 
            {/* Text Section */}
             <motion.div
