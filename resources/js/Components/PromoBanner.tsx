@@ -1,14 +1,14 @@
 import React from "react";
+import { Link } from "@inertiajs/react";
 
 const PromoBanner: React.FC = () => {
   return (
     <section
       className="relative min-h-[70vh] flex items-center justify-center bg-cover bg-center"
       style={{
-        backgroundImage: "url('/images/hero/bg-promoo.jpg')", 
+        backgroundImage: "url('/images/hero/bg-promoo.jpg')",
       }}
     >
-      {/* Overlay warna lembut biar teks tetap jelas */}
       <div className="absolute inset-0"></div>
 
       {/* Konten utama */}
@@ -28,9 +28,11 @@ const PromoBanner: React.FC = () => {
             Bring life to your home with vibrant, easy-care greens — now on sale
             for a limited time!
           </p>
-          <button className="bg-green-800 text-white font-semibold px-6 py-3 rounded-full shadow hover:bg-green-700 transition">
-            Shop the Sale
-          </button>
+          <Link href="/shop">
+            <button className="bg-green-800 text-white font-semibold px-6 py-3 rounded-full shadow hover:bg-green-700 transition">
+              Shop the Sale
+            </button>
+          </Link>
         </div>
 
       </div>
