@@ -101,6 +101,16 @@ export default function Header() {
                       About Us
                     </NavigationMenuLink>
                   </NavigationMenuItem>
+
+                  <NavigationMenuItem>
+                    <NavigationMenuLink
+                      href="/detailproduct"
+                      className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 focus:bg-gray-100 focus:outline-none"
+                    >
+                      Detail Product
+                    </NavigationMenuLink>
+                  </NavigationMenuItem>
+
                 </NavigationMenuList>
               </NavigationMenu>
             </div>
@@ -148,7 +158,6 @@ export default function Header() {
         </div>
       </header>
 
-      {/* ✅ Drawer Cart muncul di luar header */}
       <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </>
   );

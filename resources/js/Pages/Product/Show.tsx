@@ -1,0 +1,1 @@
+import DetailProduct from '@/Components/DetailProduct';

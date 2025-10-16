@@ -36,3 +36,7 @@ Route::get('/category/{parent_slug}/{child_slug}', [CategoryController::class, '
     ->name('category.show');
 
 Route::get('/shop', [ShopController::class, 'index'])->name('shop');
+
+Route::get('/detailproduct', function () {
+    return Inertia::render('DetailProduct');
+})->name('detailproduct');
