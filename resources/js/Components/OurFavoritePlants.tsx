@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "@inertiajs/react";
 import { Product } from '@/types';
+import ProductCard from '@/Components/ProductCard';
 
 interface FavoritePlantsProps {
   products: Product[];
@@ -17,19 +18,11 @@ export default function OurFavoritePlants({ products }: FavoritePlantsProps) {
       </p>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-8 px-8 lg:px-24">
         {products.map((product) => (
-          <div key={product.id}>
-            <Link href="/">
-              <img
-                src={product.primary_image?.image_url || 'https://via.placeholder.com/300'}
-                alt={product.product_name}
-                className="w-full h-48 md:h-56 object-cover rounded-xl mb-4 transition-transform hover:scale-105"
-              />
-              <h3 className="text-green-900 font-semibold">{product.product_name}</h3>
-              <p className="text-gray-600">
-                Rp{Number(product.price).toLocaleString('id-ID')}
-              </p>
-            </Link>
-          </div>
+          <ProductCard
+            key={product.id}
+            product={product}
+            categoryName={product.category?.category_name || 'Featured'}
+          />
         ))}
       </div>
 

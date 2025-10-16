@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -40,6 +41,4 @@ Route::get('/category/{parent_slug}/{child_slug}', [CategoryController::class, '
 
 Route::get('/shop', [ShopController::class, 'index'])->name('shop');
 
-Route::get('/detailproduct', function () {
-    return Inertia::render('DetailProduct');
-})->name('detailproduct');
+Route::get('/product/{product:slug}', [ProductController::class, 'show'])->name('product.show');

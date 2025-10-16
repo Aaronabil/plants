@@ -13,7 +13,7 @@ class HomeController extends Controller
     {
         $categories = Category::whereNotNull('parent_id')->with('parent')->get();
 
-        $ourFavoriteProducts = Product::with('primaryImage')
+        $ourFavoriteProducts = Product::with('primaryImage', 'category')
             ->whereIn('id', [10, 2, 4, 20])
             ->get();
 

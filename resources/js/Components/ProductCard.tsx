@@ -12,7 +12,7 @@ export default function ProductCard({ product, categoryName }: ProductCardProps)
 
     return (
         <div className="group">
-            <Link href="#">
+            <Link href={`/product/${product.slug}`}>
                 <div className="overflow-hidden rounded-lg bg-card shadow-sm transition-shadow hover:shadow-md">
                     <div className="aspect-square">
                         <img
@@ -33,7 +33,7 @@ export default function ProductCard({ product, categoryName }: ProductCardProps)
                     </div>
                     <h3 className="font-semibold text-lg truncate">{product.product_name}</h3>
                     <p className="font-bold text-lg">
-                        Rp {Number(product.price).toLocaleString('id-ID')}
+                        Rp{Number(product.price).toLocaleString('id-ID')}
                     </p>
                 </div>
             </Link>

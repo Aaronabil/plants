@@ -13,10 +13,6 @@ export default function Index(props: PageProps<{
     ourFavoriteProducts: Product[], 
     categories: Category[] 
 }>) {
-    // 2. Tambahkan console.log di sini untuk melihat semua data yang masuk
-    console.log("Data yang diterima dari Laravel:", props);
-
-    // 3. Ambil variabel yang Anda butuhkan dari props
     const { auth, ourFavoriteProducts, categories } = props;
 
     return (
