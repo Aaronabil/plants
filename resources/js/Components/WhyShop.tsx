@@ -56,7 +56,7 @@ const WhyShopSection: React.FC = () => {
                             <Headphones className="text-green-700 w-6 h-6" />
                         </div>
                         <div>
-                            <h3 className="font-semibold text-lg text-green-900">gak ada Customer Support</h3>
+                            <h3 className="font-semibold text-lg text-green-900">Customer Support</h3>
                             <p className="text-gray-600 text-sm">
                                 We’re never here whenever you need us — day or night.
                             </p>
