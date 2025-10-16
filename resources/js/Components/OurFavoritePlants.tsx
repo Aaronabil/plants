@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { router } from "@inertiajs/react";
-import CartDrawer from "@/components/CartDrawer"; // pastikan path-nya sesuai
 
 const OurFavoritePlants: React.FC = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -52,12 +51,6 @@ const OurFavoritePlants: React.FC = () => {
       <button className="mt-12 px-6 py-3 border border-green-700 text-green-700 rounded-full hover:bg-green-50 transition">
         Explore More
       </button>
-
-      <CartDrawer
-        isOpen={isCartOpen}
-        onClose={() => setIsCartOpen(false)}
-        cartItems={cartItems}
-      />
     </section>
   );
 };
