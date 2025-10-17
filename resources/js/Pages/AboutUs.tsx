@@ -21,7 +21,8 @@ const AboutUs: React.FC = () => {
             transition={{ duration: 0.8 }}
             className="text-4xl md:text-5xl font-extrabold text-green-800 mb-6"
           >
-            Tentang Kami
+            About Us
+          
           </motion.h1>
 
           <motion.p
@@ -30,9 +31,7 @@ const AboutUs: React.FC = () => {
             transition={{ delay: 0.2, duration: 0.8 }}
             className="max-w-3xl mx-auto text-lg text-gray-600 leading-relaxed"
           >
-            Kami percaya bahwa setiap rumah berhak memiliki sentuhan alami. Plants
-            hadir untuk membawa keindahan dan ketenangan lewat koleksi tanaman
-            hias yang kami rawat dengan sepenuh hati.
+            We believe that every home deserves a natural touch. Plants are here to bring beauty and tranquility through our carefully nurtured collection of ornamental plants.
           </motion.p>
         </section>
 
@@ -56,17 +55,17 @@ const AboutUs: React.FC = () => {
             transition={{ delay: 0.2, duration: 0.8 }}
           >
             <h2 className="text-2xl font-semibold text-green-800 mb-3">
-              Menyegarkan Ruang Hidup Anda
+              Refreshing Your Living Space
             </h2>
             <p className="text-gray-600 mb-4 leading-relaxed">
-              Kami menghadirkan tanaman indoor yang mampu meningkatkan suasana hati,
-              kualitas udara, dan kenyamanan di dalam rumah Anda. 
+              We present indoor plants that can boost your mood, improve air quality, and enhance comfort in your home.
+ 
             </p>
             <a
               href="/shop"
               className="inline-block px-6 py-2 bg-green-700 text-white rounded-md hover:bg-green-800 transition-colors"
             >
-              Lihat Koleksi
+              View Collection
             </a>
           </motion.div>
         </section>
@@ -80,18 +79,17 @@ const AboutUs: React.FC = () => {
               className="order-2 md:order-1"
             >
               <h2 className="text-2xl font-semibold text-green-800 mb-3 text-right">
-                Koleksi Langsung Dari Petani
+                Direct Collection From Farmers
               </h2>
               <p className="text-gray-600 mb-4 leading-relaxed text-right">
-                Semua tanaman kami didapat langsung dari petani lokal pilihan.
-                Dengan begitu, setiap tanaman yang Anda beli datang dengan kualitas terbaik.
+                All our plants are sourced directly from selected local farmers. This way, every plant you purchase comes with the best quality.
               </p>
               <div className="flex justify-end">
                 <a
                   href="/shop"
                   className="inline-block px-6 py-2 bg-green-700 text-white rounded-md hover:bg-green-800 transition-colors"
                 >
-                  Belanja Sekarang
+                  Buy Now
                 </a>
               </div>
             </motion.div>
@@ -130,16 +128,15 @@ const AboutUs: React.FC = () => {
             transition={{ delay: 0.2, duration: 0.8 }}
           >
             <h2 className="text-2xl font-semibold text-green-800 mb-3">
-              Kunjungi Toko Kami
+              Visit Our Store
             </h2>
             <p className="text-gray-600 mb-4 leading-relaxed">
-              Datang langsung dan rasakan pengalaman memilih tanaman terbaik.
-              Kami ada di Bandung, siap menyambut Anda setiap hari kerja.
+              Come directly and experience choosing the best plants. We are in Bandung, ready to welcome you every working day.
             </p>
             <div className="text-sm text-gray-700">
               <p>📍 Jl. Cendana No. 23, Bandung</p>
               <p>📞 (021) 9876-5432</p>
-              <p>Senin - Jumat, 09.00 - 17.00</p>
+              <p>Monday - Friday, 09.00 - 17.00</p>
             </div>
           </motion.div>
         </section>
