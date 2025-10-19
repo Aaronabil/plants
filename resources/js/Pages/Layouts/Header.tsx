@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ShoppingCart, User, Menu } from 'lucide-react';
+import { ShoppingCart, User, Menu, LogOut } from 'lucide-react';
 import LogoPlants from "@/Components/Logo";
 import { Link, usePage } from '@inertiajs/react';
 import { PageProps } from '@/types';
@@ -11,8 +11,18 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from '@/Components/ui/navigation-menu';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/Components/ui/dropdown-menu";
 import { cn } from '@/lib/utils';
-import CartDrawer from "@/Components/CartDrawer"; // ✅ import drawer baru
+import CartDrawer from "@/Components/CartDrawer";
+import { Avatar, AvatarFallback, AvatarImage } from "@/Components/ui/avatar";
+import { Button } from '@/components/ui/button';
 
 interface Category {
   id: number;
@@ -108,21 +118,47 @@ export default function Header() {
             {/* ✅ Icon kanan */}
             <div className="flex items-center space-x-4">
               {user ? (
-                <Link
-                  className="hidden md:inline-flex items-center justify-center rounded-md text-sm font-medium h-10 w-10 hover:bg-gray-100"
-                  aria-label="Profile"
-                  href={route('profile.edit')}
-                >
-                  <User className="h-5 w-5" />
-                </Link>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                      <Avatar className="h-8 w-8">
+                        <AvatarFallback>
+                          {user.name?.substring(0, 2).toUpperCase()}
+                        </AvatarFallback>
+                      </Avatar>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-56" align="end" forceMount>
+                    <DropdownMenuLabel className="font-normal">
+                      <div className="flex flex-col space-y-1">
+                        <p className="text-sm font-medium leading-none">{user.name}</p>
+                        <p className="text-xs leading-none text-muted-foreground">
+                          {user.email}
+                        </p>
+                      </div>
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild>
+                      <Link href={route('profile.edit')} className="flex items-center">
+                        <User className="mr-2 h-4 w-4" />
+                        <span>Profile</span>
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild>
+                      <Link href={route('logout')} method="post" as="button" className="w-full flex items-center">
+                        <LogOut className="mr-2 h-4 w-4" />
+                        <span>Log out</span>
+                      </Link>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               ) : (
-                <Link
-                  className="hidden md:inline-flex items-center justify-center rounded-md text-sm font-medium h-10 w-10 hover:bg-gray-100"
-                  aria-label="Profile"
-                  href={route('login')}
-                >
-                  <User className="h-5 w-5" />
-                </Link>
+                <Button asChild variant="ghost">
+                  <Link href={route('login')}>
+                    <User className="h-5 w-5" />
+                  </Link>
+                </Button>
               )}
 
               {/* 🛒 Cart Button */}
