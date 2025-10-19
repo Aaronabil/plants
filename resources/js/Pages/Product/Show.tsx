@@ -1,5 +1,5 @@
 import GuestLayout from '@/Layouts/GuestLayout';
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import { PageProps, Product } from '@/types';
 import { Button } from '@/components/ui/button';
 
@@ -21,7 +21,7 @@ export default function Show({ product }: PageProps<{ product: Product }>) {
                     </div>
 
                     <div>
-                        <span>{product.category.parent.category_name} / {product.category?.category_name}</span>
+                        <span>{product.category?.parent?.category_name} / {product.category?.category_name}</span>
                         <h1 className="text-4xl font-bold tracking-tight text-primary">{product.product_name}</h1>
                         <p className="text-3xl font-semibold my-4">
                             Rp{Number(product.price).toLocaleString('id-ID')}
@@ -46,9 +46,17 @@ export default function Show({ product }: PageProps<{ product: Product }>) {
                             </p>
                         </div>
 
-                        <Button className="mt-8 w-full" size="lg" disabled={product.stock === 0}>
-                            Add to Cart
-                        </Button>
+                        <Link
+                            href={route('cart.store')}
+                            method="post"
+                            data={{ product_id: product.id }} 
+                            as="button" 
+                            disabled={product.stock === 0} 
+                        >
+                            <Button className="mt-8 w-full" size="lg">
+                                Add to Cart
+                            </Button>
+                        </Link>
                     </div>
                 </div>
             </div>
