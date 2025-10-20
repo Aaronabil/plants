@@ -2,6 +2,7 @@ import GuestLayout from '@/Layouts/GuestLayout';
 import { Head } from '@inertiajs/react';
 import { PageProps, Product } from '@/types';
 import { Button } from '@/components/ui/button';
+import DetailCart from '@/Components/DetailProduct';
 
 export default function Show({ product }: PageProps<{ product: Product }>) {
     const mainImage = product.images.find(img => img.is_primary) || product.images[0];
@@ -10,7 +11,7 @@ export default function Show({ product }: PageProps<{ product: Product }>) {
         <GuestLayout>
             <Head title={product.product_name} />
 
-            <div className="container mx-auto py-12 px-4 sm:px-6 lg:px-8">
+            {/* <div className="container mx-auto py-12 px-4 sm:px-6 lg:px-8">
                 <div className="grid md:grid-cols-2 gap-12 items-start">
                     <div>
                         <img
@@ -51,7 +52,8 @@ export default function Show({ product }: PageProps<{ product: Product }>) {
                         </Button>
                     </div>
                 </div>
-            </div>
+            </div> */}
+        <DetailCart />
         </GuestLayout>
     );
 }
