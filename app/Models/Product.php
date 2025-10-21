@@ -17,5 +17,19 @@ class Product extends Model
         'price',
         'stock',
         'weight_in_kilograms',
+        'slug',
     ];
+
+    public function primaryImage(){
+        return $this->hasOne(ProductImage::class)->where('is_primary', true);
+    }
+
+    public function category(){
+        return $this->belongsTo(Category::class);
+    }
+
+    public function images()
+    {
+        return $this->hasMany(ProductImage::class);
+    }
 }

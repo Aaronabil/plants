@@ -6,19 +6,15 @@ const links = [
         group: 'Product',
         items: [
             {
-                title: 'Features',
+                title: 'Shop',
                 href: '#',
             },
             {
-                title: 'Solution',
+                title: 'Testimonials',
                 href: '#',
             },
             {
-                title: 'Customers',
-                href: '#',
-            },
-            {
-                title: 'Pricing',
+                title: 'Catalog',
                 href: '#',
             },
             {
@@ -31,39 +27,7 @@ const links = [
             },
         ],
     },
-    {
-        group: 'Solution',
-        items: [
-            {
-                title: 'Startup',
-                href: '#',
-            },
-            {
-                title: 'Freelancers',
-                href: '#',
-            },
-            {
-                title: 'Organizations',
-                href: '#',
-            },
-            {
-                title: 'Students',
-                href: '#',
-            },
-            {
-                title: 'Collaboration',
-                href: '#',
-            },
-            {
-                title: 'Design',
-                href: '#',
-            },
-            {
-                title: 'Management',
-                href: '#',
-            },
-        ],
-    },
+
     {
         group: 'Company',
         items: [
@@ -72,23 +36,11 @@ const links = [
                 href: '#',
             },
             {
-                title: 'Careers',
-                href: '#',
-            },
-            {
-                title: 'Blog',
-                href: '#',
-            },
-            {
-                title: 'Press',
-                href: '#',
-            },
-            {
                 title: 'Contact',
                 href: '#',
             },
             {
-                title: 'Help',
+                title: 'Careers',
                 href: '#',
             },
         ],
@@ -97,19 +49,11 @@ const links = [
         group: 'Legal',
         items: [
             {
-                title: 'Licence',
+                title: 'Privacy Policy',
                 href: '#',
             },
             {
-                title: 'Privacy',
-                href: '#',
-            },
-            {
-                title: 'Cookies',
-                href: '#',
-            },
-            {
-                title: 'Security',
+                title: 'Terms & Conditions',
                 href: '#',
             },
         ],
