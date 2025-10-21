@@ -17,6 +17,7 @@ class Product extends Model
         'price',
         'stock',
         'weight_in_kilograms',
+        'slug',
     ];
 
     public function primaryImage(){
@@ -25,5 +26,10 @@ class Product extends Model
 
     public function category(){
         return $this->belongsTo(Category::class);
+    }
+
+    public function images()
+    {
+        return $this->hasMany(ProductImage::class);
     }
 }

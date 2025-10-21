@@ -11,6 +11,7 @@ export interface Category {
 export interface ProductImage {
     id: number;
     image_url: string;
+    is_primary: boolean;
 }
 
 export interface Product {
@@ -20,8 +21,10 @@ export interface Product {
     price: string;
     stock: number;
     weight_in_kilograms: number;
+    slug: string;
     primary_image: ProductImage | null;
     category?: Category;
+    images: ProductImage[];
 }
 
 export interface User {
