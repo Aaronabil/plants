@@ -36,7 +36,7 @@ type ShopIndexProps = {
 
 export default function Index({ products, categories, filters }: PageProps<ShopIndexProps>) {
     const [sortBy, setSortBy] = useState(filters?.sort || 'latest');
-    const sortOptions = [
+    const sortOptions = [   
         { value: 'latest', label: 'Latest' },
         { value: 'price-asc', label: 'Price: Low to High' },
         { value: 'price-desc', label: 'Price: High to Low' },
