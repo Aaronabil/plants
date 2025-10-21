@@ -43,16 +43,24 @@ export default function Header() {
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center">
           <div className="flex items-center">
-            <a href="/" className="flex items-center space-x-2">
+            <Link href="/" className="flex items-center space-x-2">
               <LogoPlants className="h-12 w-12 text-[#50AE4E]" />
               <span className="text-xl font-bold text-gray-900">Yestera</span>
-            </a>
+            </Link>
           </div>
 
             {/* ✅ Menu Tengah */}
             <div className="flex-1 flex justify-center">
               <NavigationMenu className="hidden md:flex">
                 <NavigationMenuList>
+                <NavigationMenuItem>
+                    <NavigationMenuLink
+                      href="/"
+                      className="group inline-flex h-10 w-max items-center justify-center rounded-m px-4 py-2 text-sm font-medium transition-colors hover:text-primary"
+                    >
+                      Home
+                    </NavigationMenuLink>
+                  </NavigationMenuItem>
                   <NavigationMenuItem>
                     <NavigationMenuTrigger>Shop</NavigationMenuTrigger>
                     <NavigationMenuContent>
@@ -105,7 +113,7 @@ export default function Header() {
                   <NavigationMenuItem>
                     <NavigationMenuLink
                       href="/about"
-                      className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 focus:bg-gray-100 focus:outline-none"
+                      className="group inline-flex h-10 w-max items-center justify-center rounded-m px-4 py-2 text-sm font-medium transition-colors hover:text-primary"
                     >
                       About Us
                     </NavigationMenuLink>
