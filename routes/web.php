@@ -46,3 +46,11 @@ Route::get('/shop', [ShopController::class, 'index'])->name('shop');
 Route::get('/product/{product:slug}', [ProductController::class, 'show'])->name('product.show');
 
 
+// Outdoor Plants
+Route::get('/Category/Outdoor/{plant}', function ($plant) {
+    return Inertia::render("Category/Outdoor/" . ucfirst($plant));
+})->where('plant', 'Palm|Aglaonema|Anthurium|Alocasia|Caladium');
+
+Route::get('/about', function () {
+    return Inertia::render('AboutUs');
+})->name('about');

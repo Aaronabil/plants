@@ -38,17 +38,15 @@ export default function Header() {
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   return (
-    <>
-      <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
-        <div className="container mx-auto px-4">
-          <div className="flex h-16 items-center">
-            {/* ✅ Logo */}
-            <div className="flex items-center">
-              <Link href="/" className="flex items-center space-x-2">
-                <LogoPlants className="h-12 w-12 text-[#50AE4E]" />
-                <span className="text-xl font-bold text-gray-900">Plants</span>
-              </Link>
-            </div>
+    <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
+      <div className="container mx-auto px-4">
+        <div className="flex h-16 items-center">
+          <div className="flex items-center">
+            <a href="/" className="flex items-center space-x-2">
+              <LogoPlants className="h-12 w-12 text-[#50AE4E]" />
+              <span className="text-xl font-bold text-gray-900">Yestera</span>
+            </a>
+          </div>
 
             {/* ✅ Menu Tengah */}
             <div className="flex-1 flex justify-center">
