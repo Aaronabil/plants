@@ -2,7 +2,8 @@ import GuestLayout from '@/Layouts/GuestLayout';
 import { Head } from '@inertiajs/react';
 import { PageProps, Product } from '@/types';
 import { Button } from '@/components/ui/button';
-import DetailCart from '@/Components/DetailProduct';
+import DetailProduct from '@/Components/DetailProduct';
+import ProductCard from '@/Components/ProductCard';
 
 export default function Show({ product }: PageProps<{ product: Product }>) {
     const mainImage = product.images.find(img => img.is_primary) || product.images[0];
@@ -53,7 +54,15 @@ export default function Show({ product }: PageProps<{ product: Product }>) {
                     </div>
                 </div>
             </div> */}
-        <DetailCart />
+        <DetailProduct />
+        <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-8">
+                                    <ProductCard
+                                        key={product.id}
+                                        product={product}
+                                        categoryName={product.category?.category_name || 'Uncategorized'}
+                                    />
+                              
+                            </div>
         </GuestLayout>
     );
 }
