@@ -5,6 +5,7 @@ import ProductCard from '@/Components/ProductCard';
 import { NumberField, NumberFieldScrubArea } from "@/Components/ui/base-number-field";
 import { useState } from "react";
 import { Badge } from "@/Components/ui/badge"
+import ReviewSection from '@/Components/ReviewSection';
 
 export default function Show({ product }: PageProps<{ product: Product }>) {
     const mainImage = product.images.find(img => img.is_primary) || product.images[0];
@@ -191,7 +192,7 @@ export default function Show({ product }: PageProps<{ product: Product }>) {
                             Review
                         </h1>
                         <hr className="mb-2" />
-                        <p>Belum ada review untuk produk ini.</p>
+                       <ReviewSection />
                     </div>
                 </div>
 
