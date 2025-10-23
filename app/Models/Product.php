@@ -18,6 +18,7 @@ class Product extends Model
         'stock',
         'weight_in_kilograms',
         'slug',
+        'detail_description',
     ];
 
     public function primaryImage(){

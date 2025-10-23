@@ -25,6 +25,7 @@ export interface Product {
     primary_image: ProductImage | null;
     category?: Category;
     images: ProductImage[];
+    detail_description?: string;
 }
 
 export interface User {
