@@ -3,6 +3,7 @@ import { Link } from '@inertiajs/react';
 import { PropsWithChildren } from 'react';
 import Header from '@/Pages/Layouts/Header';
 import FooterSection from '@/Pages/Layouts/Footer';
+import { Toaster } from "sonner";
 
 export default function Guest({ children }: PropsWithChildren) {
     return (
@@ -11,6 +12,7 @@ export default function Guest({ children }: PropsWithChildren) {
 
             <main className="flex-grow">
                 {children}
+                <Toaster richColors position="top-center" />
             </main>
 
             <FooterSection />

@@ -22,7 +22,7 @@ import {
 import { cn } from '@/lib/utils';
 import CartDrawer from "@/Components/CartDrawer";
 import { Avatar, AvatarFallback, AvatarImage } from "@/Components/ui/avatar";
-import { Button } from '@/components/ui/button';
+import { Button } from '@/Components/ui/button';
 
 interface Category {
   id: number;
@@ -32,28 +32,28 @@ interface Category {
 }
 
 export default function Header() {
-  const { auth, navigationCategories } = usePage<PageProps>().props;
+  const { auth, navigationCategories, cart } = usePage<PageProps>().props;
   const user = auth.user;
-
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const cartCount = cart?.reduce((acc, item) => acc + item.quantity, 0) || 0;
 
   return (
     <>
-    <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
-      <div className="container mx-auto px-4">
-        <div className="flex h-16 items-center">
-          <div className="flex items-center">
-            <Link href="/" className="flex items-center space-x-2">
-              <LogoPlants className="h-12 w-12 text-[#50AE4E]" />
-              <span className="text-xl font-bold text-gray-900">Yestera</span>
-            </Link>
-          </div>
+      <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
+        <div className="container mx-auto px-4">
+          <div className="flex h-16 items-center">
+            <div className="flex items-center">
+              <Link href="/" className="flex items-center space-x-2">
+                <LogoPlants className="h-12 w-12 text-[#50AE4E]" />
+                <span className="text-xl font-bold text-gray-900">Yestera</span>
+              </Link>
+            </div>
 
             {/* ✅ Menu Tengah */}
             <div className="flex-1 flex justify-center">
               <NavigationMenu className="hidden md:flex">
                 <NavigationMenuList>
-                <NavigationMenuItem>
+                  <NavigationMenuItem>
                     <NavigationMenuLink
                       href="/"
                       className="group inline-flex h-10 w-max items-center justify-center rounded-m px-4 py-2 text-sm font-medium transition-colors hover:text-primary"
@@ -175,9 +175,11 @@ export default function Header() {
                 aria-label="Shopping Cart"
               >
                 <ShoppingCart className="h-5 w-5" />
-                <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
-                  3
-                </span>
+                {cartCount > 0 && (
+                  <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
+                    {cartCount}
+                  </span>
+                )}
               </button>
 
               <button
@@ -191,7 +193,11 @@ export default function Header() {
         </div>
       </header>
 
-      <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+      <CartDrawer
+        isOpen={isCartOpen}
+        onClose={() => setIsCartOpen(false)}
+        cartItems={cart || []}
+      />
     </>
   );
 }
