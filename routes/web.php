@@ -54,3 +54,7 @@ Route::get('/Category/Outdoor/{plant}', function ($plant) {
 Route::get('/about', function () {
     return Inertia::render('AboutUs');
 })->name('about');
+
+Route::get('/checkout', function () {
+    return Inertia::render('Checkout/Show');
+})->name('checkout');

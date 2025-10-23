@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/Components/ui/button";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -19,6 +19,7 @@ import {
   NumberField,
   NumberFieldScrubArea,
 } from "@/Components/ui/base-number-field";
+import { Link } from "@inertiajs/react";
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -248,10 +249,11 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                     Rp{total.toLocaleString("id-ID")}
                   </span>
                 </div>
-
-                <Button className="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg transition">
-                  Checkout
-                </Button>
+                <Link href="/checkout">
+                  <Button className="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg transition">
+                    Checkout
+                  </Button>
+                </Link>
 
                 <Button
                   variant="outline"
