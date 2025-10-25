@@ -6,7 +6,7 @@ const WhyShopSection: React.FC = () => {
         <section className="relative py-20 bg-white flex flex-col items-center text-center">
             {/* Title */}
             <h2 className="text-3xl lg:text-4xl font-bold text-green-900 mb-3">
-                Why Shop with Plants?
+                Why Shop with Yestera?
             </h2>
             <p className="text-gray-600 max-w-2xl mb-12">
                 From your screen to your space — we’re here to make plant shopping smooth and stress-free.
