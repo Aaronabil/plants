@@ -1,71 +1,46 @@
 import GuestLayout from '@/Layouts/GuestLayout';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, router } from '@inertiajs/react';
 import { PageProps, Product } from '@/types';
 import ProductCard from '@/Components/ProductCard';
 import { NumberField, NumberFieldScrubArea } from "@/Components/ui/base-number-field";
 import { useState } from "react";
 import { Badge } from "@/Components/ui/badge"
 import ReviewSection from '@/Components/ReviewSection';
+import { toast } from "sonner"
 
-export default function Show({ product }: PageProps<{ product: Product }>) {
+export default function Show({ product, auth }: PageProps<{ product: Product }>) {
     const mainImage = product.images.find(img => img.is_primary) || product.images[0];
     const [quantity, setQuantity] = useState(1);
 
+    const handleAddToCart = () => {
+        if (!auth.user) {
+            router.visit(route('login'));
+            return;
+        }
+
+        router.post(route('cart.store'), {
+            product_id: product.id,
+            quantity: quantity
+        }, {
+            preserveScroll: true,
+            onSuccess: () => {
+                router.reload({ only: ['cart'] });
+                toast.success("The plant has gone into the basket", {
+                    description: `${product.product_name} has been added to cart.`,
+                    duration: 3000,
+                });
+            },
+            onError: (errors) => {
+                toast.error("Gagal menambahkan ke keranjang", {
+                    description: Object.values(errors).join('\n'),
+                });
+            }
+        });
+    };
 
     return (
         <GuestLayout>
             <Head title={product.product_name} />
-
-            {/* <div className="container mx-auto py-12 px-4 sm:px-6 lg:px-8">
-                <div className="grid md:grid-cols-2 gap-12 items-start">
-                    <div>
-                        <img
-                            src={mainImage?.image_url || 'https://via.placeholder.com/600'}
-                            alt={product.product_name}
-                            className="w-full rounded-lg shadow-lg aspect-square object-cover"
-                        />
-                    </div>
-
-                    <div>
-                        <span>{product.category?.parent?.category_name} / {product.category?.category_name}</span>
-                        <h1 className="text-4xl font-bold tracking-tight text-primary">{product.product_name}</h1>
-                        <p className="text-3xl font-semibold my-4">
-                            Rp{Number(product.price).toLocaleString('id-ID')}
-                        </p>
-
-                        <div className="mt-4">
-                            <h3 className="text-lg font-medium">Stock</h3>
-                            <p className="text-gray-600">{product.stock > 0 ? `${product.stock} available` : 'Out of Stock'}</p>
-                        </div>
-
-                        <div className="mt-6">
-                            <h3 className="text-lg font-medium">Description</h3>
-                            <p className="text-gray-600 leading-relaxed mt-2">
-                                {product.description}
-                            </p>
-                        </div>
-
-                        <div className="mt-6">
-                            <h3 className="text-lg font-medium">Weight</h3>
-                            <p className="text-gray-600 leading-relaxed mt-2">
-                                {product.weight_in_kilograms} kg
-                            </p>
-                        </div>
-
-                        <Link
-                            href={route('cart.store')}
-                            method="post"
-                            data={{ product_id: product.id }} 
-                            as="button" 
-                            disabled={product.stock === 0} 
-                        >
-                            <Button className="mt-8 w-full" size="lg">
-                                Add to Cart
-                            </Button>
-                        </Link>
-                    </div>
-                </div>
-            </div> */}
             <section className="max-w-6xl mx-auto py-16 px-6 lg:px-12 grid md:grid-cols-2 gap-10 items-start">
                 {/* Left - Image */}
                 <div className="aspect-squarer rounded-lg bg-card shadow-sm overflow-hidden">
@@ -156,15 +131,20 @@ export default function Show({ product }: PageProps<{ product: Product }>) {
                     <div className="flex items-center gap-4 mt-6">
                         <NumberField
                             className="w-120"
-                            defaultValue={quantity}
+                            value={quantity}
+                            onValueChange={(value: number | null) => setQuantity(value || 1)}
                             min={1}
                             max={100}
                         >
                             <NumberFieldScrubArea />
                         </NumberField>
 
-                        <button className="flex-1 bg-green-700 text-white py-3 rounded-lg hover:bg-green-800 transition">
-                            Add to Cart
+
+                        <button
+                            onClick={handleAddToCart}
+                            disabled={product.stock === 0}
+                            className="flex-1 bg-green-700 text-white py-3 rounded-lg hover:bg-green-800 transition">
+                            {product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
                         </button>
 
                         <button className="flex-1 border border-green-700 text-green-700 py-3 rounded-lg hover:bg-green-50 transition">
@@ -192,7 +172,7 @@ export default function Show({ product }: PageProps<{ product: Product }>) {
                             Review
                         </h1>
                         <hr className="mb-2" />
-                       <ReviewSection />
+                        <ReviewSection />
                     </div>
                 </div>
 

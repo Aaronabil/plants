@@ -35,6 +35,25 @@ export interface User {
     email_verified_at?: string;
 }
 
+export interface CartItem {
+    id: number;
+    user_id: number;
+    product_id: number;
+    quantity: number;
+    product: {
+        id: number;
+        product_name: string;
+        price: number;
+        images: Array<{
+            image_url: string;
+            is_primary: boolean;
+        }>;
+        category?: {
+            category_name: string;
+        };
+    };
+}
+
 export type PageProps<
     T extends Record<string, unknown> = Record<string, unknown>,
 > = T & {
@@ -42,4 +61,5 @@ export type PageProps<
         user: User;
     };
     navigationCategories: Category[];
+    cart: CartItem[];
 };
