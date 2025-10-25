@@ -55,10 +55,11 @@ export default function Header() {
                 <NavigationMenuList>
                   <NavigationMenuItem>
                     <NavigationMenuLink
-                      href="/"
                       className="group inline-flex h-10 w-max items-center justify-center rounded-m px-4 py-2 text-sm font-medium transition-colors hover:text-primary"
                     >
-                      Home
+                      <Link href="/">
+                        Home
+                      </Link>
                     </NavigationMenuLink>
                   </NavigationMenuItem>
                   <NavigationMenuItem>
@@ -112,10 +113,11 @@ export default function Header() {
 
                   <NavigationMenuItem>
                     <NavigationMenuLink
-                      href="/about"
                       className="group inline-flex h-10 w-max items-center justify-center rounded-m px-4 py-2 text-sm font-medium transition-colors hover:text-primary"
                     >
-                      About Us
+                      <Link href="/about">
+                        About Us
+                      </Link>
                     </NavigationMenuLink>
                   </NavigationMenuItem>
                 </NavigationMenuList>
