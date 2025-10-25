@@ -35,6 +35,7 @@ export default function Header() {
   const { auth, navigationCategories, cart } = usePage<PageProps>().props;
   const user = auth.user;
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const cartCount = cart?.length || 0;
 
   return (
@@ -185,6 +186,7 @@ export default function Header() {
               </button>
 
               <button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 className="inline-flex md:hidden items-center justify-center rounded-md text-sm font-medium h-10 w-10 hover:bg-gray-100"
                 aria-label="Menu"
               >
@@ -194,6 +196,53 @@ export default function Header() {
           </div>
         </div>
       </header>
+
+      {isMobileMenuOpen && (
+        <div className="md:hidden bg-white border-b">
+          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            <Link href="/" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Home</Link>
+            <Link href="/shop" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Shop</Link>
+            <Link href="/about" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">About Us</Link>
+          </div>
+          <div className="pt-4 pb-3 border-t border-gray-200">
+            {user ? (
+              <div className="px-5">
+                <div className="flex items-center">
+                  <Avatar className="h-8 w-8">
+                    <AvatarFallback>
+                      {user.name?.substring(0, 2).toUpperCase()}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="ml-3">
+                    <div className="text-base font-medium text-gray-800">{user.name}</div>
+                    <div className="text-sm font-medium text-gray-500">{user.email}</div>
+                  </div>
+                </div>
+                <div className="mt-3 space-y-1">
+                  <Link href={route('profile.edit')} className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Profile</Link>
+                  <Link href={route('logout')} method="post" as="button" className="w-full text-left block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Log out</Link>
+                </div>
+              </div>
+            ) : (
+              <div className="px-5">
+                <Link href={route('login')} className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Login</Link>
+              </div>
+            )}
+            <div className="mt-3 px-5">
+              <button
+                onClick={() => {
+                  setIsCartOpen(true);
+                  setIsMobileMenuOpen(false);
+                }}
+                className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-green-600 hover:bg-green-700"
+              >
+                <ShoppingCart className="h-5 w-5 mr-2" />
+                View Cart ({cartCount})
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <CartDrawer
         isOpen={isCartOpen}
