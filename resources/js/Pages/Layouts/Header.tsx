@@ -35,7 +35,7 @@ export default function Header() {
   const { auth, navigationCategories, cart } = usePage<PageProps>().props;
   const user = auth.user;
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const cartCount = cart?.reduce((acc, item) => acc + item.quantity, 0) || 0;
+  const cartCount = cart?.length || 0;
 
   return (
     <>
