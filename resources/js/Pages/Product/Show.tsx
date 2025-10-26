@@ -8,7 +8,7 @@ import { Badge } from "@/Components/ui/badge"
 import ReviewSection from '@/Components/ReviewSection';
 import { toast } from "sonner"
 
-export default function Show({ product, auth }: PageProps<{ product: Product }>) {
+export default function Show({ product, auth, relatedProducts }: PageProps<{ product: Product, relatedProducts: Product[] }>) {
     const mainImage = product.images.find(img => img.is_primary) || product.images[0];
     const [quantity, setQuantity] = useState(1);
 
@@ -177,15 +177,19 @@ export default function Show({ product, auth }: PageProps<{ product: Product }>)
                 </div>
 
             </section>
-            <h3 className="font-semibold text-center text-gray-600">Related Product</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-8">
-                <ProductCard
-                    key={product.id}
-                    product={product}
-                    categoryName={product.category?.category_name || 'Uncategorized'}
-                />
-
-            </div>
+            <section className="max-w-6xl mx-auto py-16 px-6 lg:px-12">
+                <h3 className=" text-center text-gray-600 mb-2">Related Plants</h3>
+                <h1 className="text-3xl font-bold text-center">Explore <span className="text-green-700">Related Plants</span></h1>
+                <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-8 mt-8">
+                    {relatedProducts.map((relatedProduct) => (
+                        <ProductCard
+                            key={relatedProduct.id}
+                            product={relatedProduct}
+                            categoryName={relatedProduct.category?.category_name || 'Uncategorized'}
+                        />
+                    ))}
+                </div>
+            </section>
         </GuestLayout>
     );
 }
