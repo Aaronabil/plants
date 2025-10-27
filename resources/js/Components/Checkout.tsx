@@ -1,5 +1,12 @@
-import { useState } from "react";
-import { Truck, Box, Banknote, WalletCards, Check, ChevronsUpDown, ShoppingCart } from "lucide-react";
+import { useEffect, useState } from "react";
+import {
+  Truck,
+  Box,
+  Banknote,
+  WalletCards,
+  Check,
+  ChevronsUpDown,
+} from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/Components/ui/radio-group";
 import { Input } from "@/Components/ui/input";
 import { Button } from "@/Components/ui/button";
@@ -17,37 +24,139 @@ import {
   CommandItem,
 } from "@/Components/ui/command";
 
+// ==================== INTERFACE =====================
+interface Wilayah {
+  id: string;
+  name: string;
+}
+
+// ==================== MAIN FUNCTION =====================
 export default function Checkout() {
   const [shippingMethod, setShippingMethod] = useState("delivery");
   const [paymentMethod, setPaymentMethod] = useState("credit");
+
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
     phone: "",
-    country: "",
+    country: "Indonesia",
+    province: "",
     city: "",
-    state: "",
+    district: "",
+    village: "",
     zip: "",
     agree: false,
   });
 
-  // Daftar negara
-  const countries = [
-    "Indonesia",
-    "Malaysia",
-    "Singapore",
-    "Thailand",
-    "Vietnam",
-    "Philippines",
-    "Japan",
-    "South Korea",
-    "China",
-    "Australia",
-    "United States",
-    "United Kingdom",
-  ];
+  const countries = ["Indonesia", "Malaysia", "Singapore"];
 
-  // Dummy cart data
+  // ==================== STATE UNTUK DATA API =====================
+  const [provinces, setProvinces] = useState<Wilayah[]>([]);
+  const [cities, setCities] = useState<Wilayah[]>([]);
+  const [districts, setDistricts] = useState<Wilayah[]>([]);
+  const [villages, setVillages] = useState<Wilayah[]>([]);
+
+  // ==================== LOAD PROVINSI =====================
+  useEffect(() => {
+    if (formData.country === "Indonesia") {
+      fetch("https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json")
+        .then((res) => res.json())
+        .then((data: Wilayah[]) => setProvinces(data))
+        .catch((err) => console.error("Error fetching provinces:", err));
+    }
+  }, [formData.country]);
+
+  // ==================== LOAD KOTA =====================
+  useEffect(() => {
+    if (!formData.province) return;
+    fetch(
+      `https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${formData.province}.json`
+    )
+      .then((res) => res.json())
+      .then((data: Wilayah[]) => setCities(data))
+      .catch((err) => console.error("Error fetching cities:", err));
+
+    setDistricts([]);
+    setVillages([]);
+    setFormData((prev) => ({
+      ...prev,
+      city: "",
+      district: "",
+      village: "",
+      zip: "",
+    }));
+  }, [formData.province]);
+
+  // ==================== LOAD KECAMATAN =====================
+  useEffect(() => {
+    if (!formData.city) return;
+    fetch(
+      `https://www.emsifa.com/api-wilayah-indonesia/api/districts/${formData.city}.json`
+    )
+      .then((res) => res.json())
+      .then((data: Wilayah[]) => setDistricts(data))
+      .catch((err) => console.error("Error fetching districts:", err));
+
+    setVillages([]);
+    setFormData((prev) => ({
+      ...prev,
+      district: "",
+      village: "",
+      zip: "",
+    }));
+  }, [formData.city]);
+
+  // ==================== LOAD KELURAHAN =====================
+  useEffect(() => {
+    if (!formData.district) return;
+    fetch(
+      `https://www.emsifa.com/api-wilayah-indonesia/api/villages/${formData.district}.json`
+    )
+      .then((res) => res.json())
+      .then((data: Wilayah[]) => setVillages(data))
+      .catch((err) => console.error("Error fetching villages:", err));
+
+    setFormData((prev) => ({
+      ...prev,
+      village: "",
+      zip: "",
+    }));
+  }, [formData.district]);
+
+  // ==================== HANDLE INPUT =====================
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, type, checked } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+  };
+
+  // ==================== HANDLE SUBMIT =====================
+  const handlePayNow = (e: React.FormEvent) => {
+    e.preventDefault();
+    const { fullName, email, phone, country, province, city, district, village, zip, agree } =
+      formData;
+
+    if (!fullName || !email || !phone || !country) {
+      alert("⚠️ Please fill in all required fields.");
+      return;
+    }
+
+    if (country === "Indonesia" && (!province || !city || !district || !village)) {
+      alert("⚠️ Please select your complete address.");
+      return;
+    }
+
+    if (!agree) {
+      alert("⚠️ Please agree to the Terms and Conditions.");
+      return;
+    }
+
+    alert(`✅ Payment successful via ${paymentMethod.toUpperCase()}!`);
+  };
+
+  // ==================== CART DUMMY =====================
   const cartItems = [
     { id: 1, name: "Peace Lily", price: 20, quantity: 1, image: "/images/product/peace_lily.png" },
     { id: 2, name: "King Palm", price: 25, quantity: 1, image: "/images/product/king_palm.jpg" },
@@ -58,36 +167,12 @@ export default function Checkout() {
   const discount = 10;
   const total = subtotal + shipping - discount;
 
-  // Validasi sebelum bayar
-  const handlePayNow = (e: React.FormEvent) => {
-    e.preventDefault();
-    const { fullName, email, phone, country, city, state, zip, agree } = formData;
-
-    if (!fullName || !email || !phone || !country || !city || !state || !zip) {
-      alert("⚠️ Please fill in all fields before proceeding.");
-      return;
-    }
-
-    if (!agree) {
-      alert("⚠️ Please agree to the Terms and Conditions before proceeding.");
-      return;
-    }
-
-    alert(`✅ Payment successful via ${paymentMethod.toUpperCase()}! Your order has been placed.`);
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === "checkbox" ? checked : value,
-    }));
-  };
-
+  // ==================== UI =====================
   return (
     <div className="min-h-screen bg-gray-50 flex justify-center items-start py-10">
       <div className="w-full max-w-6xl bg-white shadow-lg rounded-2xl flex flex-col md:flex-row overflow-hidden">
-        {/* LEFT SIDE - Shipping */}
+
+        {/* LEFT SIDE */}
         <div className="w-full md:w-1/2 p-8 border-r">
           <h2 className="text-2xl font-semibold mb-6">Checkout</h2>
 
@@ -117,127 +202,113 @@ export default function Checkout() {
             </RadioGroup>
           </div>
 
-          {/* Form */}
+          {/* FORM */}
           <form className="grid gap-4" onSubmit={handlePayNow}>
             <div>
               <label className="block font-medium">Full name</label>
-              <Input
-                name="fullName"
-                type="text"
-                value={formData.fullName}
-                onChange={handleChange}
-                className="w-full border rounded-md px-3 py-2"
-                placeholder="Enter full name"
-              />
+              <Input name="fullName" value={formData.fullName} onChange={handleChange} placeholder="Enter full name" />
             </div>
+
             <div>
               <label className="block font-medium">Email address</label>
-              <Input
-                name="email"
-                type="email"
-                value={formData.email}
-                onChange={handleChange}
-                className="w-full border rounded-md px-3 py-2"
-                placeholder="Enter email"
-              />
+              <Input name="email" type="email" value={formData.email} onChange={handleChange} placeholder="Enter email" />
             </div>
+
             <div>
               <label className="block font-medium">Phone number</label>
-              <Input
-                name="phone"
-                type="tel"
-                value={formData.phone}
-                onChange={handleChange}
-                className="w-full border rounded-md px-3 py-2"
-                placeholder="Enter phone number"
-              />
+              <Input name="phone" type="tel" value={formData.phone} onChange={handleChange} placeholder="Enter phone number" />
             </div>
 
-            {/* Country Selector */}
-            <div>
-              <label className="block font-medium mb-1">Country</label>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="outline"
-                    role="combobox"
-                    className="w-full justify-between"
-                  >
-                    {formData.country ? formData.country : "Select country"}
-                    <ChevronsUpDown className="ml-2 h-4 w-4 opacity-50" />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent
-                  className="w-[250px] p-0 mt-1 border border-gray-200 shadow-md rounded-md bg-white" 
-                  align="start"
-                  side="bottom"
-                  sideOffset={4}
-                  avoidCollisions={false}
+            {/* WILAYAH INDONESIA */}
+            {formData.country === "Indonesia" && (
+              <>
+            {/* Province & City */}
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block font-medium">Province</label>
+                <select
+                  className="w-full border rounded-md p-2"
+                  value={formData.province}
+                  onChange={(e) => setFormData({ ...formData, province: e.target.value })}
                 >
-                  <Command>
-                    <CommandInput placeholder="Search country..." />
-                    <CommandList>
-                      <CommandEmpty>No country found.</CommandEmpty>
-                      <CommandGroup>
-                        {countries.map((country) => (
-                          <CommandItem
-                            key={country}
-                            onSelect={() =>
-                              setFormData((prev) => ({ ...prev, country }))
-                            }
-                          >
-                            <Check
-                              className={`mr-2 h-4 w-4 ${
-                                formData.country === country
-                                  ? "opacity-100"
-                                  : "opacity-0"
-                              }`}
-                            />
-                            {country}
-                          </CommandItem>
-                        ))}
-                      </CommandGroup>
-                    </CommandList>
-                  </Command>
-                </PopoverContent>
-              </Popover>
-            </div>
+                  <option value="">Select Province</option>
+                  {provinces.map((p) => (
+                    <option key={p.id} value={p.id}>
+                      {p.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-            <div className="grid grid-cols-3 gap-3">
               <div>
                 <label className="block font-medium">City</label>
-                <Input
-                  name="city"
-                  type="text"
+                <select
+                  className="w-full border rounded-md p-2"
                   value={formData.city}
-                  onChange={handleChange}
-                  className="w-full border rounded-md px-3 py-2"
-                  placeholder="City"
-                />
-              </div>
-              <div>
-                <label className="block font-medium">State</label>
-                <Input
-                  name="state"
-                  type="text"
-                  value={formData.state}
-                  onChange={handleChange}
-                  className="w-full border rounded-md px-3 py-2"
-                  placeholder="State"
-                />
-              </div>
-              <div>
-                <label className="block font-medium">ZIP Code</label>
-                <Input
-                  name="zip"
-                  type="text"
-                  value={formData.zip}
-                  onChange={handleChange}
-                  className="w-full border rounded-md px-3 py-2"
-                  placeholder="ZIP"
-                />
+                  onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                  disabled={!formData.province}
+                >
+                  <option value="">Select City</option>
+                  {cities.map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {c.name}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
+
+             {/* Village & ZIP */}
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-medium">District / Kecamatan</label>
+                  <select
+                    className="w-full border rounded-md px-3 py-2"
+                    value={formData.district}
+                    onChange={(e) =>
+                      setFormData((prev) => ({ ...prev, district: e.target.value }))
+                    }
+                    disabled={!formData.city}
+                  >
+                    <option value="">Pilih Kecamatan</option>
+                    {districts.map((d) => (
+                      <option key={d.id} value={d.id}>
+                        {d.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block font-medium">Village / Kelurahan</label>
+                  <select
+                    className="w-full border rounded-md p-2"
+                    value={formData.village}
+                    onChange={(e) => setFormData({ ...formData, village: e.target.value })}
+                    disabled={!formData.district}
+                  >
+                    <option value="">Select Village</option>
+                    {villages.map((v) => (
+                      <option key={v.id} value={v.id}>
+                        {v.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+              <div>
+                  <label className="block font-medium">ZIP Code</label>
+                  <Input
+                    name="zip"
+                    type="text"
+                    value={formData.zip}
+                    onChange={handleChange}
+                    placeholder="ZIP"
+                    
+                  />
+                </div>
+              </>
+            )}
 
             <label className="flex items-center gap-2 text-sm mt-2">
               <input
@@ -251,7 +322,7 @@ export default function Checkout() {
           </form>
         </div>
 
-        {/* RIGHT SIDE - Review Cart */}
+        {/* RIGHT SIDE */}
         <div className="w-full md:w-1/2 p-8 bg-gray-50">
           <h2 className="text-lg font-semibold mb-4">Review your cart</h2>
 
@@ -273,30 +344,27 @@ export default function Checkout() {
               <span>Subtotal</span>
               <span>${subtotal.toFixed(2)}</span>
             </div>
+
             <div className="flex justify-between text-sm text-gray-500">
               <span>Shipping</span>
               <span>${shipping.toFixed(2)}</span>
             </div>
-            <div className="flex justify-between text-sm text-gray-500">
-              <span>Discount</span>
-              <span>- ${discount.toFixed(2)}</span>
-            </div>
-
+          
             <div className="flex justify-between font-semibold text-lg border-t pt-3">
               <span>Total</span>
               <span>${total.toFixed(2)}</span>
             </div>
-
-            {/* Payment Method */}
+          
+          {/* Payment Method */}
             <div className="mb-6">
               <h3 className="text-lg font-medium mb-3">Payment Method</h3>
               <RadioGroup
-                defaultValue={paymentMethod}
-                onValueChange={(value) => setPaymentMethod(value)}
+                value={paymentMethod}
+                onValueChange={setPaymentMethod}
                 className="flex flex-col gap-3"
               >
-                <label className="flex items-center gap-3 border rounded-lg px-4 py-3 cursor-pointer hover:bg-gray-50 transition w-full justify-start">
-                  <RadioGroupItem value="credit" id="credit" />
+            <label className="flex items-center gap-3 border rounded-lg px-4 py-3 cursor-pointer hover:bg-gray-50 transition w-full justify-start">
+               <RadioGroupItem value="credit" id="credit" />
                   <span className="flex items-center gap-2">
                     <Banknote className="w-4 h-4" />
                     <span>Cash On Delivery</span>
@@ -316,13 +384,9 @@ export default function Checkout() {
             <p className="text-xs text-gray-500 text-center mt-2">
               🔒 Secure Checkout — SSL Encrypted
             </p>
-
-            <button
-              onClick={handlePayNow}
-              className="w-full mt-4 bg-green-600 hover:bg-green-700 text-white font-medium py-3 rounded-lg transition"
-            >
+            <Button type="submit" className="w-full mt-4 bg-green-600 hover:bg-green-700 text-white">
               Pay Now
-            </button>
+            </Button>
           </div>
         </div>
       </div>
