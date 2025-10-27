@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Trash2 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { Button } from "@/Components/ui/button";
 import {
@@ -24,49 +24,47 @@ import { Link } from "@inertiajs/react";
 interface CartDrawerProps {
   isOpen: boolean;
   onClose: () => void;
+  cartItems: CartItem[];
 }
 
-export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
-  const [cartItems, setCartItems] = useState<
-    {
-      id: number;
-      name: string;
-      price: number;
-      quantity: number;
-      category: string;
-      img: string;
-    }[]
-  >([]);
+export default function CartDrawer({ isOpen, onClose, cartItems }: CartDrawerProps) {
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [dialogAction, setDialogAction] = useState<() => void>(() => () => {});
+  const [dialogAction, setDialogAction] = useState<() => void>(() => () => { });
 
-  // Tambah dummy product
-  const addItem = () => {
-    const newItem = {
-      id: Date.now(),
-      name: "Monstera Deliciosa",
-      price: 120000,
-      quantity: 1,
-      category: "Succulent",
-      img: "./images/category/aglaonema.jpg",
-    };
-    setCartItems((prev) => [...prev, newItem]);
+  const updateQuantity = (cartItemId: number, newQuantity: number) => {
+    router.patch(route('cart.update', cartItemId), {
+      quantity: newQuantity
+    }, {
+      preserveState: true,
+      onSuccess: () => {
+        toast.success("Cart updated successfully!");
+      },
+      onError: () => {
+        toast.error("Failed to update cart");
+      }
+    });
+  };
+
+  const removeItem = (id: number) => {
+    confirmDelete(() => {
+      router.delete(route('cart.destroy', id), {
+        preserveScroll: true,
+        onSuccess: () => {
+          toast.success("Item removed from cart!");
+          setSelectedItems(prev => prev.filter(sid => sid !== id));
+        },
+        onError: () => {
+          toast.error("Failed to remove item");
+        }
+      });
+    });
   };
 
   // Fungsi konfirmasi (muncul dialog)
   const confirmDelete = (action: () => void) => {
     setDialogAction(() => action);
     setIsDialogOpen(true);
-  };
-
-  // Hapus 1 item
-  const removeItem = (id: number) => {
-    confirmDelete(() => {
-      setCartItems((prev) => prev.filter((item) => item.id !== id));
-      setSelectedItems((prev) => prev.filter((sid) => sid !== id));
-      toast.success("Item deleted successfully!");
-    });
   };
 
   // Hapus semua item yang dipilih
@@ -77,11 +75,18 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
     }
 
     confirmDelete(() => {
-      setCartItems((prev) =>
-        prev.filter((item) => !selectedItems.includes(item.id))
-      );
-      setSelectedItems([]);
-      toast.success("Selected items have been successfully deleted.");
+      router.post(route('cart.destroy-multiple'), {
+        ids: selectedItems
+      }, {
+        preserveScroll: true,
+        onSuccess: () => {
+          toast.success("Selected items have been successfully deleted.");
+          setSelectedItems([]);
+        },
+        onError: () => {
+          toast.error("Failed to remove selected items");
+        }
+      });
     });
   };
 
@@ -97,7 +102,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
   };
 
   const total = cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
+    (sum, item) => sum + item.product.price * item.quantity,
     0
   );
 
@@ -165,10 +170,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
               <div className="flex-1 overflow-y-auto p-4 space-y-4">
                 {cartItems.length > 0 ? (
                   cartItems.map((item) => (
-                    <div
-                      key={item.id}
-                      className="flex items-start space-x-3 border-b pb-4"
-                    >
+                    <div key={item.id} className="flex items-start space-x-3 border-b pb-4">
                       <input
                         type="checkbox"
                         className="mt-2 accent-green-600"
@@ -176,22 +178,24 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                         onChange={() => toggleSelectItem(item.id)}
                       />
                       <img
-                        src="./images/category/monstera.jpg"
-                        alt={item.name}
+                        src={item.product.images.find(img => img.is_primary)?.image_url}
+                        alt={item.product.product_name}
                         className="w-24 h-20 rounded-xl object-cover mt-1"
                       />
                       <div className="flex-1">
                         <p className="text-xs font-medium text-green-600 tracking-wide">
-                          {item.category}
+                          {item.product.category?.category_name}
                         </p>
-                        <p className="font-medium text-gray-800">{item.name}</p>
+                        <p className="font-medium text-gray-800">
+                          {item.product.product_name}
+                        </p>
                         <p className="text-sm font-semibold text-gray-900 mt-1">
-                          Rp{(item.price * item.quantity).toLocaleString("id-ID")}
+                          Rp{(item.product.price * item.quantity).toLocaleString('id-ID')}
                         </p>
                         <NumberField
-                          className="mx-auto mt-1"
-                          defaultValue={item.quantity}
-                          min={0}
+                          value={item.quantity}
+                          onValueChange={(value) => updateQuantity(item.id, Number(value))}
+                          min={1}
                           max={100}
                         >
                           <NumberFieldScrubArea>Amount</NumberFieldScrubArea>
@@ -246,7 +250,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                 <div className="flex justify-between mb-3">
                   <span className="font-medium text-gray-700">Total</span>
                   <span className="font-semibold text-gray-900">
-                    Rp{total.toLocaleString("id-ID")}
+                    Rp{total.toLocaleString('id-ID')}
                   </span>
                 </div>
                 <Link href="/checkout">
@@ -256,11 +260,10 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                 </Link>
 
                 <Button
-                  variant="outline"
-                  onClick={addItem}
-                  className="w-full mt-2 border-green-600 text-green-600 hover:bg-green-50 transition"
+                  className="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg transition"
+                  disabled={cartItems.length === 0}
                 >
-                  Add Dummy Product
+                  Checkout
                 </Button>
               </div>
             </motion.div>

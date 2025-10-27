@@ -22,7 +22,7 @@ import {
 import { cn } from '@/lib/utils';
 import CartDrawer from "@/Components/CartDrawer";
 import { Avatar, AvatarFallback, AvatarImage } from "@/Components/ui/avatar";
-import { Button } from '@/components/ui/button';
+import { Button } from '@/Components/ui/button';
 
 interface Category {
   id: number;
@@ -32,27 +32,37 @@ interface Category {
 }
 
 export default function Header() {
-  const { auth, navigationCategories } = usePage<PageProps>().props;
+  const { auth, navigationCategories, cart } = usePage<PageProps>().props;
   const user = auth.user;
-
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const cartCount = cart?.length || 0;
 
   return (
     <>
-    <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
-      <div className="container mx-auto px-4">
-        <div className="flex h-16 items-center">
-          <div className="flex items-center">
-            <a href="/" className="flex items-center space-x-2">
-              <LogoPlants className="h-12 w-12 text-[#50AE4E]" />
-              <span className="text-xl font-bold text-gray-900">Yestera</span>
-            </a>
-          </div>
+      <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
+        <div className="container mx-auto px-4">
+          <div className="flex h-16 items-center">
+            <div className="flex items-center">
+              <Link href="/" className="flex items-center space-x-2">
+                <LogoPlants className="h-12 w-12 text-[#50AE4E]" />
+                <span className="text-xl font-bold text-gray-900">Yestera</span>
+              </Link>
+            </div>
 
             {/* ✅ Menu Tengah */}
             <div className="flex-1 flex justify-center">
               <NavigationMenu className="hidden md:flex">
                 <NavigationMenuList>
+                  <NavigationMenuItem>
+                    <NavigationMenuLink
+                      className="group inline-flex h-10 w-max items-center justify-center rounded-m px-4 py-2 text-sm font-medium transition-colors hover:text-primary"
+                    >
+                      <Link href="/">
+                        Home
+                      </Link>
+                    </NavigationMenuLink>
+                  </NavigationMenuItem>
                   <NavigationMenuItem>
                     <NavigationMenuTrigger>Shop</NavigationMenuTrigger>
                     <NavigationMenuContent>
@@ -104,10 +114,11 @@ export default function Header() {
 
                   <NavigationMenuItem>
                     <NavigationMenuLink
-                      href="/about"
-                      className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 focus:bg-gray-100 focus:outline-none"
+                      className="group inline-flex h-10 w-max items-center justify-center rounded-m px-4 py-2 text-sm font-medium transition-colors hover:text-primary"
                     >
-                      About Us
+                      <Link href="/about">
+                        About Us
+                      </Link>
                     </NavigationMenuLink>
                   </NavigationMenuItem>
                 </NavigationMenuList>
@@ -167,12 +178,15 @@ export default function Header() {
                 aria-label="Shopping Cart"
               >
                 <ShoppingCart className="h-5 w-5" />
-                <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
-                  3
-                </span>
+                {cartCount > 0 && (
+                  <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
+                    {cartCount}
+                  </span>
+                )}
               </button>
 
               <button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 className="inline-flex md:hidden items-center justify-center rounded-md text-sm font-medium h-10 w-10 hover:bg-gray-100"
                 aria-label="Menu"
               >
@@ -183,7 +197,58 @@ export default function Header() {
         </div>
       </header>
 
-      <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+      {isMobileMenuOpen && (
+        <div className="md:hidden bg-white border-b">
+          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            <Link href="/" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Home</Link>
+            <Link href="/shop" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Shop</Link>
+            <Link href="/about" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">About Us</Link>
+          </div>
+          <div className="pt-4 pb-3 border-t border-gray-200">
+            {user ? (
+              <div className="px-5">
+                <div className="flex items-center">
+                  <Avatar className="h-8 w-8">
+                    <AvatarFallback>
+                      {user.name?.substring(0, 2).toUpperCase()}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="ml-3">
+                    <div className="text-base font-medium text-gray-800">{user.name}</div>
+                    <div className="text-sm font-medium text-gray-500">{user.email}</div>
+                  </div>
+                </div>
+                <div className="mt-3 space-y-1">
+                  <Link href={route('profile.edit')} className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Profile</Link>
+                  <Link href={route('logout')} method="post" as="button" className="w-full text-left block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Log out</Link>
+                </div>
+              </div>
+            ) : (
+              <div className="px-5">
+                <Link href={route('login')} className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Login</Link>
+              </div>
+            )}
+            <div className="mt-3 px-5">
+              <button
+                onClick={() => {
+                  setIsCartOpen(true);
+                  setIsMobileMenuOpen(false);
+                }}
+                className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-green-600 hover:bg-green-700"
+              >
+                <ShoppingCart className="h-5 w-5 mr-2" />
+                View Cart ({cartCount})
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <CartDrawer
+        isOpen={isCartOpen}
+        onClose={() => setIsCartOpen(false)}
+        cartItems={cart || []}
+      />
     </>
   );
 }

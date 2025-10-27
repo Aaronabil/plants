@@ -30,6 +30,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
+    Route::patch('/cart/{cartItem}', [CartController::class, 'update'])->name('cart.update');
+    Route::delete('/cart/{cartItem}', [CartController::class, 'destroy'])->name('cart.destroy');
+    Route::post('/cart/destroy-multiple', [CartController::class, 'destroyMultiple'])->name('cart.destroy-multiple');
 });
 
 require __DIR__.'/auth.php';
@@ -44,12 +47,6 @@ Route::get('/category/{parent_slug}/{child_slug}', [CategoryController::class, '
 Route::get('/shop', [ShopController::class, 'index'])->name('shop');
 
 Route::get('/product/{product:slug}', [ProductController::class, 'show'])->name('product.show');
-
-
-// Outdoor Plants
-Route::get('/Category/Outdoor/{plant}', function ($plant) {
-    return Inertia::render("Category/Outdoor/" . ucfirst($plant));
-})->where('plant', 'Palm|Aglaonema|Anthurium|Alocasia|Caladium');
 
 Route::get('/about', function () {
     return Inertia::render('AboutUs');
