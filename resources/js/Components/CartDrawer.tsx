@@ -20,6 +20,8 @@ import {
   NumberFieldScrubArea,
 } from "@/Components/ui/base-number-field";
 import { Link } from "@inertiajs/react";
+import { router } from "@inertiajs/react";
+import { CartItem } from "@/types";
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -259,12 +261,12 @@ export default function CartDrawer({ isOpen, onClose, cartItems }: CartDrawerPro
                   </Button>
                 </Link>
 
-                <Button
+                {/* <Button
                   className="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg transition"
                   disabled={cartItems.length === 0}
                 >
                   Checkout
-                </Button>
+                </Button> */}
               </div>
             </motion.div>
           </>
