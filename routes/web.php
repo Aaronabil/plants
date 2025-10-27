@@ -63,3 +63,6 @@ Route::prefix('admin')->group(function () {
         })->name('admin.profile.edit');
     });
 });
+Route::get('/checkout', function () {
+    return Inertia::render('Checkout/Show');
+})->name('checkout');

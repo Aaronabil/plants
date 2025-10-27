@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Trash2 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
-import { router } from "@inertiajs/react";
 import { Button } from "@/Components/ui/button";
 import {
   AlertDialog,
@@ -20,6 +19,8 @@ import {
   NumberField,
   NumberFieldScrubArea,
 } from "@/Components/ui/base-number-field";
+import { Link } from "@inertiajs/react";
+import { router } from "@inertiajs/react";
 import { CartItem } from "@/types";
 
 interface CartDrawerProps {
@@ -254,13 +255,18 @@ export default function CartDrawer({ isOpen, onClose, cartItems }: CartDrawerPro
                     Rp{total.toLocaleString('id-ID')}
                   </span>
                 </div>
+                <Link href="/checkout">
+                  <Button className="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg transition">
+                    Checkout
+                  </Button>
+                </Link>
 
-                <Button
+                {/* <Button
                   className="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg transition"
                   disabled={cartItems.length === 0}
                 >
                   Checkout
-                </Button>
+                </Button> */}
               </div>
             </motion.div>
           </>
