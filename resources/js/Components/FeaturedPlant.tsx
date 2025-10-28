@@ -10,20 +10,20 @@ const FeaturedPlants: React.FC = () => {
       }}
     >
       {/* Overlay transparan putih */}
-      <div className="absolute inset-0 bg-white/30"></div>
+      <div className="absolute inset-0 bg-white/20 lg:bg-black/20"></div>
 
       {/* Konten utama */}
       <div className="relative z-10 flex flex-col lg:flex-row gap-8 px-6 lg:px-20 py-12">
         {/* Kartu 1 */}
-        <div className="flex flex-col lg:flex-row items-center bg-white/25 backdrop-blur-md rounded-2xl p-5 shadow-md w-full lg:w-1/2">
+        <div className="flex flex-col lg:flex-row items-center bg-green-900/40 backdrop-blur-md rounded-2xl p-5 text-white shadow-md w-full lg:w-1/2"> 
           <div className="flex-1">
-            <span className="text-sm uppercase tracking-wider text-green-900/70">
+            <span className="text-lg font-semibold text-green-200 uppercase tracking-wide"> 
               Collection
             </span>
-            <h2 className="text-xl font-semibold text-green-900 mb-2">
+            <h2 className="text-2xl font-bold text-white mt-2">
               Low-Maintenance Greens
             </h2>
-            <p className="text-gray-700 mb-4 text-sm leading-relaxed">
+            <p className="text-green-100 mt-4">
               Elevate your interior with easy-care indoor plants. These beauties
               purify the air, add a calming vibe, and grow happily even in
               low-to-medium light — perfect for busy lifestyles.
@@ -32,7 +32,7 @@ const FeaturedPlants: React.FC = () => {
               parent_slug: 'indoor',
               child_slug: 'cactus'
             })}>
-              <button className="bg-white text-green-800 font-semibold px-4 py-2 rounded-full shadow hover:bg-green-50 transition">
+              <button className="mt-6 bg-white text-green-800 font-semibold px-5 py-2 rounded-full shadow-md hover:bg-green-100 transition">
                 Explore Now
               </button>
             </Link>
@@ -45,15 +45,15 @@ const FeaturedPlants: React.FC = () => {
         </div>
 
         {/* Kartu 2 */}
-        <div className="flex flex-col lg:flex-row items-center bg-white/25 backdrop-blur-md rounded-2xl p-5 shadow-md w-full lg:w-1/2">
+        <div className="flex flex-col lg:flex-row items-center bg-green-900/40 backdrop-blur-md rounded-2xl p-8 text-white shadow-md w-full lg:w-1/2">
           <div className="flex-1">
-            <span className="text-sm uppercase tracking-wider text-green-900/70">
+            <span className="text-lg font-semibold text-green-200 uppercase tracking-wide">
               Collection
             </span>
-            <h2 className="text-xl font-semibold text-green-900 mb-2">
+            <h2 className="text-2xl font-bold text-white mt-2">
               Garden-Ready Plants
             </h2>
-            <p className="text-gray-700 mb-4 text-sm leading-relaxed">
+            <p className="text-green-100 mt-4">
               Bring life to your outdoor space with vibrant, sun-loving plants.
               Perfect for patios, balconies, and home gardens — built to thrive
               in natural light and fresh air.
@@ -62,7 +62,7 @@ const FeaturedPlants: React.FC = () => {
               parent_slug: 'indoor',
               child_slug: 'monstera'
             })}>
-              <button className="bg-white text-green-800 font-semibold px-4 py-2 rounded-full shadow hover:bg-green-50 transition">
+              <button className="mt-6 bg-white text-green-800 font-semibold px-5 py-2 rounded-full shadow-md hover:bg-green-100 transition">
                 Explore Now
               </button>
             </Link>
