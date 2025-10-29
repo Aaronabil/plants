@@ -1,0 +1,116 @@
+import { useForm } from '@inertiajs/react';
+import { FormEventHandler } from 'react';
+import { toast } from "sonner"; 
+import { Button } from '@/Components/ui/button';
+import { Input } from '@/Components/ui/input';
+import { Label } from '@/Components/ui/label';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/Components/ui/select';
+import { Textarea } from '@/Components/ui/textarea';
+import { Category } from './Columns';
+
+interface CreateCategoryFormProps {
+    parentCategories: Category[];
+    onSuccess: () => void;
+}
+
+export default function CreateCategoryForm({ parentCategories, onSuccess }: CreateCategoryFormProps) {
+    const { data, setData, post, processing, errors, reset } = useForm({
+        category_name: '',
+        slug: '',
+        parent_id: '',
+        description: '',
+        image: null as File | null,
+    });
+
+    const submit: FormEventHandler = (e) => {
+        e.preventDefault();
+
+        post(route('admin.category.store'), {
+            preserveScroll: true,
+            preserveState: true,
+            forceFormData: true,
+            onSuccess: () => {
+                reset();
+                onSuccess();
+                toast.success('Category created successfully');
+            },
+            onError: (errors) => {
+                toast.error(errors.error || 'Failed to create category');
+                console.error("Error saving category:", errors);
+            }
+        });
+    };
+
+    return (
+        <form onSubmit={submit} className="space-y-4" encType="multipart/form-data">
+            <div>
+                <Label htmlFor="parent_id">Parent Category</Label>
+                <Select onValueChange={(value) => setData('parent_id', value)} value={data.parent_id}>
+                    <SelectTrigger>
+                        <SelectValue placeholder="Select a parent category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        {parentCategories.map((category) => (
+                            <SelectItem key={category.id} value={category.id.toString()}>
+                                {category.category_name}
+                            </SelectItem>
+                        ))}
+                    </SelectContent>
+                </Select>
+            </div>
+            <div>
+                <Label htmlFor="category_name">Category Name</Label>
+                <Input
+                    id="category_name"
+                    name="category_name"
+                    value={data.category_name}
+                    placeholder="Enter name of categories"
+                    onChange={(e) => setData('category_name', e.target.value)}
+                    required
+                />
+                {errors.category_name && <p className="text-red-500 text-xs mt-1">{errors.category_name}</p>}
+            </div>
+            <div>
+                <Label htmlFor="slug">Slug</Label>
+                <Input
+                    id="slug"
+                    name="slug"
+                    value={data.slug}
+                    placeholder="Enter slug for url"
+                    onChange={(e) => setData('slug', e.target.value)}
+                    required
+                />
+                {errors.slug && <p className="text-red-500 text-xs mt-1">{errors.slug}</p>}
+            </div>
+            <div>
+                <Label htmlFor="description">Description</Label>
+                <Textarea
+                    id="description"
+                    name="description"
+                    value={data.description}
+                    placeholder="Enter description"
+                    onChange={(e) => setData('description', e.target.value)}
+                />
+            </div>
+            <div>
+                <Label htmlFor="image">Image</Label>
+                <Input
+                    id="image"
+                    name="image"
+                    type="file"
+                    onChange={(e) => setData('image', e.target.files ? e.target.files[0] : null)}
+                />
+                {errors.image && <p className="text-red-500 text-xs mt-1">{errors.image}</p>}
+            </div>
+            <Button type="submit" disabled={processing}>
+                {processing ? 'Saving...' : 'Save Category'}
+            </Button>
+        </form>
+    );
+}
