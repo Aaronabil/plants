@@ -10,12 +10,14 @@ use Inertia\Inertia;
 
 class CategoryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $perPage = $request->input('per_page', 10);
+
         $categories = Category::with('parent')
             ->whereNotIn('category_name', ['Indoor', 'Outdoor'])
             ->latest()
-            ->get();
+            ->paginate($perPage);
 
         $parentCategories = Category::whereIn('category_name', ['Indoor', 'Outdoor'])
             ->orderBy('category_name')
@@ -65,7 +67,7 @@ class CategoryController extends Controller
         $category = Category::where('slug', $child_slug)->firstOrFail();
         $products = Product::where('category_id', $category->id)
         ->with('primaryImage')
-        ->get();
+        ->paginate(10);
 
         return Inertia::render('Category/Show', [
             'category' => $category,

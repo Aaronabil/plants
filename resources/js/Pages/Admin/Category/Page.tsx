@@ -1,4 +1,4 @@
-import { Head } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
 import { Category, columns } from './Columns';
 import { DataTable } from './DataTable';
 import { Button } from '@/Components/ui/button';
@@ -26,7 +26,6 @@ import {
     MoreHorizontal,
     PlusCircle,
 } from 'lucide-react';
-import { PageProps } from '@/types';
 import { useState } from 'react';
 import {
     Dialog,
@@ -38,13 +37,19 @@ import {
 import CreateCategoryForm from './CreateCategoryForm';
 import EditCategoryForm from './EditCategoryForm';
 import DeleteCategoryModal from './DeleteCategoryModal';
-import { router } from '@inertiajs/react';
 import { toast } from 'sonner';
 
-export default function PageCategory({ categories, parentCategories }: PageProps<{
-    categories: Category[]
-    parentCategories: Category[]
-}>) {
+interface PageProps {
+    categories: {
+        data: Category[];
+        current_page: number;
+        per_page: number;
+        total: number;
+    };
+    parentCategories: Category[];
+}
+
+export default function PageCategory({ categories, parentCategories }: PageProps) {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -184,7 +189,17 @@ export default function PageCategory({ categories, parentCategories }: PageProps
                                 </CardDescription>
                             </CardHeader>
                             <CardContent>
-                                <DataTable columns={columnsWithActions} data={categories} />
+                                <DataTable
+                                    columns={columnsWithActions}
+                                    data={categories.data}
+                                    serverSide={true}
+                                    total={categories.total}
+                                    page={categories.current_page}
+                                    perPage={categories.per_page}
+                                    onPageChange={(newPage, newPerPage) => {
+                                        router.get(route('admin.category'), { page: newPage, per_page: newPerPage }, { preserveState: true, preserveScroll: true })
+                                    }}
+                                />
                             </CardContent>
                         </Card>
                     </TabsContent>
