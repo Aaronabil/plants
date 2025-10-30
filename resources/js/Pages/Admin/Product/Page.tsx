@@ -1,5 +1,5 @@
 import { Head, router } from '@inertiajs/react';
-import { Product, columns } from './Columns';
+import { columns } from './Columns';
 import { DataTable } from './DataTable';
 import { Button } from '@/Components/ui/button';
 import {
@@ -35,6 +35,11 @@ import {
     DialogTrigger,
 } from '@/Components/ui/dialog';
 import { toast } from 'sonner';
+import CreateProductForm from './CreateProductForm';
+import EditProductForm from './EditProductForm';
+import DeleteProductModal from './DeleteProductModal';
+import { Category } from '../Category/Columns';
+import { Product } from '@/types';
 
 interface PageProps {
     products: {
@@ -43,9 +48,10 @@ interface PageProps {
         per_page: number;
         total: number;
     };
+    categories: Category[];
 }
 
-export default function PageProduct({ products }: PageProps) {
+export default function PageProduct({ products, categories }: PageProps) {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -54,6 +60,21 @@ export default function PageProduct({ products }: PageProps) {
     const handleEdit = (product: Product) => {
         setSelectedProduct(product);
         setIsEditModalOpen(true);
+    };
+
+    const confirmDelete = () => {
+        if (selectedProduct) {
+            router.delete(route('admin.product.destroy', { product: selectedProduct.id }), {
+                onSuccess: () => {
+                    toast.success('Product deleted successfully');
+                    setIsDeleteModalOpen(false);
+                    setSelectedProduct(null);
+                },
+                onError: (errors) => {
+                    toast.error(errors.error || 'Failed to delete product');
+                }
+            });
+        }
     };
 
     const handleDelete = (product: Product) => {
@@ -65,7 +86,7 @@ export default function PageProduct({ products }: PageProps) {
         if (col.id === 'actions') {
             return {
                 ...col,
-                cell: ({ row }) => {
+                cell: ({ row }: { row: { original: Product } }) => {
                     const product = row.original;
                     return (
                         <DropdownMenu>
@@ -158,11 +179,14 @@ export default function PageProduct({ products }: PageProps) {
                                         </span>
                                     </Button>
                                 </DialogTrigger>
-                                <DialogContent>
+                                <DialogContent className="max-h-[90vh] overflow-y-auto">
                                     <DialogHeader>
                                         <DialogTitle>Add New Product</DialogTitle>
                                     </DialogHeader>
-                                    <h1>create product form</h1>
+                                    <CreateProductForm
+                                        categories={categories}
+                                        onSuccess={() => setIsCreateModalOpen(false)}
+                                    />
                                 </DialogContent>
                             </Dialog>
                         </div>
@@ -184,16 +208,37 @@ export default function PageProduct({ products }: PageProps) {
                                     page={products.current_page}
                                     perPage={products.per_page}
                                     onPageChange={(newPage, newPerPage) => {
-                                        router.get(route('admin.products'),
-                                            { page: newPage, per_page: newPerPage },
-                                            { preserveState: true, preserveScroll: true }
-                                        )
+                                        router.get(route('admin.product'), { page: newPage, per_page: newPerPage }, { preserveState: true, preserveScroll: true })
                                     }}
                                 />
                             </CardContent>
                         </Card>
                     </TabsContent>
                 </Tabs>
+
+                {selectedProduct && (
+                    <>
+                        <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
+                            <DialogContent className="max-h-[90vh] overflow-y-auto">
+                                <DialogHeader>
+                                    <DialogTitle>Edit Product</DialogTitle>
+                                </DialogHeader>
+                                <EditProductForm
+                                    product={selectedProduct}
+                                    categories={categories}
+                                    onSuccess={() => setIsEditModalOpen(false)}
+                                />
+                            </DialogContent>
+                        </Dialog>
+
+                        <DeleteProductModal
+                            product={selectedProduct}
+                            isOpen={isDeleteModalOpen}
+                            onClose={() => setIsDeleteModalOpen(false)}
+                            onConfirm={confirmDelete}
+                        />
+                    </>
+                )}
             </AdminLayout>
         </>
     )

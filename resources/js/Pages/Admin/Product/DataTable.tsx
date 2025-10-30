@@ -49,6 +49,7 @@ export function DataTable<TData, TValue>({
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
+        manualPagination: true, // Explicitly tell react-table that pagination is handled manually
         // server-side: do NOT use getPaginationRowModel (we handle pages on server)
     })
 
