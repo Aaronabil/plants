@@ -8,8 +8,20 @@ use Inertia\Inertia;
 
 class ProductController extends Controller
 {
-    public function show(Product $product)
-    {
+    public function index(Request $request){
+        $perPage = $request->input('per_page', 20);
+
+        $products = Product::with(['category.parent', 'primaryImage'])
+            ->latest()
+            ->paginate($perPage);
+
+        return Inertia::render('Admin/Product/Page', [
+            'products' => $products
+        ]);
+    }
+
+
+    public function show(Product $product){
         $product->load('images', 'category.parent');
 
         $rootCategory = $product->category->parent ?? $product->category;
