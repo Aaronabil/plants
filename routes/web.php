@@ -65,9 +65,7 @@ Route::prefix('admin')->group(function () {
         Route::post('category/store', [CategoryController::class, 'store'])->name('admin.category.store');
         Route::patch('category/{category}', [CategoryController::class, 'update'])->name('admin.category.update');
         Route::delete('category/{category}', [CategoryController::class, 'destroy'])->name('admin.category.destroy');
-        Route::get('product', function () {
-            return Inertia::render('Admin/Product/Page');
-        })->name('admin.product');
+        Route::get('product', [ProductController::class, 'index'])->name('admin.product');
         Route::get('inventory', function () {
             return Inertia::render('Admin/Inventory/Page');
         })->name('admin.inventory');
