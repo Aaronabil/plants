@@ -1,6 +1,6 @@
-#  Plants Web App
+#  Yestera Web App
 
-![Hero Screenshot](images/hero/image.png)
+![Hero Screenshot](./public/images/hero/image.png)
 
 A modern web application for discovering and managing plants.  
 Built using **Next.js (TypeScript)**, **Laravel**, and **Supabase** — combining clean UI, fast performance, and powerful backend integration.
@@ -20,9 +20,8 @@ Built using **Next.js (TypeScript)**, **Laravel**, and **Supabase** — combinin
 
 ---
 
-##  Tip
 
->  **Pro Tip:**  
+> [!TIP]
 > Run both Laravel and Next.js servers together for a seamless development experience.  
 > Use a proxy in Next.js to connect API calls to your Laravel backend automatically.
 
@@ -36,21 +35,21 @@ git clone https://github.com/Aaronabil/plants.git
 cd plants
 
 ### 2. Install dependencies
-
+```bash
 npm install
-# or
+or
 yarn install
-
+```
 ### 3. Run the frontend
-
+```bash
 npm run dev
-
+```
 App will be available at http://localhost:3000
 
 ### 4. Start the backend (Laravel)
-
+```bash
 php artisan serve
-
+```
 Update your .env.local in the Next.js project to point API calls to Laravel.
 
 ---
@@ -60,16 +59,16 @@ Update your .env.local in the Next.js project to point API calls to Laravel.
 1. Create a new Supabase project.
 2. Copy your API URL and anon key.
 3. Add them into .env.local:
-
+```bash
 NEXT_PUBLIC_SUPABASE_URL=your-url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
-
+```
 4. Enable Email Auth or Social Login in Supabase settings.
 
 ---
 
 ##  Folder Structure
-
+```bash
 plants/
 │
 ├── components/          # Reusable UI components
@@ -79,7 +78,7 @@ plants/
 ├── resources/           # Laravel views (monorepo)
 ├── prisma/              # Database schema (optional)
 └── README.md
-
+ ```       
 ---
 
 ##  Features
@@ -99,17 +98,17 @@ plants/
  Currently improving profile editing and transaction history UI.
 
 ---
+> [!Note]  
+> Think of this project as a hybrid stack,
+> Next.js delivers a sleek user interface,  
+> Laravel powers backend business logic,  
+> and Supabase bridges authentication and real-time data sync.
 
 ##  Author
-
 Aaronabil, IsFaktuear, Alyysour.
 Made with 💚 in Indonesia 🇮🇩  
 2025 © Plants Project
 
----
+## License
 
-> Note:  
-> Think of this project as a hybrid stack —  
-> Next.js delivers a sleek user interface,  
-> Laravel powers backend business logic,  
-> and Supabase bridges authentication and real-time data sync.
+[MIT](./LICENSE) License © 2025-PRESENT [Yestera Project](https://github.com/Aaronabil/plants)
