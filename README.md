@@ -11,11 +11,11 @@ Built using **Next.js (TypeScript)**, **Laravel**, and **Supabase** — combinin
 
 | Layer         | Technology               | Description                            |
 |---------------|--------------------------|----------------------------------------|
-| **Frontend**  | Next.js (TypeScript)     | Main UI framework                      |
+| **Frontend**  | React.js(TypeScript)     | Main UI framework                      |
 | **Styling**   | Tailwind CSS + shadcn/ui | Modern and responsive UI components    |
 | **Backend**   | Laravel                  | RESTful API and business logic         |
 | **Database**  | Supabase (PostgreSQL)    | Managed database and authentication    |
-| **Auth**      | Supabase Auth            | Secure user authentication             |
+| **Auth**      | Laravel Breeze           | Secure user authentication             |
 | **Icons**     | Lucide React             | Clean, lightweight SVG icon set        |
 
 ---
@@ -27,13 +27,15 @@ Built using **Next.js (TypeScript)**, **Laravel**, and **Supabase** — combinin
 
 ---
 
-##  Getting Started
+##  Getting Started (!Under Construction!)
+> ⚠️ This section is still being prepared.  
+> Instructions for setting up the frontend and backend will be added soon!
 
 ### 1. Clone the repository
-
+```bash
 git clone https://github.com/Aaronabil/plants.git
 cd plants
-
+```
 ### 2. Install dependencies
 ```bash
 npm install
@@ -67,27 +69,13 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 
 ---
 
-##  Folder Structure
-```bash
-plants/
-│
-├── components/          # Reusable UI components
-├── pages/               # Next.js routes
-├── public/
-│   └── images/hero/     # Hero image location
-├── resources/           # Laravel views (monorepo)
-├── prisma/              # Database schema (optional)
-└── README.md
- ```       
----
-
 ##  Features
 
 -  Browse curated plant collections  
 -  Search and filter plants dynamically  
 -  Transaction history tracking  
 -  Editable user profile  
--  Auth integration via Supabase  
+-  Auth integration via laravel breeze
 -  Smooth frontend–backend synchronization  
 
 ---
@@ -106,8 +94,9 @@ plants/
 
 ##  Author
 Aaronabil, IsFaktuear, Alyysour.
-Made with 💚 in Indonesia 🇮🇩  
-2025 © Plants Project
+- Ahmad Muqarrobin (242502040003)
+- Muhamad Nabil Faiz Amarullah (242502040042)
+- Alyssa Nurul Hidayat (242502040081)
 
 ## License
 
