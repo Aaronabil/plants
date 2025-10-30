@@ -75,6 +75,7 @@ export default function CreateProductForm({ categories, onSuccess }: CreateProdu
                 <Input
                     id="product_name"
                     value={data.product_name}
+                    placeholder="Enter the product name"
                     onChange={(e) => setData('product_name', e.target.value)}
                     required
                 />
@@ -87,6 +88,7 @@ export default function CreateProductForm({ categories, onSuccess }: CreateProdu
                     id="price"
                     type="number"
                     value={data.price}
+                    placeholder="Enter the product price"
                     onChange={(e) => setData('price', e.target.value)}
                     required
                 />
@@ -99,6 +101,7 @@ export default function CreateProductForm({ categories, onSuccess }: CreateProdu
                     id="stock"
                     type="number"
                     value={data.stock}
+                    placeholder="Enter the product stock"
                     onChange={(e) => setData('stock', e.target.value)}
                     required
                 />
@@ -112,6 +115,7 @@ export default function CreateProductForm({ categories, onSuccess }: CreateProdu
                     type="number"
                     step="0.1"
                     value={data.weight_in_kilograms}
+                    placeholder="Enter the product weight"
                     onChange={(e) => setData('weight_in_kilograms', e.target.value)}
                     required
                 />
@@ -125,6 +129,7 @@ export default function CreateProductForm({ categories, onSuccess }: CreateProdu
                 <Textarea
                     id="detail_description"
                     value={data.detail_description}
+                    placeholder="Enter a description"
                     onChange={(e) => setData('detail_description', e.target.value)}
                     required
                 />
@@ -136,6 +141,7 @@ export default function CreateProductForm({ categories, onSuccess }: CreateProdu
                 <Textarea
                     id="description"
                     value={data.description}
+                    placeholder="Enter the full description"
                     onChange={(e) => setData('description', e.target.value)}
                     required
                 />
