@@ -26,6 +26,7 @@ export interface Product {
     category?: Category;
     images: ProductImage[];
     detail_description?: string;
+    created_at: string;
 }
 
 export interface User {

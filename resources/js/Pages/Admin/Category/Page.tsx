@@ -81,7 +81,7 @@ export default function PageCategory({ categories, parentCategories }: PageProps
         if (col.id === 'actions') {
             return {
                 ...col,
-                cell: ({ row }) => {
+                cell: ({ row }: { row: { original: Category } }) => {
                     const category = row.original;
                     return (
                         <DropdownMenu>
