@@ -46,6 +46,9 @@ Route::get('/product/{product:slug}', [ProductController::class, 'show'])->name(
 Route::get('/about', function () {
     return Inertia::render('AboutUs');
 })->name('about');
+Route::get('/checkout', function () {
+    return Inertia::render('Checkout/Show');
+})->name('checkout');
 
 
 // Route Admin
@@ -56,13 +59,28 @@ Route::prefix('admin')->group(function () {
 
     Route::middleware(['auth:admin'])->group(function () {
         Route::get('dashboard', function () {
-            return Inertia::render('Dashboard');
+            return Inertia::render('Admin/Dashboard/Page');
         })->name('admin.dashboard');
+        Route::get('category', function () {
+            return Inertia::render('Admin/Category/Page');
+        })->name('admin.category');
+        Route::get('product', function () {
+            return Inertia::render('Admin/Product/Page');
+        })->name('admin.product');
+        Route::get('inventory', function () {
+            return Inertia::render('Admin/Inventory/Page');
+        })->name('admin.inventory');
+        Route::get('customer', function () {
+            return Inertia::render('Admin/Customer/Page');
+        })->name('admin.customer');
+        Route::get('recent', function () {
+            return Inertia::render('Admin/Recent/Page');
+        })->name('admin.recent');
+        Route::get('orders', function () {
+            return Inertia::render('Admin/Orders/Page');
+        })->name('admin.orders');
         Route::get('profile', function () { 
             return Inertia::render('Admin/Profile/Edit');
         })->name('admin.profile.edit');
     });
 });
-Route::get('/checkout', function () {
-    return Inertia::render('Checkout/Show');
-})->name('checkout');
