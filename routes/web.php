@@ -61,9 +61,10 @@ Route::prefix('admin')->group(function () {
         Route::get('dashboard', function () {
             return Inertia::render('Admin/Dashboard/Page');
         })->name('admin.dashboard');
-        Route::get('category', function () {
-            return Inertia::render('Admin/Category/Page');
-        })->name('admin.category');
+        Route::get('category', [CategoryController::class, 'index'])->name('admin.category');
+        Route::post('category/store', [CategoryController::class, 'store'])->name('admin.category.store');
+        Route::patch('category/{category}', [CategoryController::class, 'update'])->name('admin.category.update');
+        Route::delete('category/{category}', [CategoryController::class, 'destroy'])->name('admin.category.destroy');
         Route::get('product', function () {
             return Inertia::render('Admin/Product/Page');
         })->name('admin.product');

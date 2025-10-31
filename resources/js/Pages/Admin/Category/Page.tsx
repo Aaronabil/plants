@@ -1,6 +1,6 @@
-import { Head } from '@inertiajs/react';
-
-import { Badge } from '@/Components/ui/badge';
+import { Head, router } from '@inertiajs/react';
+import { Category, columns } from './Columns';
+import { DataTable } from './DataTable';
 import { Button } from '@/Components/ui/button';
 import {
     Card,
@@ -18,14 +18,6 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/Components/ui/dropdown-menu';
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from '@/Components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/Components/ui/tabs';
 import AdminLayout from '@/Layouts/AdminLayout';
 import {
@@ -34,8 +26,88 @@ import {
     MoreHorizontal,
     PlusCircle,
 } from 'lucide-react';
+import { useState } from 'react';
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from '@/Components/ui/dialog';
+import CreateCategoryForm from './CreateCategoryForm';
+import EditCategoryForm from './EditCategoryForm';
+import DeleteCategoryModal from './DeleteCategoryModal';
+import { toast } from 'sonner';
 
-export default function PageCategory() {
+interface PageProps {
+    categories: {
+        data: Category[];
+        current_page: number;
+        per_page: number;
+        total: number;
+    };
+    parentCategories: Category[];
+}
+
+export default function PageCategory({ categories, parentCategories }: PageProps) {
+    const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
+
+    const handleEdit = (category: Category) => {
+        setSelectedCategory(category);
+        setIsEditModalOpen(true);
+    };
+
+    const handleDelete = (category: Category) => {
+        setSelectedCategory(category);
+        setIsDeleteModalOpen(true);
+    };
+
+    const confirmDelete = (categoryId: number) => {
+        router.delete(route('admin.category.destroy', { category: categoryId }), {
+            onSuccess: () => {
+                setIsDeleteModalOpen(false);
+                toast.success('Category deleted successfully');
+            },
+            onError: (errors) => {
+                toast.error(errors.error || 'Failed to delete category');
+            },
+        });
+    };
+
+    const columnsWithActions = columns.map(col => {
+        if (col.id === 'actions') {
+            return {
+                ...col,
+                cell: ({ row }) => {
+                    const category = row.original;
+                    return (
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="ghost" className="h-8 w-8 p-0">
+                                    <span className="sr-only">Open menu</span>
+                                    <MoreHorizontal className="h-4 w-4" />
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                                <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                <DropdownMenuItem onClick={() => handleEdit(category)}>
+                                    Edit
+                                </DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => handleDelete(category)} className="text-red-600">
+                                    Delete
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    );
+                },
+            };
+        }
+        return col;
+    });
+
     return (
         <>
             <AdminLayout>
@@ -90,12 +162,22 @@ export default function PageCategory() {
                                     Export
                                 </span>
                             </Button>
-                            <Button size="sm" className="h-8 gap-1">
-                                <PlusCircle className="h-3.5 w-3.5" />
-                                <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                                    Add Category
-                                </span>
-                            </Button>
+                            <Dialog open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen}>
+                                <DialogTrigger asChild>
+                                    <Button size="sm" className="h-8 gap-1">
+                                        <PlusCircle className="h-3.5 w-3.5" />
+                                        <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                                            Add Category
+                                        </span>
+                                    </Button>
+                                </DialogTrigger>
+                                <DialogContent>
+                                    <DialogHeader>
+                                        <DialogTitle>Add New Category</DialogTitle>
+                                    </DialogHeader>
+                                    <CreateCategoryForm parentCategories={parentCategories} onSuccess={() => setIsCreateModalOpen(false)} />
+                                </DialogContent>
+                            </Dialog>
                         </div>
                     </div>
                     <TabsContent value="all">
@@ -107,74 +189,45 @@ export default function PageCategory() {
                                 </CardDescription>
                             </CardHeader>
                             <CardContent>
-                                <Table>
-                                    <TableHeader>
-                                        <TableRow>
-                                            <TableHead>Name</TableHead>
-                                            <TableHead>Status</TableHead>
-                                            <TableHead className="hidden md:table-cell">
-                                                Total Products
-                                            </TableHead>
-                                            <TableHead className="hidden md:table-cell">
-                                                Created at
-                                            </TableHead>
-                                            <TableHead>
-                                                <span className="sr-only">
-                                                    Actions
-                                                </span>
-                                            </TableHead>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                        <TableRow>
-                                            <TableCell className="font-medium">
-                                                Monstera
-                                            </TableCell>
-                                            <TableCell>
-                                                <Badge variant="outline">
-                                                    Active
-                                                </Badge>
-                                            </TableCell>
-                                            <TableCell className="hidden md:table-cell">
-                                                25
-                                            </TableCell>
-                                            <TableCell className="hidden md:table-cell">
-                                                2023-07-12 10:42 AM
-                                            </TableCell>
-                                            <TableCell>
-                                                <DropdownMenu>
-                                                    <DropdownMenuTrigger asChild>
-                                                        <Button
-                                                            aria-haspopup="true"
-                                                            size="icon"
-                                                            variant="ghost"
-                                                        >
-                                                            <MoreHorizontal className="h-4 w-4" />
-                                                            <span className="sr-only">
-                                                                Toggle menu
-                                                            </span>
-                                                        </Button>
-                                                    </DropdownMenuTrigger>
-                                                    <DropdownMenuContent align="end">
-                                                        <DropdownMenuLabel>
-                                                            Actions
-                                                        </DropdownMenuLabel>
-                                                        <DropdownMenuItem>
-                                                            Edit
-                                                        </DropdownMenuItem>
-                                                        <DropdownMenuItem>
-                                                            Delete
-                                                        </DropdownMenuItem>
-                                                    </DropdownMenuContent>
-                                                </DropdownMenu>
-                                            </TableCell>
-                                        </TableRow>
-                                    </TableBody>
-                                </Table>
+                                <DataTable
+                                    columns={columnsWithActions}
+                                    data={categories.data}
+                                    serverSide={true}
+                                    total={categories.total}
+                                    page={categories.current_page}
+                                    perPage={categories.per_page}
+                                    onPageChange={(newPage, newPerPage) => {
+                                        router.get(route('admin.category'), { page: newPage, per_page: newPerPage }, { preserveState: true, preserveScroll: true })
+                                    }}
+                                />
                             </CardContent>
                         </Card>
                     </TabsContent>
                 </Tabs>
+
+                {selectedCategory && (
+                    <>
+                        <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
+                            <DialogContent>
+                                <DialogHeader>
+                                    <DialogTitle>Edit Category</DialogTitle>
+                                </DialogHeader>
+                                <EditCategoryForm
+                                    category={selectedCategory}
+                                    parentCategories={parentCategories}
+                                    onSuccess={() => setIsEditModalOpen(false)}
+                                />
+                            </DialogContent>
+                        </Dialog>
+
+                        <DeleteCategoryModal
+                            category={selectedCategory}
+                            isOpen={isDeleteModalOpen}
+                            onClose={() => setIsDeleteModalOpen(false)}
+                            onConfirm={confirmDelete}
+                        />
+                    </>
+                )}
             </AdminLayout>
         </>
     );
