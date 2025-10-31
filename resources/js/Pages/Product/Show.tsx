@@ -31,7 +31,7 @@ export default function Show({ product, auth, relatedProducts }: PageProps<{ pro
                 });
             },
             onError: (errors) => {
-                toast.error("Gagal menambahkan ke keranjang", {
+                toast.error("Failed to add to basket.", {
                     description: Object.values(errors).join('\n'),
                 });
             }
