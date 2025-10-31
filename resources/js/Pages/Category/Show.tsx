@@ -78,8 +78,9 @@ export default function Show({ category, products }: PageProps<{ category: Categ
                                 />
                             ))
                         ) : (
-                            <p className="col-span-full text-gray-500">
-                                Tidak ada produk yang ditemukan di kategori ini.
+                            <p className="col-span-full text-center text-gray-500">
+                                <img src="/images/category/jerapah.png" className="h-60 w-60 block mx-auto" alt="" />
+                                No products were found in this category.
                             </p>
                         )}
                     </div>
