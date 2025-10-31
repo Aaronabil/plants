@@ -38,9 +38,9 @@ export default function CartDrawer({ isOpen, onClose, cartItems }: CartDrawerPro
     router.patch(route('cart.update', cartItemId), {
       quantity: newQuantity
     }, {
-      preserveState: true,
       onSuccess: () => {
         toast.success("Cart updated successfully!");
+        router.reload({ only: ['cartItems'] }); // Explicitly reload cartItems prop
       },
       onError: () => {
         toast.error("Failed to update cart");
@@ -103,10 +103,12 @@ export default function CartDrawer({ isOpen, onClose, cartItems }: CartDrawerPro
     else setSelectedItems([]);
   };
 
-  const total = cartItems.reduce(
-    (sum, item) => sum + item.product.price * item.quantity,
-    0
-  );
+  const total = cartItems.reduce((sum, item) => {
+    if (selectedItems.includes(item.id)) {
+      return sum + item.product.price * item.quantity;
+    }
+    return sum;
+  }, 0);
 
   const allSelected =
     selectedItems.length > 0 && selectedItems.length === cartItems.length;
