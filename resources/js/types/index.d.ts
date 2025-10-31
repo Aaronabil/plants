@@ -29,6 +29,12 @@ export interface Product {
     created_at: string;
 }
 
+export interface ProductsProp {
+    data: Product[];
+    // You might want to add other pagination properties here if they exist in your backend response,
+    // such as current_page, last_page, total, from, to, per_page, links, etc.
+}
+
 export interface User {
     id: number;
     name: string;
@@ -63,4 +69,5 @@ export type PageProps<
     };
     navigationCategories: Category[];
     cart: CartItem[];
+    products: ProductsProp;
 };

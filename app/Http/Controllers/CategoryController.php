@@ -66,8 +66,12 @@ class CategoryController extends Controller
     {
         $category = Category::where('slug', $child_slug)->firstOrFail();
         $products = Product::where('category_id', $category->id)
-        ->with('primaryImage')
+        ->with(['primaryImage', 'images']) // Eager load both primaryImage and all images
         ->paginate(10);
+
+        // Temporarily dump and die to inspect the products data on the server side
+        // Temporarily dump and die to inspect the products data on the server side
+        // dd(json_encode($products->toArray(), JSON_PRETTY_PRINT));
 
         return Inertia::render('Category/Show', [
             'category' => $category,
