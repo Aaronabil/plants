@@ -2,81 +2,89 @@
 
 ![Hero Screenshot](./public/images/hero/image.png)
 
-A modern web application for discovering and managing plants.  
-Built using **Next.js (TypeScript)**, **Laravel**, and **Supabase** — combining clean UI, fast performance, and powerful backend integration.
+Yestera is a web-based e-commerce platform that focuses on selling various types of indoor and outdoor plants. 
+Built using **Laravel**, **Inertia.js (React + TypeScript)**, and **Supabase** — combining a powerful backend with a modern frontend and a scalable database.
 
 ---
 
 ##  Tech Stack
 
-| Layer         | Technology               | Description                            |
-|---------------|--------------------------|----------------------------------------|
-| **Frontend**  | React.js(TypeScript)     | Main UI framework                      |
-| **Styling**   | Tailwind CSS + shadcn/ui | Modern and responsive UI components    |
-| **Backend**   | Laravel                  | RESTful API and business logic         |
-| **Database**  | Supabase (PostgreSQL)    | Managed database and authentication    |
-| **Auth**      | Laravel Breeze           | Secure user authentication             |
-| **Icons**     | Lucide React             | Clean, lightweight SVG icon set        |
+| Layer         | Technology                      | Description                                       |
+|---------------|---------------------------------|---------------------------------------------------|
+| **Backend**   | Laravel                         | PHP framework for RESTful API and business logic  |
+| **Frontend**  | Inertia.js (React + TypeScript) | Creates a seamless single-page app experience     |
+| **Database**  | Supabase (PostgreSQL)           | Managed PostgreSQL database                       |
+| **Bundler**   | Vite                            | Fast frontend build tooling                       |
+| **Styling**   | Tailwind CSS + shadcn/ui        | Modern and responsive UI components               |
+| **Auth**      | Laravel Breeze                  | Secure user authentication scaffolding            |
+| **Icons**     | Lucide React                    | Clean, lightweight SVG icon set                   |
 
 ---
-
 
 > [!TIP]
-> Run both Laravel and Next.js servers together for a seamless development experience.  
-> Use a proxy in Next.js to connect API calls to your Laravel backend automatically.
+> This project uses a monolithic architecture where Laravel and React are tightly integrated.  
+> Inertia.js acts as the glue, allowing you to build a modern frontend without the complexity of a separate API.
 
 ---
 
-##  Getting Started (!Under Construction!)
-> ⚠️ This section is still being prepared.  
-> Instructions for setting up the frontend and backend will be added soon!
+##  Getting Started
 
 ### 1. Clone the repository
 ```bash
 git clone https://github.com/Aaronabil/plants.git
 cd plants
 ```
-### 2. Install dependencies
+
+### 2. Setup Environment
+- Copy the example environment file and generate an application key.
 ```bash
-npm install
-or
-yarn install
+cp .env.example .env
+php artisan key:generate
 ```
-### 3. Run the frontend
+- Find your database connection details in your Supabase project settings (`Settings` > `Database`).
+- Update the following variables in your `.env` file with your Supabase credentials:
+```env
+DB_CONNECTION=pgsql
+DB_HOST=[Your-Supabase-Host]
+DB_PORT=5432
+DB_DATABASE=postgres
+DB_USERNAME=postgres
+DB_PASSWORD=[Your-Supabase-Password]
+```
+
+### 3. Install Dependencies
+- Install PHP (backend) and Node.js (frontend) dependencies.
+```bash
+composer install
+npm install
+```
+
+### 4. Run Database Migrations
+- Apply the database schema to your Supabase database.
+```bash
+php artisan migrate
+```
+
+### 5. Run the Development Servers
+- Run the Vite frontend server and the Laravel backend server in two separate terminals.
+
+- **Terminal 1 (Frontend):**
 ```bash
 npm run dev
 ```
-App will be available at http://localhost:3000
 
-### 4. Start the backend (Laravel)
+- **Terminal 2 (Backend):**
 ```bash
 php artisan serve
 ```
-Update your .env.local in the Next.js project to point API calls to Laravel.
-
----
-
-##  Supabase Setup
-
-1. Create a new Supabase project.
-2. Copy your API URL and anon key.
-3. Add them into .env.local:
-```bash
-NEXT_PUBLIC_SUPABASE_URL=your-url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
-```
-4. Enable Email Auth or Social Login in Supabase settings.
+- The application will be available at `http://127.0.0.1:8000`.
 
 ---
 
 ##  Features
 
--  Browse curated plant collections  
--  Search and filter plants dynamically  
--  Transaction history tracking  
--  Editable user profile  
--  Auth integration via laravel breeze
--  Smooth frontend–backend synchronization  
+> [!NOTE]
+> Features are currently under development and will be listed here soon.
 
 ---
 
@@ -87,10 +95,10 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 
 ---
 > [!Note]  
-> Think of this project as a hybrid stack,
-> Next.js delivers a sleek user interface,  
-> Laravel powers backend business logic,  
-> and Supabase bridges authentication and real-time data sync.
+> This project is a **full-stack Laravel application** with a modern twist.
+> Laravel handles the entire backend, from routing to business logic.
+> Supabase provides a powerful, scalable PostgreSQL database.
+> Inertia.js and React power the frontend, creating a responsive and dynamic user interface.
 
 ##  Author
 Aaronabil, IsFaktuear, Alyysour.
