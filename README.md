@@ -98,6 +98,6 @@ Aaronabil, IsFaktuear, Alyysour.
 - Muhamad Nabil Faiz Amarullah (242502040042)
 - Alyssa Nurul Hidayat (242502040081)
 
-## License
+---
 
 [MIT](./LICENSE) License © 2025-PRESENT [Yestera Project](https://github.com/Aaronabil/plants)

@@ -1,19 +1,21 @@
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
-import TextInput from '@/Components/TextInput';
-import { Transition } from '@headlessui/react';
+import { Input } from '@/Components/ui/input';
+import { Button } from '@/Components/ui/button';
 import { Link, useForm, usePage } from '@inertiajs/react';
-import { FormEventHandler } from 'react';
+import { FormEventHandler, useEffect } from 'react';
+import { toast } from 'sonner';
 
 export default function UpdateProfileInformation({
     mustVerifyEmail,
     status,
     className = '',
+    onClose,
 }: {
     mustVerifyEmail: boolean;
     status?: string;
     className?: string;
+    onClose?: () => void;
 }) {
     const user = usePage().props.auth.user;
 
@@ -29,14 +31,17 @@ export default function UpdateProfileInformation({
         patch(route('profile.update'));
     };
 
+    useEffect(() => {
+        if (recentlySuccessful) {
+            toast.success('Profile updated successfully!');
+            onClose?.();
+        }
+    }, [recentlySuccessful]);
+
     return (
         <section className={className}>
             <header>
-                <h2 className="text-lg font-medium text-gray-900">
-                    Profile Information
-                </h2>
-
-                <p className="mt-1 text-sm text-gray-600">
+                <p className="text-sm text-gray-600">
                     Update your account's profile information and email address.
                 </p>
             </header>
@@ -45,13 +50,12 @@ export default function UpdateProfileInformation({
                 <div>
                     <InputLabel htmlFor="name" value="Name" />
 
-                    <TextInput
+                    <Input
                         id="name"
                         className="mt-1 block w-full"
                         value={data.name}
                         onChange={(e) => setData('name', e.target.value)}
                         required
-                        isFocused
                         autoComplete="name"
                     />
 
@@ -61,7 +65,7 @@ export default function UpdateProfileInformation({
                 <div>
                     <InputLabel htmlFor="email" value="Email" />
 
-                    <TextInput
+                    <Input
                         id="email"
                         type="email"
                         className="mt-1 block w-full"
@@ -98,19 +102,7 @@ export default function UpdateProfileInformation({
                 )}
 
                 <div className="flex items-center gap-4">
-                    <PrimaryButton disabled={processing}>Save</PrimaryButton>
-
-                    <Transition
-                        show={recentlySuccessful}
-                        enter="transition ease-in-out"
-                        enterFrom="opacity-0"
-                        leave="transition ease-in-out"
-                        leaveTo="opacity-0"
-                    >
-                        <p className="text-sm text-gray-600">
-                            Saved.
-                        </p>
-                    </Transition>
+                    <Button disabled={processing}>Save</Button>
                 </div>
             </form>
         </section>
