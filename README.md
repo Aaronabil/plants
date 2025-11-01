@@ -1,132 +1,103 @@
-# 🌿 Plants App
+#  Yestera Web App
 
-A modern plant-themed dashboard for managing profiles, purchase history, and delivery tracking — built with Laravel, Inertia.js, React, and shadcn/ui.
+![Hero Screenshot](./public/images/hero/image.png)
 
----
-
-## 🚀 Features
-
- **Profile Management** — view and edit personal details such as name, email, and address.  
- **Transaction History** — display purchase records with status and date.  
- **Order Progress Tracker** — show delivery status visually from *Pending* → *Delivered*.  
- **Responsive Design** — optimized for desktop and mobile.  
- **Modern UI Components** — powered by [shadcn/ui](https://ui.shadcn.com) and [Lucide Icons](https://lucide.dev).
+A modern web application for discovering and managing plants.  
+Built using **Next.js (TypeScript)**, **Laravel**, and **Supabase** — combining clean UI, fast performance, and powerful backend integration.
 
 ---
 
 ##  Tech Stack
 
-| Layer        | Technology                              |
-|--------------|------------------------------------------|
-| **Backend**  | Laravel 11 (PHP 8+)                      |
-| **Frontend** | React + TypeScript                       |
-| **Routing**  | Inertia.js                               |
-| **UI Kit**   | shadcn/ui + Tailwind CSS                 |
-| **Icons**    | Lucide React                             |
-| **Database** | MySQL / SQLite (configurable)            |
+| Layer         | Technology               | Description                            |
+|---------------|--------------------------|----------------------------------------|
+| **Frontend**  | React.js(TypeScript)     | Main UI framework                      |
+| **Styling**   | Tailwind CSS + shadcn/ui | Modern and responsive UI components    |
+| **Backend**   | Laravel                  | RESTful API and business logic         |
+| **Database**  | Supabase (PostgreSQL)    | Managed database and authentication    |
+| **Auth**      | Laravel Breeze           | Secure user authentication             |
+| **Icons**     | Lucide React             | Clean, lightweight SVG icon set        |
 
 ---
 
-##  Installation
 
-1. **Clone this repository**
-   ```bash
-   git clone https://github.com/Aaronabil/plants.git
-   cd plants
-   ```
-
-2. **Install PHP dependencies**
-   ```bash
-   composer install
-   ```
-
-3. **Install Node dependencies**
-   ```bash
-   npm install
-   ```
-
-4. **Copy environment file and generate key**
-   ```bash
-   cp .env.example .env
-   php artisan key:generate
-   ```
-
-5. **Run database migrations**
-   ```bash
-   php artisan migrate
-   ```
-
-6. **Run development servers**
-   ```bash
-   npm run dev
-   php artisan serve
-   ```
-
-Then open your browser at →  
- **http://localhost:8000**
+> [!TIP]
+> Run both Laravel and Next.js servers together for a seamless development experience.  
+> Use a proxy in Next.js to connect API calls to your Laravel backend automatically.
 
 ---
 
-##  Project Structure
+##  Getting Started (!Under Construction!)
+> ⚠️ This section is still being prepared.  
+> Instructions for setting up the frontend and backend will be added soon!
 
+### 1. Clone the repository
+```bash
+git clone https://github.com/Aaronabil/plants.git
+cd plants
 ```
-resources/
-└── js/
-    ├── Pages/
-    │   └── Profile/
-    │       ├── Edit.tsx
-    │       ├── PersonalDetails.tsx
-    │       ├── TransactionHistory.tsx
-    │       └── OrderProgress.tsx
-    └── Components/
-        └── ui/
-            ├── button.tsx
-            ├── card.tsx
-            ├── dialog.tsx
-            └── input.tsx
+### 2. Install dependencies
+```bash
+npm install
+or
+yarn install
 ```
+### 3. Run the frontend
+```bash
+npm run dev
+```
+App will be available at http://localhost:3000
+
+### 4. Start the backend (Laravel)
+```bash
+php artisan serve
+```
+Update your .env.local in the Next.js project to point API calls to Laravel.
 
 ---
 
-##  Preview
+##  Supabase Setup
 
-| Profile Page | Order Progress | Transaction History |
-|---------------|----------------|----------------------|
-| ![Profile](docs/screenshots/profile.png) | ![Progress](docs/screenshots/progress.png) | ![Transactions](docs/screenshots/transactions.png) |
-
->  *You can place screenshots under `docs/screenshots/`.*
-
----
-
-##  Roadmap
-
-- [ ] Add profile picture upload  
-- [ ] Implement real transaction data from backend  
-- [ ] Add dark mode support  
-- [ ] Add search & filter for history list  
-- [ ] API integration for live order updates  
+1. Create a new Supabase project.
+2. Copy your API URL and anon key.
+3. Add them into .env.local:
+```bash
+NEXT_PUBLIC_SUPABASE_URL=your-url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+```
+4. Enable Email Auth or Social Login in Supabase settings.
 
 ---
 
-##  Credits
+##  Features
 
-- [Laravel](https://laravel.com)  
-- [Inertia.js](https://inertiajs.com)  
-- [React](https://react.dev)  
-- [shadcn/ui](https://ui.shadcn.com)  
-- [Lucide Icons](https://lucide.dev)
+-  Browse curated plant collections  
+-  Search and filter plants dynamically  
+-  Transaction history tracking  
+-  Editable user profile  
+-  Auth integration via laravel breeze
+-  Smooth frontend–backend synchronization  
 
 ---
+
+##  Project Status
+
+ Active Development — new features coming soon!  
+ Currently improving profile editing and transaction history UI.
+
+---
+> [!Note]  
+> Think of this project as a hybrid stack,
+> Next.js delivers a sleek user interface,  
+> Laravel powers backend business logic,  
+> and Supabase bridges authentication and real-time data sync.
 
 ##  Author
-
-**Aaronabil**  
-Full-stack Developer  
- [GitHub Profile](https://github.com/Aaronabil)
+Aaronabil, IsFaktuear, Alyysour.
+- Ahmad Muqarrobin (242502040003)
+- Muhamad Nabil Faiz Amarullah (242502040042)
+- Alyssa Nurul Hidayat (242502040081)
 
 ---
 
-##  License
-
-Distributed under the **MIT License**.  
-See [`LICENSE`](LICENSE) for more information.
+[MIT](./LICENSE) License © 2025-PRESENT [Yestera Project](https://github.com/Aaronabil/plants)

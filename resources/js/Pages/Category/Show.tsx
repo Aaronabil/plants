@@ -69,8 +69,8 @@ export default function Show({ category, products }: PageProps<{ category: Categ
                     <h2 className="text-3xl font-bold mb-1 text-center">Bring Life to Every Corner of the Room</h2>
                     <p className="text-sm text-gray-600 text-center mb-5">Discover a curated collection of plants that will transform your space into something more vibrant, fresh, and full of positive energy.</p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {products.length > 0 ? (
-                            products.map((product) => (
+                        {products.data.length > 0 ? (
+                            products.data.map((product) => (
                                 <ProductCard
                                     key={product.id}
                                     product={product}
@@ -78,8 +78,9 @@ export default function Show({ category, products }: PageProps<{ category: Categ
                                 />
                             ))
                         ) : (
-                            <p className="col-span-full text-gray-500">
-                                Tidak ada produk yang ditemukan di kategori ini.
+                            <p className="col-span-full text-center text-gray-500">
+                                <img src="/images/category/jerapah.png" className="h-60 w-60 block mx-auto" alt="" />
+                                No products were found in this category.
                             </p>
                         )}
                     </div>

@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Trash2 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
-import { router } from "@inertiajs/react";
 import { Button } from "@/Components/ui/button";
 import {
   AlertDialog,
@@ -20,6 +19,8 @@ import {
   NumberField,
   NumberFieldScrubArea,
 } from "@/Components/ui/base-number-field";
+import { Link } from "@inertiajs/react";
+import { router } from "@inertiajs/react";
 import { CartItem } from "@/types";
 
 interface CartDrawerProps {
@@ -37,9 +38,9 @@ export default function CartDrawer({ isOpen, onClose, cartItems }: CartDrawerPro
     router.patch(route('cart.update', cartItemId), {
       quantity: newQuantity
     }, {
-      preserveState: true,
       onSuccess: () => {
         toast.success("Cart updated successfully!");
+        router.reload({ only: ['cartItems'] }); // Explicitly reload cartItems prop
       },
       onError: () => {
         toast.error("Failed to update cart");
@@ -102,10 +103,12 @@ export default function CartDrawer({ isOpen, onClose, cartItems }: CartDrawerPro
     else setSelectedItems([]);
   };
 
-  const total = cartItems.reduce(
-    (sum, item) => sum + item.product.price * item.quantity,
-    0
-  );
+  const total = cartItems.reduce((sum, item) => {
+    if (selectedItems.includes(item.id)) {
+      return sum + item.product.price * item.quantity;
+    }
+    return sum;
+  }, 0);
 
   const allSelected =
     selectedItems.length > 0 && selectedItems.length === cartItems.length;
@@ -254,13 +257,18 @@ export default function CartDrawer({ isOpen, onClose, cartItems }: CartDrawerPro
                     Rp{total.toLocaleString('id-ID')}
                   </span>
                 </div>
+                <Link href="/checkout">
+                  <Button className="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg transition">
+                    Checkout
+                  </Button>
+                </Link>
 
-                <Button
+                {/* <Button
                   className="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg transition"
                   disabled={cartItems.length === 0}
                 >
                   Checkout
-                </Button>
+                </Button> */}
               </div>
             </motion.div>
           </>
