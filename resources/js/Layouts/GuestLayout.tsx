@@ -5,7 +5,11 @@ import Header from '@/Pages/Layouts/Header';
 import FooterSection from '@/Pages/Layouts/Footer';
 import { Toaster } from "sonner";
 
-export default function Guest({ children }: PropsWithChildren) {
+interface GuestProps extends PropsWithChildren {
+    hideFooter?: boolean;
+}
+
+export default function Guest({ children, hideFooter = false }: GuestProps) {
     return (
         <div className="flex flex-col min-h-screen bg-white">
             <Header />
@@ -15,7 +19,7 @@ export default function Guest({ children }: PropsWithChildren) {
                 <Toaster richColors position="top-center" />
             </main>
 
-            <FooterSection />
+            {!hideFooter && <FooterSection />}
         </div>
     );
 }
