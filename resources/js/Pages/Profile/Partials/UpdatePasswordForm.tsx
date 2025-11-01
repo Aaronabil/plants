@@ -1,15 +1,17 @@
 import InputError from '@/Components/InputError';
+import { Input } from '@/Components/ui/input';
 import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
-import TextInput from '@/Components/TextInput';
-import { Transition } from '@headlessui/react';
+import { Button } from '@/Components/ui/button';
 import { useForm } from '@inertiajs/react';
-import { FormEventHandler, useRef } from 'react';
+import { toast } from 'sonner';
+import { FormEventHandler, useRef, useEffect } from 'react';
 
 export default function UpdatePasswordForm({
     className = '',
+    onClose,
 }: {
     className?: string;
+    onClose?: () => void;
 }) {
     const passwordInput = useRef<HTMLInputElement>(null);
     const currentPasswordInput = useRef<HTMLInputElement>(null);
@@ -33,7 +35,10 @@ export default function UpdatePasswordForm({
 
         put(route('password.update'), {
             preserveScroll: true,
-            onSuccess: () => reset(),
+            onSuccess: () => {
+                reset();
+                onClose?.();
+            },
             onError: (errors) => {
                 if (errors.password) {
                     reset('password', 'password_confirmation');
@@ -48,14 +53,17 @@ export default function UpdatePasswordForm({
         });
     };
 
+    useEffect(() => {
+        if (recentlySuccessful) {
+            toast.success('Password updated successfully!');
+            onClose?.();
+        }
+    }, [recentlySuccessful]);
+
     return (
         <section className={className}>
             <header>
-                <h2 className="text-lg font-medium text-gray-900">
-                    Update Password
-                </h2>
-
-                <p className="mt-1 text-sm text-gray-600">
+                <p className="text-sm text-gray-600">
                     Ensure your account is using a long, random password to stay
                     secure.
                 </p>
@@ -68,7 +76,7 @@ export default function UpdatePasswordForm({
                         value="Current Password"
                     />
 
-                    <TextInput
+                    <Input
                         id="current_password"
                         ref={currentPasswordInput}
                         value={data.current_password}
@@ -89,7 +97,7 @@ export default function UpdatePasswordForm({
                 <div>
                     <InputLabel htmlFor="password" value="New Password" />
 
-                    <TextInput
+                    <Input
                         id="password"
                         ref={passwordInput}
                         value={data.password}
@@ -108,7 +116,7 @@ export default function UpdatePasswordForm({
                         value="Confirm Password"
                     />
 
-                    <TextInput
+                    <Input
                         id="password_confirmation"
                         value={data.password_confirmation}
                         onChange={(e) =>
@@ -126,9 +134,9 @@ export default function UpdatePasswordForm({
                 </div>
 
                 <div className="flex items-center gap-4">
-                    <PrimaryButton disabled={processing}>Save</PrimaryButton>
+                    <Button disabled={processing}>Save</Button>
 
-                    <Transition
+                    {/* <Transition
                         show={recentlySuccessful}
                         enter="transition ease-in-out"
                         enterFrom="opacity-0"
@@ -138,7 +146,7 @@ export default function UpdatePasswordForm({
                         <p className="text-sm text-gray-600">
                             Saved.
                         </p>
-                    </Transition>
+                    </Transition> */}
                 </div>
             </form>
         </section>

@@ -1,6 +1,6 @@
 import { CheckCircle, Clock, Truck, Package } from "lucide-react"
 
-export default function TransactionHistory() {
+export default function StatusOrder() {
   const orders = [
     {
       id: "#INV-1023",
@@ -25,7 +25,7 @@ export default function TransactionHistory() {
   return (
     <div className="bg-white p-6 rounded-xl shadow">
       <h3 className="text-lg font-semibold text-gray-700 mb-4">
-        Transaction History
+        Status Order
       </h3>
 
       <div className="space-y-6">
