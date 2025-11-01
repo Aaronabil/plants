@@ -50,6 +50,10 @@ Route::get('/checkout', function () {
     return Inertia::render('Checkout/Show');
 })->name('checkout');
 
+Route::get('/access-denied', function () {
+    return Inertia::render('AccessDenied');
+})->name('access-denied');
+
 
 // Route Admin
 Route::prefix('admin')->group(function () {
