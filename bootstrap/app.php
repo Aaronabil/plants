@@ -3,6 +3,8 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Inertia\Inertia;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -21,5 +23,15 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        $exceptions->render(function (HttpException $e, $request) {
+            $status = $e->getStatusCode();
+
+            if ($status === 404) {
+                return Inertia::render('NotFound')->toResponse($request)->setStatusCode($status);
+            }
+
+            if ($status === 403) {
+                return Inertia::render('AccessDenied')->toResponse($request)->setStatusCode($status);
+            }
+        });
     })->create();
