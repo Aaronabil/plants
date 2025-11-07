@@ -7,9 +7,11 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\Auth\AdminController;
+use App\Models\Product;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\Admin\InventoryController; // Impor controller inventaris Anda
 
 // Route::get('/', function () {
 //     return Inertia::render('Index', [
@@ -60,7 +62,6 @@ Route::prefix('admin')->group(function () {
     Route::get('login', [AdminController::class, 'create'])->name('admin.login');
     Route::post('login', [AdminController::class, 'store']);
     Route::post('logout', [AdminController::class, 'destroy'])->name('admin.logout');
-
     Route::middleware(['auth:admin'])->group(function () {
         Route::get('dashboard', function () {
             return Inertia::render('Admin/Dashboard/Page');
@@ -73,9 +74,7 @@ Route::prefix('admin')->group(function () {
         Route::post('product/store', [ProductController::class, 'store'])->name('admin.product.store');
         Route::patch('product/{product}', [ProductController::class, 'update'])->name('admin.product.update');
         Route::delete('product/{product}', [ProductController::class, 'destroy'])->name('admin.product.destroy');
-        Route::get('inventory', function () {
-            return Inertia::render('Admin/Inventory/Page');
-        })->name('admin.inventory');
+        Route::get('inventory', [InventoryController::class, 'index'])->name('admin.inventory');
         Route::get('customer', function () {
             return Inertia::render('Admin/Customer/Page');
         })->name('admin.customer');
