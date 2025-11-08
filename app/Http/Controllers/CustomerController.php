@@ -17,4 +17,11 @@ class CustomerController extends Controller
             'customers' => $customers,
         ]);
     }
+
+    public function destroy(User $customer)
+    {
+        $customer->delete();
+
+        return redirect()->back()->with('success', 'Customer deleted permanently.');
+    }
 }
