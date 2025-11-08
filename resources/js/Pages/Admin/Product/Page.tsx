@@ -26,7 +26,7 @@ import {
     MoreHorizontal,
     PlusCircle,
 } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
     Dialog,
     DialogContent,
@@ -40,6 +40,7 @@ import EditProductForm from './EditProductForm';
 import DeleteProductModal from './DeleteProductModal';
 import { Category } from '../Category/Columns';
 import { Product } from '@/types';
+import { Input } from '@/Components/ui/input';
 
 interface PageProps {
     products: {
@@ -56,6 +57,7 @@ export default function PageProduct({ products, categories }: PageProps) {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+    const [search, setSearch] = useState('');
 
     const handleEdit = (product: Product) => {
         setSelectedProduct(product);
@@ -198,17 +200,36 @@ export default function PageProduct({ products, categories }: PageProps) {
                                 <CardDescription>
                                     Manage your product and view their sales performance.
                                 </CardDescription>
+                                <Input
+                                    type="search"
+                                    placeholder="Filter by name, email, etc..."
+                                    className="w-full appearance-none bg-background shadow-none md:w-2/3 lg:w-1/3"
+                                    value={search} 
+                                    onChange={(e) => setSearch(e.target.value)}
+                                />
                             </CardHeader>
                             <CardContent>
                                 <DataTable
                                     columns={columnsWithActions}
                                     data={products.data}
+                                    globalFilter={search}
                                     serverSide={true}
                                     total={products.total}
                                     page={products.current_page}
                                     perPage={products.per_page}
                                     onPageChange={(newPage, newPerPage) => {
-                                        router.get(route('admin.product'), { page: newPage, per_page: newPerPage }, { preserveState: true, preserveScroll: true })
+                                        router.get(
+                                            route('admin.product'),
+                                            {
+                                                page: newPage,
+                                                per_page: newPerPage,
+                                                search: search
+                                            },
+                                            {
+                                                preserveState: true,
+                                                preserveScroll: true
+                                            }
+                                        );
                                     }}
                                 />
                             </CardContent>
