@@ -23,7 +23,7 @@ import {
 } from '@/Components/ui/card';
 import { DataTable } from './DataTable';
 import { Input } from '@/Components/ui/input';
-import { useState } from 'react'; // Import useState
+import { useState } from 'react';
 
 interface PageProps {
     customers: {
@@ -35,7 +35,6 @@ interface PageProps {
 }
 
 export default function PageCustomer({ customers }: PageProps) {
-    // State untuk menyimpan nilai input pencarian
     const [search, setSearch] = useState('');
 
     const columnsWithActions = columns.map(col => {
@@ -144,16 +143,16 @@ export default function PageCustomer({ customers }: PageProps) {
                                     type="search"
                                     placeholder="Filter by name, email, etc..."
                                     className="w-full appearance-none bg-background shadow-none md:w-2/3 lg:w-1/3"
-                                    value={search} // Mengikat nilai input ke state 'search'
-                                    onChange={(e) => setSearch(e.target.value)} // Memperbarui state 'search' saat input berubah
+                                    value={search}
+                                    onChange={(e) => setSearch(e.target.value)}
                                 />
                             </CardHeader>
                             <CardContent>
                                 <DataTable
                                     columns={columnsWithActions}
                                     data={customers.data}
-                                    globalFilter={search} // Meneruskan nilai pencarian sebagai globalFilter
-                                    serverSide={false} // Mengatur serverSide menjadi false untuk client-side filtering dan pagination
+                                    globalFilter={search} 
+                                    serverSide={false}
                                 />
                             </CardContent>
                         </Card>

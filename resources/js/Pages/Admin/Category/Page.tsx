@@ -38,6 +38,7 @@ import CreateCategoryForm from './CreateCategoryForm';
 import EditCategoryForm from './EditCategoryForm';
 import DeleteCategoryModal from './DeleteCategoryModal';
 import { toast } from 'sonner';
+import { Input } from '@/Components/ui/input';
 
 interface PageProps {
     categories: {
@@ -54,6 +55,7 @@ export default function PageCategory({ categories, parentCategories }: PageProps
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
+    const [search, setSearch] = useState('');
 
     const handleEdit = (category: Category) => {
         setSelectedCategory(category);
@@ -187,17 +189,36 @@ export default function PageCategory({ categories, parentCategories }: PageProps
                                 <CardDescription>
                                     Manage your product categories and view their sales performance.
                                 </CardDescription>
+                                <Input
+                                    type="search"
+                                    placeholder="Filter by name, email, etc..."
+                                    className="w-full appearance-none bg-background shadow-none md:w-2/3 lg:w-1/3"
+                                    value={search}
+                                    onChange={(e) => setSearch(e.target.value)}
+                                />
                             </CardHeader>
                             <CardContent>
                                 <DataTable
                                     columns={columnsWithActions}
                                     data={categories.data}
+                                    globalFilter={search}
                                     serverSide={true}
                                     total={categories.total}
                                     page={categories.current_page}
                                     perPage={categories.per_page}
                                     onPageChange={(newPage, newPerPage) => {
-                                        router.get(route('admin.category'), { page: newPage, per_page: newPerPage }, { preserveState: true, preserveScroll: true })
+                                        router.get(
+                                            route('admin.category'),
+                                            {
+                                                page: newPage,
+                                                per_page: newPerPage,
+                                                search: search
+                                            },
+                                            {
+                                                preserveState: true,
+                                                preserveScroll: true
+                                            }
+                                        );
                                     }}
                                 />
                             </CardContent>

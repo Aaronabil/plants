@@ -32,10 +32,10 @@ interface DataTableProps<TData, TValue> {
     // server-side pagination props (optional)
     serverSide?: boolean
     total?: number
-    page?: number // 1-based
+    page?: number
     perPage?: number
     onPageChange?: (page: number, perPage: number) => void
-    globalFilter?: string // Menambahkan prop globalFilter
+    globalFilter?: string 
 }
 
 export function DataTable<TData, TValue>({
@@ -46,18 +46,17 @@ export function DataTable<TData, TValue>({
     page = 1,
     perPage = 10,
     onPageChange,
-    globalFilter, // Menerima globalFilter
+    globalFilter, 
 }: DataTableProps<TData, TValue>) {
     const table = useReactTable({
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
-        getFilteredRowModel: getFilteredRowModel(), // Mengaktifkan filtering global
+        getFilteredRowModel: getFilteredRowModel(), 
         state: {
-            globalFilter, // Meneruskan globalFilter ke TanStack Table
+            globalFilter, 
         },
-        manualPagination: serverSide, // Pagination manual hanya jika serverSide true
-        // server-side: do NOT use getPaginationRowModel (we handle pages on server)
+        manualPagination: serverSide,
     })
 
     const pageCount = serverSide ? Math.max(1, Math.ceil(total / perPage)) : table.getPageCount()
