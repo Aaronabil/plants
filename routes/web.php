@@ -77,6 +77,7 @@ Route::prefix('admin')->group(function () {
         Route::delete('product/{product}', [ProductController::class, 'destroy'])->name('admin.product.destroy');
         Route::get('inventory', [InventoryController::class, 'index'])->name('admin.inventory');
         Route::get('customer', [CustomerController::class, 'index'])->name('admin.customer');
+        Route::delete('customer/{customer}', [CustomerController::class, 'destroy'])->name('admin.customer.destroy');
         Route::get('recent', function () {
             return Inertia::render('Admin/Recent/Page');
         })->name('admin.recent');
