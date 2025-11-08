@@ -79,11 +79,6 @@ export const columns: ColumnDef<User>[] = [
                             Customer Details
                         </DropdownMenuItem>
                         <DropdownMenuItem
-                            className="text-green-600"
-                        >
-                            Order History
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
                             className="text-red-600"
                         >
                             Delete
