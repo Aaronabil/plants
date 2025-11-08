@@ -21,9 +21,19 @@ import {
     CardHeader,
     CardTitle,
 } from '@/Components/ui/card';
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from '@/Components/ui/dialog';
 import { DataTable } from './DataTable';
 import { Input } from '@/Components/ui/input';
 import { useState } from 'react';
+import CustomerDetailsForm from './CustomerDetailsForm';
+import DeleteCustomerModal from './DeleteCustomerModal';
+import { toast } from 'sonner';
 
 interface PageProps {
     customers: {
@@ -35,7 +45,35 @@ interface PageProps {
 }
 
 export default function PageCustomer({ customers }: PageProps) {
+    const [isCustomerModalOpen, setIsCustomerModalOpen] = useState(false);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const [selectedCustomer, setSelectedCustomer] = useState<User | null>(null);
     const [search, setSearch] = useState('');
+
+    const handleCustomer = (user: User) => {
+        setSelectedCustomer(user);
+        setIsCustomerModalOpen(true);
+    };
+
+    const confirmDelete = () => {
+        if (selectedCustomer) {
+            router.delete(route('admin.customer.destroy', { customer: selectedCustomer.id }), {
+                onSuccess: () => {
+                    toast.success('Customer deleted successfully');
+                    setIsDeleteModalOpen(false);
+                    setSelectedCustomer(null);
+                },
+                onError: (errors) => {
+                    toast.error(errors.error || 'Failed to delete product');
+                }
+            });
+        }
+    };
+
+    const handleDelete = (user: User) => {
+        setSelectedCustomer(user);
+        setIsDeleteModalOpen(true);
+    };
 
     const columnsWithActions = columns.map(col => {
         if (col.id === 'actions') {
@@ -54,17 +92,14 @@ export default function PageCustomer({ customers }: PageProps) {
                             <DropdownMenuContent align="end">
                                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                 <DropdownMenuItem
-                                    className="text-green-700"  
+                                    className="text-green-700"
+                                    onClick={() => handleCustomer(user)}
                                 >
                                     Customer Details
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
-                                    className="text-green-600"
-                                >
-                                    Order History
-                                </DropdownMenuItem>
-                                <DropdownMenuItem
                                     className="text-red-600"
+                                    onClick={() => handleDelete(user)}
                                 >
                                     Delete
                                 </DropdownMenuItem>
@@ -151,13 +186,36 @@ export default function PageCustomer({ customers }: PageProps) {
                                 <DataTable
                                     columns={columnsWithActions}
                                     data={customers.data}
-                                    globalFilter={search} 
+                                    globalFilter={search}
                                     serverSide={false}
                                 />
                             </CardContent>
                         </Card>
                     </TabsContent>
                 </Tabs>
+
+                {selectedCustomer && (
+                    <>
+                        <Dialog open={isCustomerModalOpen} onOpenChange={setIsCustomerModalOpen}>
+                            <DialogContent className="max-h-[90vh] overflow-y-auto">
+                                <DialogHeader>
+                                    <DialogTitle>Customer Details</DialogTitle>
+                                </DialogHeader>
+                                <CustomerDetailsForm
+                                    user={selectedCustomer}
+                                    onSuccess={() => setIsCustomerModalOpen(false)}
+                                />
+                            </DialogContent>
+                        </Dialog>
+
+                        <DeleteCustomerModal
+                            user={selectedCustomer}
+                            isOpen={isDeleteModalOpen}
+                            onClose={() => setIsDeleteModalOpen(false)}
+                            onConfirm={confirmDelete}
+                        />
+                    </>
+                )}
             </AdminLayout>
         </>
     )
