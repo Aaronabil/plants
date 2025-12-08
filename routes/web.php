@@ -6,9 +6,13 @@ use App\Http\Controllers\ShopController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\Admin\InventoryController;
 use App\Http\Controllers\Auth\AdminController;
+use App\Http\Controllers\RajaongkirController;
+use App\Http\Controllers\ShippingController;
 use App\Models\Product;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -37,6 +41,12 @@ Route::middleware('auth')->group(function () {
     Route::patch('/cart/{cartItem}', [CartController::class, 'update'])->name('cart.update');
     Route::delete('/cart/{cartItem}', [CartController::class, 'destroy'])->name('cart.destroy');
     Route::post('/cart/destroy-multiple', [CartController::class, 'destroyMultiple'])->name('cart.destroy-multiple');
+    Route::get('/checkout', [CheckoutController::class, 'show'])->name('checkout.show');
+    Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
+    Route::prefix('rajaongkir/search')->name('rajaongkir.search.')->group(function () {
+    Route::get('/destinations', [RajaOngkirController::class, 'searchDestinations'])->name('destinations');
+    Route::post('/calculate-cost', [RajaOngkirController::class, 'calculateDirectCost'])->name('calculate');
+});
 });
 require __DIR__.'/auth.php';
 Route::get('/category', function () {
@@ -49,9 +59,6 @@ Route::get('/product/{product:slug}', [ProductController::class, 'show'])->name(
 Route::get('/about', function () {
     return Inertia::render('AboutUs');
 })->name('about');
-Route::get('/checkout', function () {
-    return Inertia::render('Checkout/Show');
-})->name('checkout');
 
 Route::get('/access-denied', function () {
     return Inertia::render('AccessDenied');

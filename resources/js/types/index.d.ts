@@ -53,6 +53,7 @@ export interface CartItem {
         id: number;
         product_name: string;
         price: number;
+        weight_in_kilograms: number;
         images: Array<{
             image_url: string;
             is_primary: boolean;

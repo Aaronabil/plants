@@ -88,6 +88,10 @@ export default function Edit({
                     <strong className="font-semibold w-16 inline-block">Email:</strong>
                     {user.email || "-"}
                   </p>
+                  <p>
+                    <strong className="font-semibold w-16 inline-block">Phone:</strong>
+                    {user.phone || "-"}
+                  </p>
                 </CardContent>
               </Card>
 
