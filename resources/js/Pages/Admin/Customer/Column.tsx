@@ -52,6 +52,7 @@ export const columns: ColumnDef<User>[] = [
         cell: ({ row }) => {
             const phone = row.getValue("phone") as number;
             if (!phone) return "-";
+            return phone;
         },
     },
     {

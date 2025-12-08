@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
+use App\Models\Payment;
+use Midtrans\Config;
+use Midtrans\Snap;
+
 class OrderController extends Controller
 {
     public function store(Request $request)
@@ -21,6 +25,7 @@ class OrderController extends Controller
             'shipping_address' => 'nullable|string',
             'total_amount' => 'required|numeric',
             'shipping_fee' => 'required|numeric',
+            'payment_method' => 'required|in:cod,bank',
         ]);
 
         DB::beginTransaction();
@@ -51,16 +56,64 @@ class OrderController extends Controller
                 ]);
             }
 
+            // Create Payment Record
+            $paymentMethod = $request->payment_method === 'cod' ? 'COD' : 'MIDTRANS';
+            
+            $payment = Payment::create([
+                'order_id' => $order->id,
+                'invoice_number' => $order->invoice,
+                'amount' => $order->total_amount,
+                'payment_method' => $paymentMethod,
+                'status' => 'PENDING',
+            ]);
+
+            $snapToken = null;
+
+            if ($paymentMethod === 'MIDTRANS') {
+                // Configure Midtrans
+                Config::$serverKey = config('services.midtrans.server_key');
+                Config::$isProduction = config('services.midtrans.is_production');
+                Config::$isSanitized = true;
+                Config::$is3ds = true;
+
+                $params = [
+                    'transaction_details' => [
+                        'order_id' => $payment->invoice_number, // Use invoice number as order_id for Midtrans
+                        'gross_amount' => (int) $order->total_amount,
+                    ],
+                    'customer_details' => [
+                        'first_name' => $user->name,
+                        'email' => $user->email, 
+                        'phone' => $user->phone ?? '', 
+                    ],
+                ];
+
+                $snapToken = Snap::getSnapToken($params);
+                
+                // Update implementation plan to just save the snap token if needed, or just return it. 
+                // We don't save snap token in DB currently, but we return it.
+                // Optionally save check $payment->transaction_id = $snapToken.
+            }
+
             // Clear the cart items that have been ordered
             CartItem::whereIn('id', $request->cart_items)->where('user_id', $user->id)->delete();
 
             DB::commit();
 
-            return redirect()->route('home')->with('success', 'Order placed successfully!');
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Order placed successfully!',
+                'order_id' => $order->id,
+                'snap_token' => $snapToken,
+                'payment_method' => $request->payment_method
+            ]);
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Failed to place order. Please try again.');
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Failed to place order: ' . $e->getMessage()
+            ], 500);
         }
     }
 }

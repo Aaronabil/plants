@@ -65,6 +65,11 @@ Route::get('/access-denied', function () {
 })->name('access-denied');
 
 
+
+// Midtrans Callback
+use App\Http\Controllers\PaymentCallbackController;
+Route::post('/api/midtrans-callback', [PaymentCallbackController::class, 'receive']);
+
 // Route Admin
 Route::prefix('admin')->group(function () {
     Route::get('login', [AdminController::class, 'create'])->name('admin.login');

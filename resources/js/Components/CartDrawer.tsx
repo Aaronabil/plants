@@ -116,7 +116,7 @@ export default function CartDrawer({ isOpen, onClose, cartItems }: CartDrawerPro
       return;
     }
     router.get(route('checkout.show'), {
-      items: selectedItems
+        items: selectedItems
     }, {
       preserveState: true,
       onSuccess: () => onClose(),

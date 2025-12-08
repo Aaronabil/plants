@@ -29,12 +29,20 @@ class CheckoutController extends Controller
             return redirect()->route('home')->with('error', 'Selected items not found in your cart.');
         }
         
-        return Inertia::render('Checkout/Show', [
+        $isProduction = config('services.midtrans.is_production');
+        $snapUrl = $isProduction 
+            ? 'https://app.midtrans.com/snap/snap.js' 
+            : 'https://app.sandbox.midtrans.com/snap/snap.js';
+
+        return Inertia::render('Checkout', [
             'cartItems' => $cartItems,
             'user' => [
                 'name' => $user->name,
                 'email' => $user->email,
+                'phone' => $user->phone,
             ],
+            'midtrans_client_key' => config('services.midtrans.client_key'),
+            'midtrans_snap_url' => $snapUrl,
             // 'provinces' => $provinces,
         ]);
     }
