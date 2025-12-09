@@ -7,7 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
-use App\Http\Controllers\OrderController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\Admin\InventoryController;
 use App\Http\Controllers\Auth\AdminController;
@@ -92,9 +92,9 @@ Route::prefix('admin')->group(function () {
         Route::get('customer', [CustomerController::class, 'index'])->name('admin.customer');
         Route::delete('customer/{customer}', [CustomerController::class, 'destroy'])->name('admin.customer.destroy');
         Route::get('recent', [RecentTransactionController::class, 'index'])->name('admin.recent');
-        Route::get('orders', function () {
-            return Inertia::render('Admin/Orders/Page');
-        })->name('admin.orders');
+        Route::get('orders', [OrderController::class, 'index'])->name('admin.orders');
+        Route::get('orders/{order}', [OrderController::class, 'show'])->name('admin.orders.show');
+        Route::patch('orders/{order}/status', [OrderController::class, 'updateStatus'])->name('admin.orders.update-status');
         Route::get('profile', function () { 
             return Inertia::render('Admin/Profile/Edit');
         })->name('admin.profile.edit');

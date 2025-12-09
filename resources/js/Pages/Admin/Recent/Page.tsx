@@ -37,10 +37,6 @@ export default function PageRecent({ payments }: PageProps) {
     return (
         <AdminLayout>
             <Head title="Recent Transactions" />
-            <div className="flex items-center mb-6">
-                <h1 className="text-lg font-semibold md:text-2xl">Recent Transactions</h1>
-            </div>
-
             <Card>
                 <CardHeader>
                     <CardTitle>Transaction History</CardTitle>

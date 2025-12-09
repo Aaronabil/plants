@@ -8,16 +8,17 @@ interface CustomerDeetailsFormProps {
 }
 
 export default function CustomerDetailsForm({ user, onSuccess }: CustomerDeetailsFormProps) {
-    // Dummy data for addresses and orders
-    const addresses = [
-        { id: 1, address: "123 Main St, Anytown, USA" },
-        { id: 2, address: "456 Oak Ave, Sometown, USA" },
-    ];
+    // Get orders from user relation
+    const orders = user.orders || [];
 
-    const orders = [
-        { id: 'ORD-001', date: "2023-10-26", status: "Completed" },
-        { id: 'ORD-002', date: "2023-10-27", status: "Processing" },
-    ];
+    // Get unique addresses from orders
+    const uniqueAddresses = Array.from(
+        new Set(
+            orders
+                .map(o => o.shipping_address)
+                .filter((addr): addr is string => !!addr)
+        )
+    );
 
     return (
         <div>
@@ -44,11 +45,17 @@ export default function CustomerDetailsForm({ user, onSuccess }: CustomerDeetail
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {addresses.map((address) => (
-                                <TableRow key={address.id}>
-                                    <TableCell>{address.address}</TableCell>
+                            {uniqueAddresses.length > 0 ? (
+                                uniqueAddresses.map((address, index) => (
+                                    <TableRow key={index}>
+                                        <TableCell>{address}</TableCell>
+                                    </TableRow>
+                                ))
+                            ) : (
+                                <TableRow>
+                                    <TableCell colSpan={1} className="text-center">No addresses found.</TableCell>
                                 </TableRow>
-                            ))}
+                            )}
                         </TableBody>
                     </Table>
                 </CardContent>
@@ -68,13 +75,22 @@ export default function CustomerDetailsForm({ user, onSuccess }: CustomerDeetail
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {orders.map((order) => (
-                                <TableRow key={order.id}>
-                                    <TableCell>{order.id}</TableCell>
-                                    <TableCell>{order.date}</TableCell>
-                                    <TableCell>{order.status}</TableCell>
+                            {orders.length > 0 ? (
+                                orders.map((order) => {
+                                    
+                                    return (
+                                        <TableRow key={order.id}>
+                                            <TableCell>{order.invoice}</TableCell>
+                                            <TableCell>{new Date(order.created_at).toLocaleDateString("id-ID")}</TableCell>
+                                            <TableCell>{order.payment_status}</TableCell>
+                                        </TableRow>
+                                    );
+                                })
+                            ) : (
+                                <TableRow>
+                                    <TableCell colSpan={3} className="text-center">No orders found.</TableCell>
                                 </TableRow>
-                            ))}
+                            )}
                         </TableBody>
                     </Table>
                 </CardContent>

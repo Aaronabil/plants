@@ -35,6 +35,20 @@ export interface ProductsProp {
     // such as current_page, last_page, total, from, to, per_page, links, etc.
 }
 
+export interface Order {
+    id: number;
+    user_id: number;
+    invoice: string;
+    total_amount: string;
+    shipping_type: 'DELIVERY' | 'PICKUP';
+    shipping_fee: string;
+    shipping_address: string | null;
+    payment_status: 'AWAITING_PAYMENT' | 'PAID' | 'FAILED' | 'CANCELLED' | 'EXPIRED';
+    delivery_status: 'PROCESSING' | 'SHIPPING' | 'DELIVERED' | 'COMPLETED';
+    created_at: string;
+    updated_at: string;
+}
+
 export interface User {
     id: number;
     name: string;
@@ -42,6 +56,7 @@ export interface User {
     phone?: string;
     created_at: string;
     email_verified_at?: string;
+    orders?: Order[];
 }
 
 export interface CartItem {

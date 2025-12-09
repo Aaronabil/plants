@@ -19,4 +19,13 @@ class Order extends Model
         'payment_status',
         'delivery_status',
     ];
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function items()
+    {
+        return $this->hasMany(OrderItem::class);
+    }
 }
