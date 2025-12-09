@@ -12,6 +12,7 @@ import {
     DropdownMenuLabel,
     DropdownMenuTrigger,
 } from "@/Components/ui/dropdown-menu"
+import { format } from 'date-fns'
 
 export type Category = {
     id: number
@@ -77,9 +78,8 @@ export const columns: ColumnDef<Category>[] = [
     },
     {
         accessorKey: "created_at",
-        header: () => {
-            return <div className="text-neutral-700 font-semibold w-[100px]">Created at</div>
-        },
+        header: () => <div className="text-neutral-700 font-semibold w-[100px]">Created at</div>,
+        cell: ({ row }) => format(new Date(row.original.created_at), "dd MMM yyyy HH:mm"),
     },
     {
         id: "actions",

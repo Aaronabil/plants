@@ -4,8 +4,7 @@ import {
     ColumnDef,
     flexRender,
     getCoreRowModel,
-    getFilteredRowModel,
-    getPaginationRowModel,
+    getFilteredRowModel, // Import getFilteredRowModel
     useReactTable,
 } from "@tanstack/react-table"
 
@@ -33,10 +32,10 @@ interface DataTableProps<TData, TValue> {
     // server-side pagination props (optional)
     serverSide?: boolean
     total?: number
-    page?: number 
+    page?: number
     perPage?: number
     onPageChange?: (page: number, perPage: number) => void
-    globalFilter?: string
+    globalFilter?: string 
 }
 
 export function DataTable<TData, TValue>({
@@ -47,32 +46,21 @@ export function DataTable<TData, TValue>({
     page = 1,
     perPage = 10,
     onPageChange,
-    globalFilter,
+    globalFilter, 
 }: DataTableProps<TData, TValue>) {
     const table = useReactTable({
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
-        getFilteredRowModel: getFilteredRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
+        getFilteredRowModel: getFilteredRowModel(), 
         state: {
-            globalFilter,
-            ...(serverSide && {
-                pagination: {
-                    pageIndex: page - 1,
-                    pageSize: perPage,
-                },
-            }),
+            globalFilter, 
         },
         manualPagination: serverSide,
-    });
+    })
 
-    const filteredRows = table.getFilteredRowModel().rows;
-    const pageCount = serverSide
-        ? Math.ceil(total / perPage)
-        : Math.ceil(filteredRows.length / perPage);
-
-    const currentPage = serverSide ? page : table.getState().pagination.pageIndex + 1;
+    const pageCount = serverSide ? Math.max(1, Math.ceil(total / perPage)) : table.getPageCount()
+    const currentPage = serverSide ? page : (table.getState().pagination.pageIndex + 1)
 
     return (
         <div>
@@ -115,18 +103,9 @@ export function DataTable<TData, TValue>({
             <div className="flex items-center justify-between space-x-2 py-4">
                 <div className="flex items-center space-x-2">
                     <p className="text-sm font-medium">Rows per page</p>
-                    <Select
-                        value={`${table.getState().pagination.pageSize}`}
-                        onValueChange={(value) => {
-                            if (serverSide && onPageChange) {
-                                onPageChange(1, Number(value));
-                            } else {
-                                table.setPageSize(Number(value));
-                            }
-                        }}
-                    >
+                    <Select value={`${perPage}`} onValueChange={(value) => onPageChange?.(1, Number(value))}>
                         <SelectTrigger className="h-8 w-[70px]">
-                            <SelectValue placeholder={`${table.getState().pagination.pageSize}`} />
+                            <SelectValue placeholder={`${perPage}`} />
                         </SelectTrigger>
                         <SelectContent side="top">
                             {[10, 20, 30, 40, 50].map((pageSize) => (
@@ -141,65 +120,21 @@ export function DataTable<TData, TValue>({
                         Page {currentPage} of {pageCount}
                     </div>
                     <div className="flex items-center space-x-2">
-                        <Button
-                            variant="outline"
-                            className="hidden h-8 w-8 p-0 lg:flex"
-                            onClick={() => {
-                                if (serverSide && onPageChange) {
-                                    onPageChange(1, perPage);
-                                } else {
-                                    table.setPageIndex(0);
-                                }
-                            }}
-                            disabled={currentPage <= 1}
-                        >
+                        <Button variant="outline" className="hidden h-8 w-8 p-0 lg:flex" onClick={() => onPageChange?.(1, perPage)} disabled={currentPage <= 1}>
                             <ChevronsLeft />
                         </Button>
-                        <Button
-                            variant="outline"
-                            className="h-8 w-8 p-0"
-                            onClick={() => {
-                                if (serverSide && onPageChange) {
-                                    onPageChange(Math.max(1, currentPage - 1), perPage);
-                                } else {
-                                    table.previousPage();
-                                }
-                            }}
-                            disabled={currentPage <= 1}
-                        >
+                        <Button variant="outline" className="h-8 w-8 p-0" onClick={() => onPageChange?.(Math.max(1, currentPage - 1), perPage)} disabled={currentPage <= 1}>
                             <ChevronLeft />
                         </Button>
-                        <Button
-                            variant="outline"
-                            className="h-8 w-8 p-0"
-                            onClick={() => {
-                                if (serverSide && onPageChange) {
-                                    onPageChange(Math.min(pageCount, currentPage + 1), perPage);
-                                } else {
-                                    table.nextPage();
-                                }
-                            }}
-                            disabled={currentPage >= pageCount}
-                        >
+                        <Button variant="outline" className="h-8 w-8 p-0" onClick={() => onPageChange?.(Math.min(pageCount, currentPage + 1), perPage)} disabled={currentPage >= pageCount}>
                             <ChevronRight />
                         </Button>
-                        <Button
-                            variant="outline"
-                            className="hidden h-8 w-8 p-0 lg:flex"
-                            onClick={() => {
-                                if (serverSide && onPageChange) {
-                                    onPageChange(pageCount, perPage);
-                                } else {
-                                    table.setPageIndex(table.getPageCount() - 1);
-                                }
-                            }}
-                            disabled={currentPage >= pageCount}
-                        >
+                        <Button variant="outline" className="hidden h-8 w-8 p-0 lg:flex" onClick={() => onPageChange?.(pageCount, perPage)} disabled={currentPage >= pageCount}>
                             <ChevronsRight />
                         </Button>
                     </div>
                 </div>
             </div>
         </div>
-    );
+    )
 }

@@ -6,7 +6,14 @@ use App\Http\Controllers\ShopController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\Admin\InventoryController;
 use App\Http\Controllers\Auth\AdminController;
+use App\Http\Controllers\RajaongkirController;
+use App\Http\Controllers\ShippingController;
+use App\Models\Product;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -34,6 +41,12 @@ Route::middleware('auth')->group(function () {
     Route::patch('/cart/{cartItem}', [CartController::class, 'update'])->name('cart.update');
     Route::delete('/cart/{cartItem}', [CartController::class, 'destroy'])->name('cart.destroy');
     Route::post('/cart/destroy-multiple', [CartController::class, 'destroyMultiple'])->name('cart.destroy-multiple');
+    Route::get('/checkout', [CheckoutController::class, 'show'])->name('checkout.show');
+    Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
+    Route::prefix('rajaongkir/search')->name('rajaongkir.search.')->group(function () {
+    Route::get('/destinations', [RajaOngkirController::class, 'searchDestinations'])->name('destinations');
+    Route::post('/calculate-cost', [RajaOngkirController::class, 'calculateDirectCost'])->name('calculate');
+});
 });
 require __DIR__.'/auth.php';
 Route::get('/category', function () {
@@ -46,21 +59,22 @@ Route::get('/product/{product:slug}', [ProductController::class, 'show'])->name(
 Route::get('/about', function () {
     return Inertia::render('AboutUs');
 })->name('about');
-Route::get('/checkout', function () {
-    return Inertia::render('Checkout/Show');
-})->name('checkout');
 
 Route::get('/access-denied', function () {
     return Inertia::render('AccessDenied');
 })->name('access-denied');
 
 
+
+// Midtrans Callback
+use App\Http\Controllers\PaymentCallbackController;
+Route::post('/api/midtrans-callback', [PaymentCallbackController::class, 'receive']);
+
 // Route Admin
 Route::prefix('admin')->group(function () {
     Route::get('login', [AdminController::class, 'create'])->name('admin.login');
     Route::post('login', [AdminController::class, 'store']);
     Route::post('logout', [AdminController::class, 'destroy'])->name('admin.logout');
-
     Route::middleware(['auth:admin'])->group(function () {
         Route::get('dashboard', function () {
             return Inertia::render('Admin/Dashboard/Page');
@@ -73,12 +87,9 @@ Route::prefix('admin')->group(function () {
         Route::post('product/store', [ProductController::class, 'store'])->name('admin.product.store');
         Route::patch('product/{product}', [ProductController::class, 'update'])->name('admin.product.update');
         Route::delete('product/{product}', [ProductController::class, 'destroy'])->name('admin.product.destroy');
-        Route::get('inventory', function () {
-            return Inertia::render('Admin/Inventory/Page');
-        })->name('admin.inventory');
-        Route::get('customer', function () {
-            return Inertia::render('Admin/Customer/Page');
-        })->name('admin.customer');
+        Route::get('inventory', [InventoryController::class, 'index'])->name('admin.inventory');
+        Route::get('customer', [CustomerController::class, 'index'])->name('admin.customer');
+        Route::delete('customer/{customer}', [CustomerController::class, 'destroy'])->name('admin.customer.destroy');
         Route::get('recent', function () {
             return Inertia::render('Admin/Recent/Page');
         })->name('admin.recent');

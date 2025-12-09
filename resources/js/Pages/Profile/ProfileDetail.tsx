@@ -4,22 +4,14 @@ import { Button } from "@/Components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/Components/ui/card"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/Components/ui/dialog"
 import { Input } from "@/Components/ui/input"
-import { User } from "@/types"
+import { PageProps } from "@/types"
 
-// interface AuthProps {
-//   user?: {
-//     name?: string
-//     email?: string
-//   }
-// }
-
-export default function ProfileSection({ auth }: { auth: User }) {
+export default function ProfileSection({ auth }: { auth: PageProps["auth"] }) {
   const user = auth.user;
   const [open, setOpen] = useState(false)
 
   return (
     <>
-      {/* --- Personal Details Card (Bottom Left Section) --- */}
       <Card className="bg-white rounded-xl shadow p-6 w-full">
         <CardHeader className="flex flex-row items-center justify-between p-0 mb-4">
           <CardTitle className="text-lg font-semibold text-gray-700">

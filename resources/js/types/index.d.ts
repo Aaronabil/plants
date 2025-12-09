@@ -39,6 +39,8 @@ export interface User {
     id: number;
     name: string;
     email: string;
+    phone?: string;
+    created_at: string;
     email_verified_at?: string;
 }
 
@@ -51,6 +53,7 @@ export interface CartItem {
         id: number;
         product_name: string;
         price: number;
+        weight_in_kilograms: number;
         images: Array<{
             image_url: string;
             is_primary: boolean;

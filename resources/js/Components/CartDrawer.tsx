@@ -110,6 +110,19 @@ export default function CartDrawer({ isOpen, onClose, cartItems }: CartDrawerPro
     return sum;
   }, 0);
 
+  const handleCheckout = () => {
+    if (selectedItems.length === 0) {
+      toast.error("Please select items to checkout.");
+      return;
+    }
+    router.get(route('checkout.show'), {
+        items: selectedItems
+    }, {
+      preserveState: true,
+      onSuccess: () => onClose(),
+    });
+  };
+
   const allSelected =
     selectedItems.length > 0 && selectedItems.length === cartItems.length;
 
@@ -257,18 +270,13 @@ export default function CartDrawer({ isOpen, onClose, cartItems }: CartDrawerPro
                     Rp{total.toLocaleString('id-ID')}
                   </span>
                 </div>
-                <Link href="/checkout">
-                  <Button className="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg transition">
-                    Checkout
-                  </Button>
-                </Link>
-
-                {/* <Button
+                <Button
+                  onClick={handleCheckout}
                   className="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg transition"
-                  disabled={cartItems.length === 0}
+                  disabled={selectedItems.length === 0}
                 >
                   Checkout
-                </Button> */}
+                </Button>
               </div>
             </motion.div>
           </>
