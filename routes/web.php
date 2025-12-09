@@ -8,6 +8,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\OrderController as OrderControllerUser;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\Admin\InventoryController;
 use App\Http\Controllers\Auth\AdminController;
@@ -38,12 +39,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::patch('/profile/orders/{order}/complete', [ProfileController::class, 'completeOrder'])->name('profile.orders.complete');
     Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
     Route::patch('/cart/{cartItem}', [CartController::class, 'update'])->name('cart.update');
     Route::delete('/cart/{cartItem}', [CartController::class, 'destroy'])->name('cart.destroy');
     Route::post('/cart/destroy-multiple', [CartController::class, 'destroyMultiple'])->name('cart.destroy-multiple');
     Route::get('/checkout', [CheckoutController::class, 'show'])->name('checkout.show');
-    Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
+    Route::post('/orders', [OrderControllerUser::class, 'store'])->name('orders.store');
     Route::prefix('rajaongkir/search')->name('rajaongkir.search.')->group(function () {
     Route::get('/destinations', [RajaOngkirController::class, 'searchDestinations'])->name('destinations');
     Route::post('/calculate-cost', [RajaOngkirController::class, 'calculateDirectCost'])->name('calculate');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
@@ -21,6 +22,7 @@ class ProfileController extends Controller
         return Inertia::render('Profile/Edit', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
+            'orders' => Order::where('user_id', $request->user()->id)->latest()->get(),
         ]);
     }
 
@@ -59,5 +61,19 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    public function completeOrder(Request $request, Order $order): RedirectResponse
+    {
+        if ($order->user_id !== $request->user()->id) {
+            abort(403);
+        }
+
+        $order->update([
+            'delivery_status' => 'COMPLETED',
+            'payment_status' => 'PAID',
+        ]);
+
+        return Redirect::back()->with('success', 'Order marked as completed.');
     }
 }

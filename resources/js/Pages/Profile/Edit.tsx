@@ -12,11 +12,14 @@ import StatusOrder from './StatusOrder'
 import { Avatar, AvatarFallback } from '@/Components/ui/avatar'
 import GuestLayout from '@/Layouts/GuestLayout'
 
+import { Order } from '@/types'
+
 export default function Edit({
   auth,
   mustVerifyEmail,
   status,
-}: PageProps<{ mustVerifyEmail: boolean; status?: string }>) {
+  orders,
+}: PageProps<{ mustVerifyEmail: boolean; status?: string; orders: Order[] }>) {
   const [currentStep, setCurrentStep] = useState(2)
   const steps = [
     'Waiting Payment',
@@ -122,7 +125,7 @@ export default function Edit({
                   />
                 </DialogContent>
               </Dialog>
-              <StatusOrder />
+              <StatusOrder orders={orders} />
             </div>
           </div>
         </div>
