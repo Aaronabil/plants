@@ -30,7 +30,6 @@ import { ChevronRight, ChevronsRight, ChevronLeft, ChevronsLeft } from "lucide-r
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
-    // server-side pagination props (optional)
     serverSide?: boolean
     total?: number
     page?: number
@@ -111,7 +110,6 @@ export function DataTable<TData, TValue>({
                 </Table>
             </div>
 
-            {/* Pagination controls */}
             <div className="flex items-center justify-between space-x-2 py-4">
                 <div className="flex items-center space-x-2">
                     <p className="text-sm font-medium">Rows per page</p>
@@ -153,7 +151,7 @@ export function DataTable<TData, TValue>({
                             }}
                             disabled={currentPage <= 1}
                         >
-                            <ChevronsLeft />
+                            <ChevronsLeft className="h-4 w-4" />
                         </Button>
                         <Button
                             variant="outline"
@@ -167,7 +165,7 @@ export function DataTable<TData, TValue>({
                             }}
                             disabled={currentPage <= 1}
                         >
-                            <ChevronLeft />
+                            <ChevronLeft className="h-4 w-4" />
                         </Button>
                         <Button
                             variant="outline"
@@ -181,7 +179,7 @@ export function DataTable<TData, TValue>({
                             }}
                             disabled={currentPage >= pageCount}
                         >
-                            <ChevronRight />
+                            <ChevronRight className="h-4 w-4" />
                         </Button>
                         <Button
                             variant="outline"
@@ -195,7 +193,7 @@ export function DataTable<TData, TValue>({
                             }}
                             disabled={currentPage >= pageCount}
                         >
-                            <ChevronsRight />
+                            <ChevronsRight className="h-4 w-4" />
                         </Button>
                     </div>
                 </div>

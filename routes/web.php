@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\InventoryController;
 use App\Http\Controllers\Auth\AdminController;
 use App\Http\Controllers\RajaongkirController;
 use App\Http\Controllers\ShippingController;
+use App\Http\Controllers\Admin\RecentTransactionController;
 use App\Models\Product;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -90,9 +91,7 @@ Route::prefix('admin')->group(function () {
         Route::get('inventory', [InventoryController::class, 'index'])->name('admin.inventory');
         Route::get('customer', [CustomerController::class, 'index'])->name('admin.customer');
         Route::delete('customer/{customer}', [CustomerController::class, 'destroy'])->name('admin.customer.destroy');
-        Route::get('recent', function () {
-            return Inertia::render('Admin/Recent/Page');
-        })->name('admin.recent');
+        Route::get('recent', [RecentTransactionController::class, 'index'])->name('admin.recent');
         Route::get('orders', function () {
             return Inertia::render('Admin/Orders/Page');
         })->name('admin.orders');
