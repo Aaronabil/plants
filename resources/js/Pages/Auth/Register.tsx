@@ -2,7 +2,7 @@ import { Flower } from "lucide-react"
 // import { RegisterForm } from "@/Components/register-form"
 import InputError from '@/Components/InputError';
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { Button } from "@/Components/ui/button"
 import { Input } from "@/Components/ui/input"
 import { Label } from "@/Components/ui/label"
 import { useForm } from '@inertiajs/react';

@@ -1,17 +1,12 @@
 import React from "react";
-import { Head, usePage } from "@inertiajs/react";
-import Header from "@/Pages/Layouts/Header";
+import { Head } from "@inertiajs/react";
+import GuestLayout from "@/Layouts/GuestLayout";
 import { motion } from "framer-motion";
 
 const AboutUs: React.FC = () => {
-  const { props } = usePage();
-  const auth = (props as any).auth;
-
   return (
-    <>
+    <GuestLayout>
       <Head title="About Us" />
-      <Header auth={auth} />
-
       <div className="min-h-screen bg-[#f9f8f3] text-gray-800">
         {/* Hero Section */}
         <section className="max-w-6xl mx-auto px-6 py-20 text-center">
@@ -22,7 +17,7 @@ const AboutUs: React.FC = () => {
             className="text-4xl md:text-5xl font-extrabold text-green-800 mb-6"
           >
             About Us
-          
+
           </motion.h1>
 
           <motion.p
@@ -59,7 +54,7 @@ const AboutUs: React.FC = () => {
             </h2>
             <p className="text-gray-600 mb-4 leading-relaxed">
               We present indoor plants that can boost your mood, improve air quality, and enhance comfort in your home.
- 
+
             </p>
             <a
               href="/shop"
@@ -73,26 +68,26 @@ const AboutUs: React.FC = () => {
         {/* Section 2 */}
         <section className="max-w-6xl mx-auto px-6 py-16 grid md:grid-cols-2 gap-10 items-center">
           <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              className="order-2 md:order-1"
-            >
-              <h2 className="text-2xl font-semibold text-green-800 mb-3 text-right">
-                Direct Collection From Farmers
-              </h2>
-              <p className="text-gray-600 mb-4 leading-relaxed text-right">
-                All our plants are sourced directly from selected local farmers. This way, every plant you purchase comes with the best quality.
-              </p>
-              <div className="flex justify-end">
-                <a
-                  href="/shop"
-                  className="inline-block px-6 py-2 bg-green-700 text-white rounded-md hover:bg-green-800 transition-colors"
-                >
-                  Buy Now
-                </a>
-              </div>
-            </motion.div>
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            className="order-2 md:order-1"
+          >
+            <h2 className="text-2xl font-semibold text-green-800 mb-3 text-right">
+              Direct Collection From Farmers
+            </h2>
+            <p className="text-gray-600 mb-4 leading-relaxed text-right">
+              All our plants are sourced directly from selected local farmers. This way, every plant you purchase comes with the best quality.
+            </p>
+            <div className="flex justify-end">
+              <a
+                href="/shop"
+                className="inline-block px-6 py-2 bg-green-700 text-white rounded-md hover:bg-green-800 transition-colors"
+              >
+                Buy Now
+              </a>
+            </div>
+          </motion.div>
 
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -141,7 +136,7 @@ const AboutUs: React.FC = () => {
           </motion.div>
         </section>
       </div>
-    </>
+    </GuestLayout>
   );
 };
 
