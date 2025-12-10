@@ -22,7 +22,7 @@ const HeroSection: React.FC = () => {
             <p className="text-neutral-100 font-semibold mb-2">Bring nature closer to your home</p>
             <h1 className="text-4xl lg:text-6xl font-bold text-neutral-100 leading-tight">
                 Style Your Space <br />
-                With <span className="text-neutral-100">Lush, Living Greens test ombak 3 kali</span>
+                With <span className="text-neutral-100">Lush, Living Greens test ombak 4 kali</span>
             </h1>
             <p className="text-neutral-100 mt-6">
                 Discover curated indoor and outdoor plants that refresh your home and bring calm to your everyday life.
