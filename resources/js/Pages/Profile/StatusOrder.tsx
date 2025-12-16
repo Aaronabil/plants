@@ -4,13 +4,63 @@ import { router } from "@inertiajs/react";
 import { CheckCircle, Clock, Truck, Package, Check } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/Components/ui/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/Components/ui/alert-dialog';
 
 interface StatusOrderProps {
   orders?: Order[];
 }
 
+interface CancelOrderModalProps {
+  order: Order | null;
+  isOpen: boolean;
+  onClose: () => void;
+  onConfirm: (orderId: number) => void;
+}
+
+function CancelOrderModal({ order, isOpen, onClose, onConfirm }: CancelOrderModalProps) {
+  if (!order) return null;
+
+  const handleConfirm = () => {
+    onConfirm(order.id);
+    onClose();
+  };
+
+  return (
+    <AlertDialog open={isOpen} onOpenChange={onClose}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Order Cancellation Confirmation</AlertDialogTitle>
+          <AlertDialogDescription>
+            Are you sure you want to cancel order {order.invoice}? This action cannot be undone.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction
+            onClick={handleConfirm}
+            className="bg-red-500 hover:bg-red-600 text-white"
+          >
+            Cancel Order
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+}
+
 export default function StatusOrder({ orders = [] }: StatusOrderProps) {
   const [loading, setLoading] = useState(false);
+  const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
+  const [orderToCancel, setOrderToCancel] = useState<Order | null>(null);
 
   const handleComplete = (orderId: number) => {
     if (loading) return;
@@ -24,6 +74,18 @@ export default function StatusOrder({ orders = [] }: StatusOrderProps) {
         toast.error("Failed to update order status.");
         setLoading(false);
       }
+    });
+  };
+
+  const handleOpenCancelModal = (order: Order) => {
+    setOrderToCancel(order);
+    setIsCancelModalOpen(true);
+  };
+
+  const handleConfirmCancel = (orderId: number) => {
+    router.patch(route('profile.orders.cancel', orderId), {}, {
+      onSuccess: () => toast.success("Order cancelled successfully"),
+      onError: () => toast.error("Failed to cancel order"),
     });
   };
 
@@ -55,54 +117,86 @@ export default function StatusOrder({ orders = [] }: StatusOrderProps) {
                       })}
                     </p>
                   </div>
-                  <span
-                    className={`text-sm font-medium ${order.delivery_status === "PROCESSING"
+                  <div className="text-right">
+                    <span
+                      className={`text-sm font-medium block ${order.delivery_status === "PROCESSING"
                         ? "text-yellow-600"
                         : order.delivery_status === "SHIPPING"
                           ? "text-blue-600"
                           : "text-green-600"
-                      }`}
-                  >
-                    {order.delivery_status}
-                  </span>
+                        }`}
+                    >
+                      {order.delivery_status}
+                    </span>
+                    {order.payment_status === 'CANCELLED' && (
+                      <span className="text-xs text-red-500 font-medium">CANCELLED</span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Items List */}
+                <div className="bg-gray-50 p-3 rounded-md mb-4 space-y-2">
+                  {order.items && order.items.map((item) => (
+                    <div key={item.id} className="flex justify-between text-sm text-gray-600">
+                      <span>{item.product.product_name} <span className="text-gray-400">x{item.quantity}</span></span>
+                      {/* Optional: Show price if needed, user didn't explicitly ask but good for context */}
+                    </div>
+                  ))}
                 </div>
 
                 {/* Progress bar horizontal */}
-                <div className="relative flex justify-between items-center mt-6 mb-2">
-                  {/* Progress line */}
-                  <div className="absolute top-1/2 left-0 w-full h-[2px] bg-gray-200" />
-                  <div
-                    className="absolute top-1/2 left-0 h-[2px] bg-blue-500 transition-all duration-500"
-                    style={{ width: `${((progress - 1) / 3) * 100}%` }}
-                  />
+                {order.payment_status !== 'CANCELLED' && (
+                  <div className="relative flex justify-between items-center mt-6 mb-2">
+                    {/* Progress line */}
+                    <div className="absolute top-1/2 left-0 w-full h-[2px] bg-gray-200" />
+                    <div
+                      className="absolute top-1/2 left-0 h-[2px] bg-blue-500 transition-all duration-500"
+                      style={{ width: `${((progress - 1) / 3) * 100}%` }}
+                    />
 
-                  {/* Steps */}
-                  {[1, 2, 3, 4].map((step, i) => {
-                    const active = step <= progress;
-                    const icons = [Clock, Truck, Package, CheckCircle];
-                    const Icon = icons[i];
-                    return (
-                      <div
-                        key={step}
-                        className={`relative z-10 w-8 h-8 rounded-full flex items-center justify-center transition-colors ${active ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-400"
-                          }`}
-                      >
-                        <Icon className="w-4 h-4" />
-                      </div>
-                    );
-                  })}
-                </div>
+                    {/* Steps */}
+                    {[1, 2, 3, 4].map((step, i) => {
+                      const active = step <= progress;
+                      const icons = [Clock, Truck, Package, CheckCircle];
+                      const Icon = icons[i];
+                      return (
+                        <div
+                          key={step}
+                          className={`relative z-10 w-8 h-8 rounded-full flex items-center justify-center transition-colors ${active ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-400"
+                            }`}
+                        >
+                          <Icon className="w-4 h-4" />
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
 
-                <div className="flex justify-between mt-2 text-xs text-gray-500 mb-2">
-                  <span>Processing</span>
-                  <span>Shipping</span>
-                  <span>Delivered</span>
-                  <span>Completed</span>
-                </div>
+                {order.payment_status !== 'CANCELLED' && (
+                  <div className="flex justify-between mt-2 text-xs text-gray-500 mb-2">
+                    <span>Processing</span>
+                    <span>Shipping</span>
+                    <span>Delivered</span>
+                    <span>Completed</span>
+                  </div>
+                )}
 
-                {/* Action Button for Delivered Orders */}
-                {order.delivery_status === 'DELIVERED' && (
-                  <div className="flex justify-end mt-4">
+                {/* Actions */}
+                <div className="flex justify-end gap-2 mt-4">
+                  {/* Cancel Button */}
+                  {order.delivery_status === 'PROCESSING' && order.payment_status !== 'CANCELLED' && (
+                    <Button
+                      size="sm"
+                      variant="destructive"
+                      onClick={() => handleOpenCancelModal(order)}
+                      className="bg-red-500 hover:bg-red-600 h-8 text-xs"
+                    >
+                      Cancel Order
+                    </Button>
+                  )}
+
+                  {/* Complete Button */}
+                  {order.delivery_status === 'DELIVERED' && (
                     <Button
                       size="sm"
                       onClick={() => handleComplete(order.id)}
@@ -112,8 +206,8 @@ export default function StatusOrder({ orders = [] }: StatusOrderProps) {
                       <Check className="w-3 h-3 mr-1" />
                       Complete Order
                     </Button>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
             );
           })
@@ -123,6 +217,13 @@ export default function StatusOrder({ orders = [] }: StatusOrderProps) {
       <button className="mt-6 text-sm text-blue-500 hover:underline">
         View all transactions
       </button>
+
+      <CancelOrderModal
+        order={orderToCancel}
+        isOpen={isCancelModalOpen}
+        onClose={() => setIsCancelModalOpen(false)}
+        onConfirm={handleConfirmCancel}
+      />
     </div>
   );
 }

@@ -40,6 +40,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::patch('/profile/orders/{order}/complete', [ProfileController::class, 'completeOrder'])->name('profile.orders.complete');
+    Route::patch('/profile/orders/{order}/cancel', [ProfileController::class, 'cancelOrder'])->name('profile.orders.cancel');
     Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
     Route::patch('/cart/{cartItem}', [CartController::class, 'update'])->name('cart.update');
     Route::delete('/cart/{cartItem}', [CartController::class, 'destroy'])->name('cart.destroy');
@@ -79,9 +80,7 @@ Route::prefix('admin')->group(function () {
     Route::post('login', [AdminController::class, 'store']);
     Route::post('logout', [AdminController::class, 'destroy'])->name('admin.logout');
     Route::middleware(['auth:admin'])->group(function () {
-        Route::get('dashboard', function () {
-            return Inertia::render('Admin/Dashboard/Page');
-        })->name('admin.dashboard');
+        Route::get('dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard');
         Route::get('category', [CategoryController::class, 'index'])->name('admin.category');
         Route::post('category/store', [CategoryController::class, 'store'])->name('admin.category.store');
         Route::patch('category/{category}', [CategoryController::class, 'update'])->name('admin.category.update');

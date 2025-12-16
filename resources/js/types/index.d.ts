@@ -47,6 +47,23 @@ export interface Order {
     delivery_status: 'PROCESSING' | 'SHIPPING' | 'DELIVERED' | 'COMPLETED';
     created_at: string;
     updated_at: string;
+    user?: User;
+    items: {
+        id: number;
+        product_id: number;
+        quantity: number;
+        price_at_purchase: number;
+        product: {
+            product_name: string;
+            primary_image: {
+                image_url: string;
+            } | null;
+            images: Array<{
+                image_url: string;
+                is_primary: boolean;
+            }>;
+        };
+    }[];
 }
 
 export interface User {

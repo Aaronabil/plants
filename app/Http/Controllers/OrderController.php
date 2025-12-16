@@ -48,11 +48,19 @@ class OrderController extends Controller
             $cartItems = CartItem::with('product')->whereIn('id', $request->cart_items)->get();
 
             foreach ($cartItems as $cartItem) {
+                $product = $cartItem->product;
+
+                if ($product->stock < $cartItem->quantity) {
+                    throw new \Exception("Insufficient stock for product: {$product->product_name}");
+                }
+
+                $product->decrement('stock', $cartItem->quantity);
+
                 OrderItem::create([
                     'order_id' => $order->id,
                     'product_id' => $cartItem->product_id,
                     'quantity' => $cartItem->quantity,
-                    'price_at_purchase' => $cartItem->product->price,
+                    'price_at_purchase' => $product->price,
                 ]);
             }
 

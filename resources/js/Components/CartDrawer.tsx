@@ -40,10 +40,10 @@ export default function CartDrawer({ isOpen, onClose, cartItems }: CartDrawerPro
     }, {
       onSuccess: () => {
         toast.success("Cart updated successfully!");
-        router.reload({ only: ['cartItems'] }); // Explicitly reload cartItems prop
+        router.reload({ only: ['cartItems'] });
       },
       onError: () => {
-        toast.error("Failed to update cart");
+        toast.error("Insufficient stock")
       }
     });
   };
@@ -116,7 +116,7 @@ export default function CartDrawer({ isOpen, onClose, cartItems }: CartDrawerPro
       return;
     }
     router.get(route('checkout.show'), {
-        items: selectedItems
+      items: selectedItems
     }, {
       preserveState: true,
       onSuccess: () => onClose(),

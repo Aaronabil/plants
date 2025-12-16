@@ -535,13 +535,6 @@ export default function Checkout({ user, cartItems, midtrans_client_key, midtran
                   </motion.div>
                 )}
               </AnimatePresence>
-
-              <div>
-                <label className="flex items-center gap-2 text-sm mt-2">
-                  <input type="checkbox" checked={data.agree} onChange={e => setData('agree', e.target.checked)} />
-                  I have read and agree to the Terms and Conditions.
-                </label>
-              </div>
             </div>
           </div>
 
@@ -611,9 +604,12 @@ export default function Checkout({ user, cartItems, midtrans_client_key, midtran
                 </RadioGroup>
               </div>
 
-              <p className="text-xs text-gray-500 text-center mt-2">
-                🔒 Secure Checkout — SSL Encrypted
-              </p>
+              <div>
+                <label className="flex items-center gap-2 text-sm mt-2">
+                  <input type="checkbox" checked={data.agree} onChange={e => setData('agree', e.target.checked)} />
+                  I have read and agree to the Terms and Conditions.
+                </label>
+              </div>
               <Button type="submit" className="w-full mt-4 bg-green-600 hover:bg-green-700 text-white">
                 Pay Now
               </Button>

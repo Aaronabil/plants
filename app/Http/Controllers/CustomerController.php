@@ -11,7 +11,10 @@ class CustomerController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->input('per_page', 10);
-        $customers = User::with('orders')->orderBy('id', 'ASC')->paginate($perPage);
+        
+        $customers = User::with('orders')
+            ->orderBy('id', 'ASC')
+            ->paginate($perPage);
 
         return Inertia::render('Admin/Customer/Page', [
             'customers' => $customers,

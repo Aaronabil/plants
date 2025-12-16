@@ -24,22 +24,8 @@ import {
     CardHeader,
     CardTitle,
 } from '@/Components/ui/card';
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from '@/Components/ui/table';
-import {
-    Tabs,
-    TabsContent,
-    TabsList,
-    TabsTrigger,
-} from '@/Components/ui/tabs';
 import AdminLayout from '@/Layouts/AdminLayout';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, usePage } from '@inertiajs/react';
 import {
     Bar,
     BarChart,
@@ -47,59 +33,57 @@ import {
     XAxis,
     YAxis,
 } from 'recharts';
+import { Order } from '@/types';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@radix-ui/react-tabs';
 
-const data = [
-    {
-        name: 'Jan',
-        total: Math.floor(Math.random() * 5000) + 1000,
-    },
-    {
-        name: 'Feb',
-        total: Math.floor(Math.random() * 5000) + 1000,
-    },
-    {
-        name: 'Mar',
-        total: Math.floor(Math.random() * 5000) + 1000,
-    },
-    {
-        name: 'Apr',
-        total: Math.floor(Math.random() * 5000) + 1000,
-    },
-    {
-        name: 'May',
-        total: Math.floor(Math.random() * 5000) + 1000,
-    },
-    {
-        name: 'Jun',
-        total: Math.floor(Math.random() * 5000) + 1000,
-    },
-    {
-        name: 'Jul',
-        total: Math.floor(Math.random() * 5000) + 1000,
-    },
-    {
-        name: 'Aug',
-        total: Math.floor(Math.random() * 5000) + 1000,
-    },
-    {
-        name: 'Sep',
-        total: Math.floor(Math.random() * 5000) + 1000,
-    },
-    {
-        name: 'Oct',
-        total: Math.floor(Math.random() * 5000) + 1000,
-    },
-    {
-        name: 'Nov',
-        total: Math.floor(Math.random() * 5000) + 1000,
-    },
-    {
-        name: 'Dec',
-        total: Math.floor(Math.random() * 5000) + 1000,
-    },
-];
+interface DashboardProps {
+    revenue: {
+        today: number;
+        month: number;
+        total: number;
+    };
+    orders: {
+        today: number;
+        month: number;
+        total: number;
+    };
+    profit: {
+        today: number;
+        month: number;
+        total: number;
+    };
+    visitors: {
+        today: number;
+        month: number;
+        total: number;
+    };
+    conversion_rate: number;
+    monthly_sales: Array<{
+        name: string;
+        total: number;
+    }>;
+    recent_orders: Order[];
+}
 
-export default function PageDashboard() {
+export default function PageDashboard({
+    revenue,
+    orders,
+    profit,
+    visitors,
+    conversion_rate,
+    monthly_sales,
+    recent_orders
+}: DashboardProps) {
+
+    // Formatting currency
+    const formatCurrency = (amount: number) => {
+        return new Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            minimumFractionDigits: 0
+        }).format(amount);
+    };
+
     return (
         <AdminLayout>
             <Head title="Dashboard" />
@@ -109,7 +93,7 @@ export default function PageDashboard() {
             <Tabs defaultValue="overview" className="space-y-4">
                 <TabsList>
                     <TabsTrigger value="overview">Overview</TabsTrigger>
-                    <TabsTrigger value="analytics">
+                    {/* <TabsTrigger value="analytics">
                         Analytics
                     </TabsTrigger>
                     <TabsTrigger value="reports">
@@ -117,7 +101,7 @@ export default function PageDashboard() {
                     </TabsTrigger>
                     <TabsTrigger value="notifications">
                         Notifications
-                    </TabsTrigger>
+                    </TabsTrigger> */}
                 </TabsList>
                 <TabsContent value="overview" className="space-y-4">
                     <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
@@ -130,10 +114,10 @@ export default function PageDashboard() {
                             </CardHeader>
                             <CardContent>
                                 <div className="text-2xl font-bold">
-                                    $45,231.89
+                                    {formatCurrency(revenue.total)}
                                 </div>
                                 <p className="text-xs text-muted-foreground">
-                                    +20.1% from last month
+                                    {formatCurrency(revenue.month)} this month
                                 </p>
                             </CardContent>
                         </Card>
@@ -145,39 +129,39 @@ export default function PageDashboard() {
                                 <Users className="h-4 w-4 text-muted-foreground" />
                             </CardHeader>
                             <CardContent>
-                                <div className="text-2xl font-bold">+2350</div>
+                                <div className="text-2xl font-bold">+{orders.total}</div>
                                 <p className="text-xs text-muted-foreground">
-                                    +180.1% from last month
+                                    +{orders.month} this month
                                 </p>
                             </CardContent>
                         </Card>
                         <Card x-chunk="dashboard-01-chunk-2">
                             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                                 <CardTitle className="text-sm font-medium">
-                                    Profit
+                                    Profit (Est.)
                                 </CardTitle>
                                 <CreditCard className="h-4 w-4 text-muted-foreground" />
                             </CardHeader>
                             <CardContent>
                                 <div className="text-2xl font-bold">
-                                    +12,234
+                                    {formatCurrency(profit.total)}
                                 </div>
                                 <p className="text-xs text-muted-foreground">
-                                    +19% from last month
+                                    {formatCurrency(profit.month)} this month
                                 </p>
                             </CardContent>
                         </Card>
                         <Card x-chunk="dashboard-01-chunk-3">
                             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                                 <CardTitle className="text-sm font-medium">
-                                    Users
+                                    Visitors
                                 </CardTitle>
                                 <Activity className="h-4 w-4 text-muted-foreground" />
                             </CardHeader>
                             <CardContent>
-                                <div className="text-2xl font-bold">+573</div>
+                                <div className="text-2xl font-bold">+{visitors.total}</div>
                                 <p className="text-xs text-muted-foreground">
-                                    +201 since last hour
+                                    {conversion_rate}% Conversion Rate
                                 </p>
                             </CardContent>
                         </Card>
@@ -188,19 +172,19 @@ export default function PageDashboard() {
                                 <div className="grid gap-2">
                                     <CardTitle>Transactions</CardTitle>
                                     <CardDescription>
-                                        Recent transactions from your store.
+                                        Monthly sales performance.
                                     </CardDescription>
                                 </div>
-                                <Button asChild size="sm" className="ml-auto gap-1">
+                                {/* <Button asChild size="sm" className="ml-auto gap-1">
                                     <Link href="#">
                                         View All
                                         <ArrowUpRight className="h-4 w-4" />
                                     </Link>
-                                </Button>
+                                </Button> */}
                             </CardHeader>
                             <CardContent>
                                 <ResponsiveContainer width="100%" height={350}>
-                                    <BarChart data={data}>
+                                    <BarChart data={monthly_sales}>
                                         <XAxis
                                             dataKey="name"
                                             stroke="#888888"
@@ -213,9 +197,7 @@ export default function PageDashboard() {
                                             fontSize={12}
                                             tickLine={false}
                                             axisLine={false}
-                                            tickFormatter={(value) =>
-                                                `$${value}`
-                                            }
+                                            tickFormatter={(value) => `Rp${value / 1000}k`}
                                         />
                                         <Bar
                                             dataKey="total"
@@ -232,106 +214,30 @@ export default function PageDashboard() {
                                 <CardTitle>Recent Sales</CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-8">
-                                <div className="flex items-center gap-4">
-                                    <Avatar className="hidden h-9 w-9 sm:flex">
-                                        <AvatarImage
-                                            src="/avatars/01.png"
-                                            alt="Avatar"
-                                        />
-                                        <AvatarFallback>OM</AvatarFallback>
-                                    </Avatar>
-                                    <div className="grid gap-1">
-                                        <p className="text-sm font-medium leading-none">
-                                            Olivia Martin
-                                        </p>
-                                        <p className="text-sm text-muted-foreground">
-                                            olivia.martin@email.com
-                                        </p>
-                                    </div>
-                                    <div className="ml-auto font-medium">
-                                        +$1,999.00
-                                    </div>
-                                </div>
-                                <div className="flex items-center gap-4">
-                                    <Avatar className="hidden h-9 w-9 sm:flex">
-                                        <AvatarImage
-                                            src="/avatars/02.png"
-                                            alt="Avatar"
-                                        />
-                                        <AvatarFallback>JL</AvatarFallback>
-                                    </Avatar>
-                                    <div className="grid gap-1">
-                                        <p className="text-sm font-medium leading-none">
-                                            Jackson Lee
-                                        </p>
-                                        <p className="text-sm text-muted-foreground">
-                                            jackson.lee@email.com
-                                        </p>
-                                    </div>
-                                    <div className="ml-auto font-medium">
-                                        +$39.00
-                                    </div>
-                                </div>
-                                <div className="flex items-center gap-4">
-                                    <Avatar className="hidden h-9 w-9 sm:flex">
-                                        <AvatarImage
-                                            src="/avatars/03.png"
-                                            alt="Avatar"
-                                        />
-                                        <AvatarFallback>IN</AvatarFallback>
-                                    </Avatar>
-                                    <div className="grid gap-1">
-                                        <p className="text-sm font-medium leading-none">
-                                            Isabella Nguyen
-                                        </p>
-                                        <p className="text-sm text-muted-foreground">
-                                            isabella.nguyen@email.com
-                                        </p>
-                                    </div>
-                                    <div className="ml-auto font-medium">
-                                        +$299.00
-                                    </div>
-                                </div>
-                                <div className="flex items-center gap-4">
-                                    <Avatar className="hidden h-9 w-9 sm:flex">
-                                        <AvatarImage
-                                            src="/avatars/04.png"
-                                            alt="Avatar"
-                                        />
-                                        <AvatarFallback>WK</AvatarFallback>
-                                    </Avatar>
-                                    <div className="grid gap-1">
-                                        <p className="text-sm font-medium leading-none">
-                                            William Kim
-                                        </p>
-                                        <p className="text-sm text-muted-foreground">
-                                            will@email.com
-                                        </p>
-                                    </div>
-                                    <div className="ml-auto font-medium">
-                                        +$99.00
-                                    </div>
-                                </div>
-                                <div className="flex items-center gap-4">
-                                    <Avatar className="hidden h-9 w-9 sm:flex">
-                                        <AvatarImage
-                                            src="/avatars/05.png"
-                                            alt="Avatar"
-                                        />
-                                        <AvatarFallback>SD</AvatarFallback>
-                                    </Avatar>
-                                    <div className="grid gap-1">
-                                        <p className="text-sm font-medium leading-none">
-                                            Sofia Davis
-                                        </p>
-                                        <p className="text-sm text-muted-foreground">
-                                            sofia.davis@email.com
-                                        </p>
-                                    </div>
-                                    <div className="ml-auto font-medium">
-                                        +$39.00
-                                    </div>
-                                </div>
+                                {recent_orders.length === 0 ? (
+                                    <p className="text-center text-muted-foreground">No recent sales found.</p>
+                                ) : (
+                                    recent_orders.map((order) => (
+                                        <div key={order.id} className="flex items-center gap-4">
+                                            <Avatar className="hidden h-9 w-9 sm:flex">
+                                                <AvatarFallback>
+                                                    {order.user?.name ? order.user.name.substring(0, 2).toUpperCase() : 'U'}
+                                                </AvatarFallback>
+                                            </Avatar>
+                                            <div className="grid gap-1">
+                                                <p className="text-sm font-medium leading-none">
+                                                    {order.user?.name || 'Guest'}
+                                                </p>
+                                                <p className="text-sm text-muted-foreground">
+                                                    {order.user?.email || '-'}
+                                                </p>
+                                            </div>
+                                            <div className="ml-auto font-medium">
+                                                +{formatCurrency(parseFloat(order.total_amount))}
+                                            </div>
+                                        </div>
+                                    ))
+                                )}
                             </CardContent>
                         </Card>
                     </div>

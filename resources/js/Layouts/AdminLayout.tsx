@@ -7,7 +7,10 @@ import {
     Package2,
     Search,
     ShoppingCart,
+    Sprout,
     Users,
+    Blocks,
+    ArrowRightLeft,
 } from 'lucide-react';
 import { PropsWithChildren, ReactNode } from 'react';
 import { Toaster } from "sonner";
@@ -80,7 +83,7 @@ export default function AdminLayout({
                                     active={route().current('admin.category')}
                                     className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
                                 >
-                                    <ShoppingCart className="h-4 w-4" />
+                                    <Sprout className="h-4 w-4" />
                                     Category
                                     {/* <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
                                     6
@@ -99,7 +102,7 @@ export default function AdminLayout({
                                     active={route().current('admin.inventory')}
                                     className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
                                 >
-                                    <Users className="h-4 w-4" />
+                                    <Blocks className="h-4 w-4" />
                                     Inventory
                                 </NavLink>
                                 <NavLink
@@ -115,7 +118,7 @@ export default function AdminLayout({
                                     active={route().current('admin.recent')}
                                     className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
                                 >
-                                    <LineChart className="h-4 w-4" />
+                                    <ArrowRightLeft className="h-4 w-4" />
                                     Recent Transaction
                                 </NavLink>
                                 <NavLink
