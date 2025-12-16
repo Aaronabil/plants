@@ -10,7 +10,7 @@ const FeaturedPlants: React.FC = () => {
       }}
     >
       {/* Overlay transparan putih */}
-      <div className="absolute inset-0 bg-white/20 lg:bg-black/20"></div>
+      <div className="absolute inset-0 bg-white/20 lg:bg-black/20 bg-black/20"></div>
 
       {/* Konten utama */}
       <div className="relative z-10 flex flex-col lg:flex-row gap-8 px-6 lg:px-20 py-12">

@@ -1,143 +1,186 @@
-import React from "react";
+"use client"
+import React, { forwardRef, useRef } from "react";
 import { Head } from "@inertiajs/react";
 import GuestLayout from "@/Layouts/GuestLayout";
 import { motion } from "framer-motion";
+import { AnimatedBeam } from "@/Components/ui/animated-beam";
+import { ArrowUpRight, Github, Linkedin, Instagram, User } from "lucide-react";
+import { cn } from "@/lib/utils"
+import LogoPlants from "@/Components/Logo";
 
-const AboutUs: React.FC = () => {
+const teamMembers = [
+  {
+    name: "Muhamad Nabil Faiz Amrullah",
+    role: "Full Stack Developer",
+    image: "/alicia.jpeg",
+    portfolio: "https://aaronabil.vercel.app",
+    github: "https://github.com/Aaronabil",
+    linkedin: "https://linkedin.com/in/muhamad-nabil-faiz-amrullah",
+    instagram: "https://instagram.com/abilvett"
+  },
+  {
+    name: "Alyssa Nurul Hidayat",
+    role: "UI/UX Designer",
+    image: "/alyssa.jpeg",
+    github: "https://github.com/alyssour",
+    linkedin: "https://linkedin.com/in/alyssa-nurul-hidayat-66b08634b",
+    instagram: "https://instagram.com/alyssanrl"
+  },
+  {
+    name: "Ahmad Muqarrobin",
+    role: "Dev Ops",
+    image: "/robin.jpeg",
+    github: "https://github.com/IsFaktuear",
+    linkedin: "https://linkedin.com/in/ahmad-muqarrobin-3848b8368",
+    instagram: "https://www.instagram.com/tahugejroth"
+  },
+];
+
+const Circle = forwardRef<
+  HTMLDivElement,
+  { className?: string; children?: React.ReactNode }
+>(({ className, children }, ref) => {
+  return (
+    <div
+      ref={ref}
+      className={cn(
+        "z-10 flex size-12 items-center justify-center rounded-full border-2 bg-white p-3 shadow-[0_0_20px_-12px_rgba(0,0,0,0.8)]",
+        className
+      )}
+    >
+      {children}
+    </div>
+  )
+})
+
+Circle.displayName = "Circle"
+
+export default function AboutUs() {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const div1Ref = useRef<HTMLDivElement>(null)
+  const div2Ref = useRef<HTMLDivElement>(null)
   return (
     <GuestLayout>
       <Head title="About Us" />
-      <div className="min-h-screen bg-[#f9f8f3] text-gray-800">
-        {/* Hero Section */}
-        <section className="max-w-6xl mx-auto px-6 py-20 text-center">
+
+      <div className="bg-white min-h-screen py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto text-center mb-16">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-green-600 font-semibold tracking-wide text-sm md:text-base mb-3"
+          >
+            Our creative team
+          </motion.h2>
+
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-4xl md:text-5xl font-extrabold text-green-800 mb-6"
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 tracking-tight mb-6"
           >
-            About Us
-
+            Team Behind Yestera
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.8 }}
-            className="max-w-3xl mx-auto text-lg text-gray-600 leading-relaxed"
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="max-w-3xl mx-auto text-xl text-gray-500 font-light"
           >
-            We believe that every home deserves a natural touch. Plants are here to bring beauty and tranquility through our carefully nurtured collection of ornamental plants.
+            Meet the handsome and beautiful person who made the project yesterday.
           </motion.p>
-        </section>
+        </div>
 
-        {/* Section 1 */}
-        <section className="max-w-6xl mx-auto px-6 py-16 grid md:grid-cols-2 gap-10 items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <img
-              src="/images/about-1.jpeg"
-              alt="Indoor plants"
-              className="rounded-2xl shadow-md"
-            />
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.2, duration: 0.8 }}
-          >
-            <h2 className="text-2xl font-semibold text-green-800 mb-3">
-              Refreshing Your Living Space
-            </h2>
-            <p className="text-gray-600 mb-4 leading-relaxed">
-              We present indoor plants that can boost your mood, improve air quality, and enhance comfort in your home.
-
-            </p>
-            <a
-              href="/shop"
-              className="inline-block px-6 py-2 bg-green-700 text-white rounded-md hover:bg-green-800 transition-colors"
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {teamMembers.map((member, index) => (
+            <motion.div
+              key={member.name}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
+              className="relative group h-96 group rounded-2xl overflow-hidden"
             >
-              View Collection
-            </a>
-          </motion.div>
-        </section>
+              <div className="absolute inset-0 w-full h-full">
+                <img
+                  src={member.image}
+                  alt={member.name}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
 
-        {/* Section 2 */}
-        <section className="max-w-6xl mx-auto px-6 py-16 grid md:grid-cols-2 gap-10 items-center">
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            className="order-2 md:order-1"
-          >
-            <h2 className="text-2xl font-semibold text-green-800 mb-3 text-right">
-              Direct Collection From Farmers
-            </h2>
-            <p className="text-gray-600 mb-4 leading-relaxed text-right">
-              All our plants are sourced directly from selected local farmers. This way, every plant you purchase comes with the best quality.
-            </p>
-            <div className="flex justify-end">
-              <a
-                href="/shop"
-                className="inline-block px-6 py-2 bg-green-700 text-white rounded-md hover:bg-green-800 transition-colors"
-              >
-                Buy Now
-              </a>
-            </div>
-          </motion.div>
+              {/* Dark Glass Card */}
+              <div className="absolute bottom-4 left-4 right-4 bg-black/30 backdrop-blur-md border border-white/10 p-5 rounded-2xl shadow-xl transform transition-all duration-300">
+                <div className="flex justify-between items-start mb-2">
+                  <div>
+                    <h3 className="text-lg font-bold text-white leading-tight">{member.name}</h3>
+                    <p className="text-gray-300 text-sm font-medium mt-1">{member.role}</p>
+                  </div>
+                  <a
+                    href={member.portfolio}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-white/20 p-2 rounded-full cursor-pointer hover:bg-white/30 transition-colors block"
+                  >
+                    <ArrowUpRight className="w-4 h-4 text-white" />
+                  </a>
+                </div>
 
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.2, duration: 0.8 }}
-            className="order-1 md:order-2"
-          >
-            <img
-              src="/images/about-2.jpeg"
-              alt="Outdoor plants"
-              className="rounded-2xl shadow-md"
-            />
-          </motion.div>
-        </section>
+                <div className="flex space-x-3 mt-4">
+                  <a href={member.github} target="_blank" className="bg-white/10 p-2 rounded-full hover:bg-white/20 transition-colors">
+                    <Github className="w-4 h-4 text-white" />
+                  </a>
+                  <a href={member.linkedin} target="_blank" className="bg-white/10 p-2 rounded-full hover:bg-white/20 transition-colors">
+                    <Linkedin className="w-4 h-4 text-white" />
+                  </a>
+                  <a href={member.instagram} target="_blank" className="bg-white/10 p-2 rounded-full hover:bg-white/20 transition-colors">
+                    <Instagram className="w-4 h-4 text-white" />
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
 
-        {/* Section 3: Lokasi */}
-        <section className="max-w-6xl mx-auto px-6 py-16 grid md:grid-cols-2 gap-10 items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <img
-              src="/images/about-3.jpeg"
-              alt="Our store"
-              className="rounded-2xl shadow-md"
-            />
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.2, duration: 0.8 }}
-          >
-            <h2 className="text-2xl font-semibold text-green-800 mb-3">
-              Visit Our Store
-            </h2>
-            <p className="text-gray-600 mb-4 leading-relaxed">
-              Come directly and experience choosing the best plants. We are in Bandung, ready to welcome you every working day.
-            </p>
-            <div className="text-sm text-gray-700">
-              <p>📍 Jl. Cendana No. 23, Bandung</p>
-              <p>📞 (021) 9876-5432</p>
-              <p>Monday - Friday, 09.00 - 17.00</p>
-            </div>
-          </motion.div>
-        </section>
+      {/* Beam */}
+      <div
+        className="relative flex w-full max-w-full items-center justify-center overflow-hidden p-10"
+        ref={containerRef}
+      >
+        <div className="flex size-full flex-col items-stretch justify-between gap-10">
+          <div className="flex flex-row justify-between">
+            <Circle ref={div1Ref}>
+              <User />
+            </Circle>
+            <Circle ref={div2Ref}>
+              <LogoPlants />
+            </Circle>
+          </div>
+        </div>
+        <AnimatedBeam
+          containerRef={containerRef}
+          fromRef={div1Ref}
+          toRef={div2Ref}
+          startYOffset={10}
+          endYOffset={10}
+          curvature={-20}
+          gradientStartColor="green"
+          gradientStopColor="emerald"
+        />
+        <AnimatedBeam
+          containerRef={containerRef}
+          fromRef={div1Ref}
+          toRef={div2Ref}
+          startYOffset={-10}
+          endYOffset={-10}
+          curvature={20}
+          reverse
+          gradientStartColor="green"
+          gradientStopColor="gray"
+        />
       </div>
     </GuestLayout>
   );
-};
-
-export default AboutUs;
+}

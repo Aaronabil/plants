@@ -35,11 +35,15 @@ class CartController extends Controller
             }
             $cartItem->increment('quantity', $request->quantity);
         } else {
-            CartItem::create([
+            $cartItem = CartItem::create([
                 'user_id' => Auth::id(),
                 'product_id' => $request->product_id,
                 'quantity' => $request->quantity,
             ]);
+        }
+
+        if ($request->buy_now) {
+            return redirect()->route('checkout.show', ['items' => [$cartItem->id]]);
         }
 
         return back();

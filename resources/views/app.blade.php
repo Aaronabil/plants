@@ -6,7 +6,7 @@
 
         <title inertia>{{ config('app.name', 'Yestera') }}</title>
 
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+        <link rel="icon" type="image/svg+xml" href="/svgviewer-output.svg">
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">

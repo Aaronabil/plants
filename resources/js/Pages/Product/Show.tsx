@@ -38,6 +38,26 @@ export default function Show({ product, auth, relatedProducts }: PageProps<{ pro
         });
     };
 
+    const handleBuyNow = () => {
+        if (!auth.user) {
+            router.visit(route('login'));
+            return;
+        }
+
+        router.post(route('cart.store'), {
+            product_id: product.id,
+            quantity: quantity,
+            buy_now: true
+        }, {
+            preserveScroll: true,
+            onError: (errors) => {
+                toast.error("Failed to process buy now.", {
+                    description: Object.values(errors).join('\n'),
+                });
+            }
+        });
+    };
+
     return (
         <GuestLayout>
             <Head title={product.product_name} />
@@ -147,7 +167,10 @@ export default function Show({ product, auth, relatedProducts }: PageProps<{ pro
                             {product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
                         </button>
 
-                        <button className="flex-1 border border-green-700 text-green-700 py-3 rounded-lg hover:bg-green-50 transition">
+                        <button
+                            onClick={handleBuyNow}
+                            disabled={product.stock === 0}
+                            className="flex-1 border border-green-700 text-green-700 py-3 rounded-lg hover:bg-green-50 transition">
                             Buy Now
                         </button>
                     </div>
