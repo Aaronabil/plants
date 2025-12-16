@@ -23,7 +23,7 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         $middleware->validateCsrfTokens(except: [
-            'api/midtrans-callback',
+            'api/midtrans/notification',
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

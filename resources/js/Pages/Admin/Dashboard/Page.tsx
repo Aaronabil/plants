@@ -8,6 +8,7 @@ import {
     Package2,
     Search,
     Users,
+    ListOrdered,
 } from 'lucide-react';
 
 import {
@@ -27,14 +28,27 @@ import {
 import AdminLayout from '@/Layouts/AdminLayout';
 import { Head, Link, usePage } from '@inertiajs/react';
 import {
-    Bar,
-    BarChart,
-    ResponsiveContainer,
+    Area,
+    AreaChart,
+    CartesianGrid,
     XAxis,
     YAxis,
 } from 'recharts';
 import { Order } from '@/types';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@radix-ui/react-tabs';
+import {
+    ChartContainer,
+    ChartTooltip,
+    ChartTooltipContent,
+    type ChartConfig,
+} from "@/Components/ui/chart"
+
+const chartConfig = {
+    total: {
+        label: "Total Sales",
+        color: "hsl(var(--primary))",
+    },
+} satisfies ChartConfig
 
 interface DashboardProps {
     revenue: {
@@ -93,15 +107,6 @@ export default function PageDashboard({
             <Tabs defaultValue="overview" className="space-y-4">
                 <TabsList>
                     <TabsTrigger value="overview">Overview</TabsTrigger>
-                    {/* <TabsTrigger value="analytics">
-                        Analytics
-                    </TabsTrigger>
-                    <TabsTrigger value="reports">
-                        Reports
-                    </TabsTrigger>
-                    <TabsTrigger value="notifications">
-                        Notifications
-                    </TabsTrigger> */}
                 </TabsList>
                 <TabsContent value="overview" className="space-y-4">
                     <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
@@ -117,6 +122,9 @@ export default function PageDashboard({
                                     {formatCurrency(revenue.total)}
                                 </div>
                                 <p className="text-xs text-muted-foreground">
+                                    {formatCurrency(revenue.today)} today
+                                </p>
+                                <p className="text-xs text-muted-foreground">
                                     {formatCurrency(revenue.month)} this month
                                 </p>
                             </CardContent>
@@ -126,10 +134,13 @@ export default function PageDashboard({
                                 <CardTitle className="text-sm font-medium">
                                     Orders
                                 </CardTitle>
-                                <Users className="h-4 w-4 text-muted-foreground" />
+                                <ListOrdered className="h-4 w-4 text-muted-foreground" />
                             </CardHeader>
                             <CardContent>
                                 <div className="text-2xl font-bold">+{orders.total}</div>
+                                <p className="text-xs text-muted-foreground">
+                                    +{orders.today} today
+                                </p>
                                 <p className="text-xs text-muted-foreground">
                                     +{orders.month} this month
                                 </p>
@@ -175,22 +186,24 @@ export default function PageDashboard({
                                         Monthly sales performance.
                                     </CardDescription>
                                 </div>
-                                {/* <Button asChild size="sm" className="ml-auto gap-1">
-                                    <Link href="#">
-                                        View All
-                                        <ArrowUpRight className="h-4 w-4" />
-                                    </Link>
-                                </Button> */}
                             </CardHeader>
                             <CardContent>
-                                <ResponsiveContainer width="100%" height={350}>
-                                    <BarChart data={monthly_sales}>
+                                <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
+                                    <AreaChart
+                                        accessibilityLayer
+                                        data={monthly_sales}
+                                        margin={{
+                                            left: 12,
+                                            right: 12,
+                                        }}
+                                    >
+                                        <CartesianGrid vertical={false} />
                                         <XAxis
                                             dataKey="name"
-                                            stroke="#888888"
-                                            fontSize={12}
                                             tickLine={false}
                                             axisLine={false}
+                                            tickMargin={8}
+                                            tickFormatter={(value) => value.slice(0, 3)}
                                         />
                                         <YAxis
                                             stroke="#888888"
@@ -199,14 +212,34 @@ export default function PageDashboard({
                                             axisLine={false}
                                             tickFormatter={(value) => `Rp${value / 1000}k`}
                                         />
-                                        <Bar
-                                            dataKey="total"
-                                            fill="currentColor"
-                                            radius={[4, 4, 0, 0]}
-                                            className="fill-primary"
+                                        <ChartTooltip
+                                            cursor={false}
+                                            content={<ChartTooltipContent indicator="dot" hideLabel />}
                                         />
-                                    </BarChart>
-                                </ResponsiveContainer>
+                                        <defs>
+                                            <linearGradient id="fillTotal" x1="0" y1="0" x2="0" y2="1">
+                                                <stop
+                                                    offset="5%"
+                                                    stopColor="var(--color-total)"
+                                                    stopOpacity={0.8}
+                                                />
+                                                <stop
+                                                    offset="95%"
+                                                    stopColor="var(--color-total)"
+                                                    stopOpacity={0.1}
+                                                />
+                                            </linearGradient>
+                                        </defs>
+                                        <Area
+                                            dataKey="total"
+                                            type="monotone"
+                                            fill="url(#fillTotal)"
+                                            fillOpacity={0.4}
+                                            stroke="var(--color-total)"
+                                            stackId="a"
+                                        />
+                                    </AreaChart>
+                                </ChartContainer>
                             </CardContent>
                         </Card>
                         <Card className="col-span-1 lg:col-span-3 mt-5">

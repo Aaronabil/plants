@@ -21,4 +21,9 @@ class Payment extends Model
         'provider_response',
         'paid_at',
     ];
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
 }
